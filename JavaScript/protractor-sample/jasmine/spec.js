@@ -2,51 +2,34 @@
 //Test1
 fdescribe('Protractor Perfecto Demo', function () {
 
-  it('should have a title', function () {
+  it('should pass test', function () {
+    browser.reportingClient.stepStart('Step 1: Navigate Google');
     browser.driver.get('https://www.google.com'); //Navigate to google.com
-
+    browser.reportingClient.stepEnd();
     //Locate the search box element and insert text
     //Click on search button
-    browser.reportingClient.testStep('Step 1: Search');
+    browser.reportingClient.stepStart('Step 2: Send Keys');
     browser.driver.findElement(by.name('q')).sendKeys('PerfectoCode GitHub');
+    browser.reportingClient.stepEnd();
+    browser.reportingClient.stepStart('Step 3: Click');
     browser.driver.findElement(by.css('#tsbb > div')).click();
+    browser.reportingClient.stepEnd();
 
-    //Click the first search result
-    browser.reportingClient.testStep('Step 2: Click repo at google.');
-    browser.driver.findElement(by.css('#rso > div > div:nth-child(1) > div > div > div._OXf > h3 > a')).click();
-    
-    //Wait to locate element in order to make sure the page loaded      
-    browser.driver.wait(() => {
-      return browser.driver.findElement(by.id('user-content-product-samples'))
-        .then(function (elem) {
-          elem.click();
-          return true;
-        });
-    }, 10000); //Wait timeout interval
-
-    //Assert that title equals to the expected once
-    browser.reportingClient.testStep('Step 3: Asserting title equals');
-    expect(browser.driver.getTitle()).toEqual('GitHub - PerfectoCode/Samples: Product Samples');
   });
 
   //This test should fail 
   it('should fail test', function () {
+    browser.reportingClient.stepStart('Step 1: Navigate Google');
     browser.driver.get('https://www.google.com'); //Navigate to google.com
-
+    browser.reportingClient.stepEnd();
     //Locate the search box element and insert text
     //Click on search button
-    browser.reportingClient.testStep('Step 1: Search');
+    browser.reportingClient.stepStart('Step 2: Send Keys');
     browser.driver.findElement(by.name('q')).sendKeys('PerfectoCode GitHub');
-    browser.driver.findElement(by.css('#tsbbasdasd > div')).click();
-
-    //Click the first search result
-    browser.reportingClient.testStep('Step 2: Click repo at google.');
-    browser.driver.findElement(by.css('#rso > div > div:nth-child(1) > div > div > div._OXf > h3 > a')).click();
-    browser.driver.sleep(5000);
-
-    //Assert that title equals to the expected once
-    browser.reportingClient.testStep('Step 3: Asserting title equals');
-    expect(browser.driver.getTitle()).toEqual('GitHub - PerfectoCode/Samples: Product Samples');
+    browser.reportingClient.stepEnd();
+    browser.reportingClient.stepStart('Step 3: Click');
+    browser.driver.findElement(by.css('#tsbbbsdasd > div')).click();
+    browser.reportingClient.stepEnd();
   });
 
 });
