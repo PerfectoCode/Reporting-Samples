@@ -56,7 +56,6 @@ public class AbstractPerfectoSeleniumTestJunit {
         @Override
         protected void after() {
             if (driver != null) {
-                driver.close();
                 //  Get link to report
                 driver.quit();
             }
