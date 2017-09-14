@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class PdfDownloadDemo {
+public class PdfDownloadCodeSample {
 
     // The Perfecto Continuous Quality Lab you work with
     public static final String CQL_NAME = "demo";

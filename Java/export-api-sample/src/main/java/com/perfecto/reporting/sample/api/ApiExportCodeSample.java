@@ -21,7 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
-public class ApiDemo {
+public class ApiExportCodeSample {
 
     // The Perfecto Continuous Quality Lab you work with
     public static final String CQL_NAME = "demo";
