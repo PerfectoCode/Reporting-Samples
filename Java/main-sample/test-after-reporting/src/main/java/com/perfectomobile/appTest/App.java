@@ -4,6 +4,8 @@ import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
+import com.perfecto.reportium.model.CustomField;
+import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
 import io.appium.java_client.android.AndroidDriver;
