@@ -25,7 +25,7 @@ public class PdfDownloadCodeSample {
 
     public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
 
-    // See http://developers.perfectomobile.com/display/PD/Using+the+Reporting+Public+API on how to obtain a Security Token
+    // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
     public static final String SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN";
 
     public static final int PDF_DOWNLOAD_ATTEMPTS = 5;
