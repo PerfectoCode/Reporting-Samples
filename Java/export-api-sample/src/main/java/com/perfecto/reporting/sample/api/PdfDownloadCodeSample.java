@@ -62,7 +62,7 @@ public class PdfDownloadCodeSample {
 
     private static AsyncTask startTestReportGeneration(String testId) throws URISyntaxException, IOException {
         System.out.println("Starting PDF generation for test ID: " + testId);
-        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/task");
+        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task");
         taskUriBuilder.addParameter("testExecutionId", testId);
         HttpPost httpPost = new HttpPost(taskUriBuilder.build());
         addDefaultRequestHeaders(httpPost);
@@ -122,7 +122,7 @@ public class PdfDownloadCodeSample {
 
     private static AsyncTask getUpdatedAsyncTask(String taskId) throws URISyntaxException, IOException {
         AsyncTask task;
-        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/task/" + taskId);
+        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/" + taskId);
         HttpGet httpGet = new HttpGet(taskUriBuilder.build());
         addDefaultRequestHeaders(httpGet);
         HttpResponse response = httpClient.execute(httpGet);
