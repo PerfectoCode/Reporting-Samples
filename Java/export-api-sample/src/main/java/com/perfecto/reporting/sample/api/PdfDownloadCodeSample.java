@@ -49,7 +49,7 @@ public class PdfDownloadCodeSample {
         downloadExecutionSummaryReport(driverExecutionId);
 
         // Download a PDF report of a single test - create a "task" for PDF generation and download the PDF on task completion
-        AsyncTask task = startTestReportGeneration(testId);
+        CreatePdfTask task = startTestReportGeneration(testId);
         downloadTestReport(task, testId);
     }
 
@@ -60,21 +60,21 @@ public class PdfDownloadCodeSample {
         downloadPdfFileToFS(uriBuilder.build(), driverExecutionId, "_summary.pdf");
     }
 
-    private static AsyncTask startTestReportGeneration(String testId) throws URISyntaxException, IOException {
+    private static CreatePdfTask startTestReportGeneration(String testId) throws URISyntaxException, IOException {
         System.out.println("Starting PDF generation for test ID: " + testId);
         URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task");
         taskUriBuilder.addParameter("testExecutionId", testId);
         HttpPost httpPost = new HttpPost(taskUriBuilder.build());
         addDefaultRequestHeaders(httpPost);
 
-        AsyncTask task = null;
+        CreatePdfTask task = null;
         for (int attempt = 1; attempt <= PDF_DOWNLOAD_ATTEMPTS; attempt++) {
 
             HttpResponse response = httpClient.execute(httpPost);
             try {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (HttpStatus.SC_OK == statusCode) {
-                    task = gson.fromJson(EntityUtils.toString(response.getEntity()), AsyncTask.class);
+                    task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreatePdfTask.class);
                     break;
                 } else if (HttpStatus.SC_NO_CONTENT == statusCode) {
 
@@ -95,16 +95,16 @@ public class PdfDownloadCodeSample {
         return task;
     }
 
-    private static void downloadTestReport(AsyncTask task, String testId) throws URISyntaxException, IOException {
+    private static void downloadTestReport(CreatePdfTask task, String testId) throws URISyntaxException, IOException {
         System.out.println("Downloading PDF for test ID: " + testId);
         long startTime = System.currentTimeMillis();
         int maxWaitMin = 10;
         long maxGenerationTime = TimeUnit.MINUTES.toMillis(maxWaitMin);
         String taskId = task.getTaskId();
 
-        AsyncTask updatedTask;
+        CreatePdfTask updatedTask;
         do {
-            updatedTask = getUpdatedAsyncTask(taskId);
+            updatedTask = getUpdatedTask(taskId);
             try {
                 if (updatedTask.getStatus() != TaskStatus.COMPLETE) {
                     Thread.sleep(3000);
@@ -122,15 +122,15 @@ public class PdfDownloadCodeSample {
         }
     }
 
-    private static AsyncTask getUpdatedAsyncTask(String taskId) throws URISyntaxException, IOException {
-        AsyncTask task;
+    private static CreatePdfTask getUpdatedTask(String taskId) throws URISyntaxException, IOException {
+        CreatePdfTask task;
         URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/" + taskId);
         HttpGet httpGet = new HttpGet(taskUriBuilder.build());
         addDefaultRequestHeaders(httpGet);
         HttpResponse response = httpClient.execute(httpGet);
         int statusCode = response.getStatusLine().getStatusCode();
         if (HttpStatus.SC_OK == statusCode) {
-            task = gson.fromJson(EntityUtils.toString(response.getEntity()), AsyncTask.class);
+            task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreatePdfTask.class);
         } else {
             throw new RuntimeException("Error while getting AsyncTask: " + response.getStatusLine().toString());
         }
@@ -185,12 +185,12 @@ public class PdfDownloadCodeSample {
         IN_PROGRESS, COMPLETE
     }
 
-    private static class AsyncTask {
+    private static class CreatePdfTask {
         private String taskId;
         private TaskStatus status;
         private String url;
 
-        public AsyncTask() {
+        public CreatePdfTask() {
         }
 
         public String getTaskId() {
