@@ -106,7 +106,9 @@ public class PdfDownloadCodeSample {
         do {
             updatedTask = getUpdatedAsyncTask(taskId);
             try {
-                Thread.sleep(3000);
+                if (updatedTask.getStatus() != TaskStatus.COMPLETE) {
+                    Thread.sleep(3000);
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
