@@ -74,6 +74,7 @@ public class App {
                 .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))    
                 .withProject(new Project("Sample Reportium project", "1.0"))
                 .withContextTags("AndroidNativeAppTests")
+                .withCustomFields(new CustomField("team", "devOps"))
                 .withWebDriver(driver)
                 .build();
         ReportiumClient reportiumClient = new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
