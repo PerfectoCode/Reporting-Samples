@@ -3,7 +3,7 @@ SDK Release Notes
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
 ##### 1.1.22  
-Required cloud version - 10.11 
+Required cloud version - 10.11  
 New features - Support custom fields in PrfectoExecutionContext and ImportExecutionContext in addition to TestContext
 ##### 1.1.21  
 Required cloud version - 10.9  
