@@ -69,7 +69,6 @@ public class App {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
         // Reporting client
-        // with generic tag "Android Native App Tests" (for example: user name, team name)
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))    
                 .withProject(new Project("Sample Reportium project", "1.0"))
