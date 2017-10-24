@@ -4,6 +4,8 @@ import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
+import com.perfecto.reportium.model.CustomField;
+import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
 import io.appium.java_client.android.AndroidDriver;
@@ -67,10 +69,11 @@ public class App {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
         // Reporting client
-        // with generic tag "Android Native App Tests" (for example: user name, team name)
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
+                .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))    
                 .withProject(new Project("Sample Reportium project", "1.0"))
                 .withContextTags("AndroidNativeAppTests")
+                .withCustomFields(new CustomField("team", "devOps"))
                 .withWebDriver(driver)
                 .build();
         ReportiumClient reportiumClient = new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
@@ -78,8 +81,11 @@ public class App {
         try {
 
             //START TEST
-            //with test "PerfectoCommunityAppLogIn" name and tag "ValidateLogIn"
-            reportiumClient.testStart("PerfectoCommunityAppLogIn", new TestContext("ValidateLogIn"));
+            //with test "PerfectoCommunityAppLogIn" name, tag "ValidateLogIn" and custom field with name "developer" and value "John"
+            reportiumClient.testStart("PerfectoCommunityAppLogIn", new TestContext.Builder()
+                    .withTestExecutionTags("ValidateLogIn")
+                    .withCustomFields(new CustomField("developer", "John"))
+                    .build());
 
             //step1: Validate login page
             reportiumClient.stepStart("step1: Validate login page");
