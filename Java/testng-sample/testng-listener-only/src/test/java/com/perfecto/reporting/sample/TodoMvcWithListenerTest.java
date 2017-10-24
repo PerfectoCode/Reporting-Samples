@@ -18,7 +18,7 @@ import java.net.URL;
 public class TodoMvcWithListenerTest implements WebDriverProvider {
 
     private WebDriver driver;
-    private static TodoMvcService todoMvcService;
+    private TodoMvcService todoMvcService;
     public static final String IS_LOCAL_DRIVER = "is-local-driver";
     private static final String SELENIUM_GRID_URL_KEY = "selenium-grid-url";
     private static final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
@@ -88,7 +88,7 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
         Reporter.log("Verify todo with name " + todoName + " was added to list");
         todoMvcService.verifyAddedTodo(todoName);
     }
-    
+
     @Test(description = "Create a new todo, make it as complete and then delete it")
     public void completeTodo() {
         Reporter.log("Create new todo");

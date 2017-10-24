@@ -53,11 +53,10 @@ public class TodoMvcService {
      * @param todoName Todo name
      */
     public void removeTodo() {
-        Actions builder = new Actions(driver);
         WebElement removeTodoX = driver.findElement(By.className("clear-completed"));
-        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(removeTodoX));
+        //new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(removeTodoX));
         // Clicking the WebElement does not work with Firefox
-        builder.click(removeTodoX).perform();
+        removeTodoX.click();
     }
 
     /**
