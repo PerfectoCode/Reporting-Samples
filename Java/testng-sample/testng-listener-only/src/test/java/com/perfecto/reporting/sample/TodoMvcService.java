@@ -52,14 +52,9 @@ public class TodoMvcService {
      * Removes the todo with the given name from the list. Assumes todo name is unique
      * @param todoName Todo name
      */
-    public void removeTodo(String todoName) {
-        List<WebElement> elements = driver.findElements(getTodoBy(todoName));
-        Assert.assertEquals(elements.size(), 1);
-        WebElement todo = elements.get(0);
+    public void removeTodo() {
         Actions builder = new Actions(driver);
-        builder.moveToElement(todo).perform();
-
-        WebElement removeTodoX = todo.findElement(By.className("destroy"));
+        WebElement removeTodoX = driver.findElement(By.className("clear-completed"));
         new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(removeTodoX));
         // Clicking the WebElement does not work with Firefox
         builder.click(removeTodoX).perform();

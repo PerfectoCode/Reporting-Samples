@@ -65,7 +65,15 @@
                     <configuration>
                         <reportsDirectory>${project.build.directory}/surefire-reports/${reportsDirectory}
                         </reportsDirectory>
-                       
+                        <properties>
+                            <property>
+                                <!-- configure the TestNG listener -->
+                                <name>listener</name>
+                                <value>
+                                    com.perfecto.reportium.testng.ReportiumTestNgListener
+                                </value>
+                            </property>
+                        </properties>
                     </configuration>
                 </plugin>
             </plugins>

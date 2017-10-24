@@ -1,6 +1,7 @@
 package com.perfecto.reporting.sample;
 
 import com.perfecto.reportium.WebDriverProvider;
+import com.perfecto.reportium.testng.ReportiumTestNgListener;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,19 +14,15 @@ import org.testng.annotations.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- */
-@Listeners(CustomReportingTestListener.class)
+@Listeners(ReportiumTestNgListener.class)
 public class TodoMvcWithListenerTest implements WebDriverProvider {
 
     private WebDriver driver;
-    private TodoMvcService todoMvcService;
-
+    private static TodoMvcService todoMvcService;
     public static final String IS_LOCAL_DRIVER = "is-local-driver";
-
-    public static String USER_NAME = "MYUSER";
-    public static String PASSWORD = "MYPASSWORD";
-    public static String PERFECTO_HOST = "MYCOMPANY.perfectomobile.com";
+    private static final String SELENIUM_GRID_URL_KEY = "selenium-grid-url";
+    private static final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
+    private static final String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
 
     @SuppressWarnings("Duplicates")
     @BeforeClass
@@ -34,9 +31,10 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
         // Define target mobile device
         String browserName = "mobileOS";
         DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
-        capabilities.setCapability("user", USER_NAME);
-        capabilities.setCapability("password", PASSWORD);
-
+        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY, "MYUSER");
+        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY, "MYPASSWORD");
+        capabilities.setCapability("user", seleniumGridUsername);
+        capabilities.setCapability("password", seleniumGridPassword);
         // Define device allocation timeout, in minutes
         capabilities.setCapability("openDeviceTimeout", 5);
 
@@ -44,9 +42,10 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
         capabilities.setCapability("scriptName", this.getClass().getName());
 
         // Create Remote WebDriver
-        System.out.println("Allocating Mobile device per specified capabilities");
+        Reporter.log("Allocating Mobile device per specified capabilities");
         if (!Boolean.parseBoolean(System.getProperty(IS_LOCAL_DRIVER))) {
-            driver = new RemoteWebDriver(new URL("https://" + PERFECTO_HOST + "/nexperience/perfectomobile/wd/hub"), capabilities);
+            String seleniumGridUrl = System.getProperty(SELENIUM_GRID_URL_KEY, "https://MYCOMPANY.perfectomobile.com/nexperience/perfectomobile/wd/hub");
+            driver = new RemoteWebDriver(new URL(seleniumGridUrl), capabilities);
         } else {
             driver = new FirefoxDriver();
         }
@@ -65,7 +64,16 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
     public void navigateToApp() {
         String url = "http://todomvc.com/examples/vanillajs/";
         Reporter.log("Navigating to " + url);
+
         driver.get(url);
+
+    }
+
+    @AfterMethod
+    public void printEnd() {
+
+        Reporter.log("!end " );
+
 
     }
 
@@ -80,17 +88,8 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
         Reporter.log("Verify todo with name " + todoName + " was added to list");
         todoMvcService.verifyAddedTodo(todoName);
     }
-
-    @Test(description = "Create a new todo and delete it")
-    public void deleteTodo() {
-        Reporter.log("Create new todo");
-        String todoName = todoMvcService.createUniqueTodo("deleteTodo");
-
-        Reporter.log("Remove created todo called " + todoName);
-        todoMvcService.removeTodo(todoName);
-    }
-
-    @Test(description = "Create a new todo, makr it as complete and then delete it")
+    
+    @Test(description = "Create a new todo, make it as complete and then delete it")
     public void completeTodo() {
         Reporter.log("Create new todo");
         String todoName = todoMvcService.createUniqueTodo("deleteTodo");
@@ -102,7 +101,7 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
         todoMvcService.verifyCompletedTodo(todoName);
 
         Reporter.log("Remove created todo called " + todoName);
-        todoMvcService.removeTodo(todoName);
+        todoMvcService.removeTodo();
     }
 
     @Override
