@@ -54,8 +54,6 @@ public class TodoMvcService {
      */
     public void removeTodo() {
         WebElement removeTodoX = driver.findElement(By.className("clear-completed"));
-        //new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(removeTodoX));
-        // Clicking the WebElement does not work with Firefox
         removeTodoX.click();
     }
 
