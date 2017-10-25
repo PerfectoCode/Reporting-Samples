@@ -64,17 +64,7 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
     public void navigateToApp() {
         String url = "http://todomvc.com/examples/vanillajs/";
         Reporter.log("Navigating to " + url);
-
         driver.get(url);
-
-    }
-
-    @AfterMethod
-    public void printEnd() {
-
-        Reporter.log("!end " );
-
-
     }
 
     @Test(description = "Create a new todo")
