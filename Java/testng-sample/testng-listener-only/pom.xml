@@ -70,7 +70,7 @@
                                 <!-- configure the TestNG listener -->
                                 <name>listener</name>
                                 <value>
-                                    com.perfecto.reporting.sample.CustomReportingTestListener
+                                    com.perfecto.reportium.testng.ReportiumTestNgListener
                                 </value>
                             </property>
                         </properties>

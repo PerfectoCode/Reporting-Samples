@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.perfectomobile</groupId>
-  <artifactId>communityTest</artifactId>
+  <artifactId>communityTestReporting</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -49,13 +49,27 @@
 	<maven.compiler.source>1.7</maven.compiler.source>
 	<maven.compiler.target>1.7</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- {latest-reporting-version} -->
+    <reportium-sdk.version>RELEASE</reportium-sdk.version>
   </properties>
 
 	<dependencies>
+		<!-- Reporting SDK -->
+		<dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-java</artifactId>
+			<version>${reportium-sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-testng</artifactId>
+			<version>${reportium-sdk.version}</version>
+		</dependency>
+		
 		<dependency> 
     		<groupId>org.testng</groupId> 
    			<artifactId>testng</artifactId> 
-    		<version>6.8.7</version>  
+    		<version>6.9.10</version>  
 		</dependency>
 		<dependency>
             <groupId>com.perfectomobile</groupId>

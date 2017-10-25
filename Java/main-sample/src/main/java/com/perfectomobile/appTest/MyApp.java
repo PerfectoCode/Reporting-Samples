@@ -13,6 +13,7 @@ import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -26,34 +27,39 @@ import java.util.concurrent.TimeUnit;
 /**
  * Community sample test including Perfecto Reporting
  */
-public class App {
+public class MyApp {
     public static void main(String[] args) throws IOException {
-
         System.out.println("Run started");
 
         //TODO: Update credentials Lab & Community app
-        String labUser = "MyLabUser";
-        String labPassword = "MyLabPassword";
-        String communityUser = "MyCommunityUser";
-        String communityPassword = "MyCommunityPassword";
 
+        final String HOST = "host";
+        final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
+        String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
+        String COMMUNITY_USER = "community-user";
+        String COMMUNITY_PASSWORD = "community-password";
+        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
+        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
+        String communityUser=System.getProperty(COMMUNITY_USER);
+        String communityPassword=System.getProperty(COMMUNITY_PASSWORD);
         String browserName = "mobileOS";
         DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
+
         //TODO: change your lab credentials
         //String host = "reporting-test.perfectomobile.com";
-        String host = "MyLab.perfectomobile.com";
-        capabilities.setCapability("user", labUser);
-        capabilities.setCapability("password", labPassword);
+        String host = System.getProperty(HOST);
+        capabilities.setCapability("user", seleniumGridUsername);
+        capabilities.setCapability("password", seleniumGridPassword);
 
         //TODO: Change your device ID
-        capabilities.setCapability("deviceName", "MyDeviceID");
+        //capabilities.setCapability("deviceName", "MyDeviceID");
 
 
         // Use the automationName capability to define the required framework - Appium (this is the default) or PerfectoMobile.
         capabilities.setCapability("automationName", "Appium");
 
         // Call this method if you want the script to share the devices with the Perfecto Lab plugin.
-        PerfectoLabUtils.setExecutionIdCapability(capabilities, host);
+        //PerfectoLabUtils.setExecutionIdCapability(capabilities, host);
 
         // Script name
         capabilities.setCapability("scriptName", "Perfecto Community");
@@ -63,6 +69,9 @@ public class App {
 
         // Open Perfecto app
         capabilities.setCapability("appPackage", "com.bloomfire.android.perfecto");
+        capabilities.setCapability("platformName", "Android");
+
+        //RemoteWebDriver driver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
 
         AndroidDriver<AndroidElement> driver = new AndroidDriver<AndroidElement>(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
         // IOSDriver driver = new IOSDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
@@ -100,14 +109,14 @@ public class App {
             reportiumClient.stepStart("step2: Login to app");
 
             // Enter community username
-            AndroidElement email = (AndroidElement) driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/email_address']");
+            AndroidElement email = driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/email_address']");
             email.sendKeys(communityUser);
             // Enter community password
-            AndroidElement password = (AndroidElement) driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/password']");
+            AndroidElement password = driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/password']");
 
             password.sendKeys(communityPassword);
             // Click Done
-            AndroidElement Done = (AndroidElement) driver.findElementByName("Done");
+            AndroidElement Done = driver.findElementByName("Done");
             Done.click();
 
             // Validate successful login and add assertion to the execution report
@@ -157,6 +166,7 @@ public class App {
 
                 //Open default browser to Report Library
                 String reportURL = reportiumClient.getReportUrl();
+
                 System.out.println("Report URL - " + reportURL);
                 if (Desktop.isDesktopSupported()) {
                     Desktop.getDesktop().browse(new URI(reportURL));
