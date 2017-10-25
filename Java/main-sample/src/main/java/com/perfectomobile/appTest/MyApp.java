@@ -40,14 +40,14 @@ public class MyApp {
         String COMMUNITY_PASSWORD = "community-password";
         String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
         String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
-        String communityUser=System.getProperty(COMMUNITY_USER);//"yuvals@perfectomobile.com";
-        String communityPassword=System.getProperty(COMMUNITY_PASSWORD);//
+        String communityUser=System.getProperty(COMMUNITY_USER);
+        String communityPassword=System.getProperty(COMMUNITY_PASSWORD);
         String browserName = "mobileOS";
         DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
 
         //TODO: change your lab credentials
         //String host = "reporting-test.perfectomobile.com";
-        String host = "branchtest.perfectomobile.com"; //System.getProperty(HOST);
+        String host = System.getProperty(HOST);
         capabilities.setCapability("user", seleniumGridUsername);
         capabilities.setCapability("password", seleniumGridPassword);
 
@@ -166,6 +166,7 @@ public class MyApp {
 
                 //Open default browser to Report Library
                 String reportURL = reportiumClient.getReportUrl();
+
                 System.out.println("Report URL - " + reportURL);
                 if (Desktop.isDesktopSupported()) {
                     Desktop.getDesktop().browse(new URI(reportURL));
