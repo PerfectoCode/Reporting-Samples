@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class MyApp {
     public static void main(String[] args) throws IOException {
         System.out.println("Run started");
-
+        boolean testpassed = true; // assume true until failure
         //TODO: Update credentials Lab & Community app
 
         final String HOST = "host";
@@ -102,6 +102,7 @@ public class MyApp {
             try {
                 wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/sso']")));
             } catch (TimeoutException t) {
+                testpassed=false;
                 System.out.println("Did not find the Label within explicit wait time");
             }
 
@@ -124,6 +125,7 @@ public class MyApp {
                 wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//*[@resource-id='android:id/action_bar_title']")));
                 reportiumClient.reportiumAssert("successful login", true);
             } catch (TimeoutException t) {
+                testpassed=false;
                 System.out.println("Did not find the home screen title");
                 reportiumClient.reportiumAssert("unsuccessful login - timeout", false);
             }
@@ -158,6 +160,7 @@ public class MyApp {
 
         } catch (Exception | AssertionError e) {
             e.printStackTrace();
+            testpassed=false;
             reportiumClient.testStop(TestResultFactory.createFailure("Test stop failure.", e));
         } finally {
             try {
@@ -185,7 +188,7 @@ public class MyApp {
 
             driver.quit();
         }
-
+        Assert.assertEquals(testpassed,true);
         System.out.println("Run ended");
 
     }
