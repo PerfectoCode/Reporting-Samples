@@ -1,5 +1,6 @@
 package runner;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,7 @@ import org.jbehave.core.steps.Steps;
 import test.Customized;
 
 
-public class runner extends JUnitStories {
+public class runnerTest extends JUnitStories {
 
     DriverProvider driverProvider = new DriverProvider();
 
