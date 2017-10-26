@@ -17,7 +17,7 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.jbehave.core.steps.Steps;
-import test.Customized;
+import test.CustomizedTest;
 
 
 public class runnerTest extends JUnitStories {
@@ -37,7 +37,7 @@ public class runnerTest extends JUnitStories {
     @Override
     public InjectableStepsFactory stepsFactory() {
         ArrayList<Steps> stepFileList = new ArrayList<>();
-        stepFileList.add(new Customized(driverProvider));
+        stepFileList.add(new CustomizedTest(driverProvider));
 
         return new InstanceStepsFactory(configuration(), stepFileList);
     }
