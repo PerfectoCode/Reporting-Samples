@@ -18,7 +18,7 @@ class MyTests < PerfectoTest
       @driver.find_element(:id => 'tsbb').click
 
       #click the first search result
-      @driver.find_element(:css => '#rso > div.g.kno-result._rk.mnr-c.g-blk > div > div > div._OKe > div:nth-child(2) > div > div > div > div.rc > div._OXf > h3 > a').click
+      @driver.find_element(:css => '#rso > div > div:nth-child(1) > div > div > div._OXf > div._fSg > h3 > a').click
 
       @reportiumClient.testStep('Step3: Asserting page title contains keyword')
       assert(@driver.title.include? 'Perfecto')
