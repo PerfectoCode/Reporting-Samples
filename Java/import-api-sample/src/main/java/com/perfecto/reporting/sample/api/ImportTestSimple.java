@@ -11,8 +11,10 @@ import java.net.URI;
 
 public class ImportTestSimple {
 
-    private static final String REPORTIUM_URL = "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
-    private static final String SECURITY_TOKEN = "[MY_SECURITY_TOKEN]";
+    private static final String SELENIUM_GRID_URL_KEY = "selenium-grid-url";
+    private static final String PERFECTO_TOKEN_KEY = "security-token";
+    private static final String REPORTIUM_URL = System.getProperty(SELENIUM_GRID_URL_KEY); // "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
+    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_TOKEN_KEY);
 
     public static void main(String[] args) throws Exception {
         ImportExecutionContext executionContext = new ImportExecutionContext.Builder().build();

@@ -11,16 +11,16 @@ import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
-
 import java.net.URI;
 
 public class ImportTestMobile {
-
-    private static final String REPORTIUM_URL = "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
-    private static final String SECURITY_TOKEN = "[MY_SECURITY_TOKEN]";
+    private static final String MY_COMPANY_ID = "company-id";
+    private static final String PERFECTO_TOKEN_KEY = "security-token";
+    private static final String REPORTIUM_URL = "https://" + System.getProperty(MY_COMPANY_ID) + ".reporting.perfectomobile.com"; // "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
+    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_TOKEN_KEY);
 
     public static void main(String[] args) throws Exception {
-
+        System.out.println(REPORTIUM_URL);
         MobileInfo mobileInfo = new MobileInfo.Builder()
                 .withManufacturer("Samsung")
                 .withModel("Galaxy Note 8")

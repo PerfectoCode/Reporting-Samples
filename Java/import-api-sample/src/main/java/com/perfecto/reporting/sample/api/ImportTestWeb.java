@@ -17,11 +17,14 @@ import java.net.URI;
 
 public class ImportTestWeb {
 
-    private static final String REPORTIUM_URL = "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
-    private static final String SECURITY_TOKEN = "[MY_SECURITY_TOKEN]";
+    private static final String MY_COMPANY_ID = "company-id";
+    private static final String PERFECTO_TOKEN_KEY = "security-token";
+    private static final String REPORTIUM_URL = "https://" + System.getProperty(MY_COMPANY_ID) + ".reporting.perfectomobile.com"; // "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
+    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_TOKEN_KEY);
+
 
     public static void main(String[] args) throws Exception {
-
+        System.out.println(REPORTIUM_URL);
         BrowserInfo browserInfo = new BrowserInfo.Builder()
                 .withBrowserType(BrowserType.CHROME)
                 .withBrowserVersion("60")
