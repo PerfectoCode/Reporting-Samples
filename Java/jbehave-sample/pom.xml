@@ -94,7 +94,7 @@
         <dependency>
             <groupId>com.perfecto.reporting-sdk</groupId>
             <artifactId>reportium-java</artifactId>
-            <version>1.0.0</version>
+            <version>RELEASE</version>
         </dependency>
 
         <dependency>
