@@ -29,8 +29,8 @@ public class ApiExportCodeSample {
     public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
 
     // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
-    public static final String SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN";
-
+    private static final String PERFECTO_TOKEN_KEY = "security-token";
+    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_TOKEN_KEY);
     public static void main(String[] args) throws Exception {
         // Retrieve a list of the test executions in your lab (as a json)
         JsonObject executions = retrieveTestExecutions();
