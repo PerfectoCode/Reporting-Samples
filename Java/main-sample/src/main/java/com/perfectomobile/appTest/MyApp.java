@@ -43,7 +43,7 @@ public class MyApp {
         String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
         String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
         String communityUser=System.getProperty(COMMUNITY_USER);
-        String communityPassword="test";
+        String communityPassword=System.getProperty(COMMUNITY_PASSWORD);
         String browserName = "mobileOS";
         DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
         String host = System.getProperty(HOST);
