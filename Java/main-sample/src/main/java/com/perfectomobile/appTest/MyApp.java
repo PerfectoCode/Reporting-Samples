@@ -7,6 +7,7 @@ import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.model.CustomField;
 import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.test.TestContext;
+import com.perfecto.reportium.test.result.TestResult;
 import com.perfecto.reportium.test.result.TestResultFactory;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
@@ -16,6 +17,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -30,9 +32,9 @@ import java.util.concurrent.TimeUnit;
 public class MyApp {
     public static void main(String[] args) throws IOException {
         System.out.println("Run started");
-        boolean testpassed = true; // assume true until failure
+        //boolean test passed = true; // assume true until failure
+        TestResult testResult= TestResultFactory.createFailure("Test stop failure");// assume failure until proven passed
         //TODO: Update credentials Lab & Community app
-
         final String HOST = "host";
         final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
         String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
@@ -41,16 +43,12 @@ public class MyApp {
         String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
         String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
         String communityUser=System.getProperty(COMMUNITY_USER);
-        String communityPassword=System.getProperty(COMMUNITY_PASSWORD);
+        String communityPassword="test";
         String browserName = "mobileOS";
         DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
-
-        //TODO: change your lab credentials
-        //String host = "reporting-test.perfectomobile.com";
         String host = System.getProperty(HOST);
         capabilities.setCapability("user", seleniumGridUsername);
         capabilities.setCapability("password", seleniumGridPassword);
-
         //TODO: Change your device ID
         //capabilities.setCapability("deviceName", "MyDeviceID");
 
@@ -73,7 +71,7 @@ public class MyApp {
 
         //RemoteWebDriver driver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
 
-        AndroidDriver<AndroidElement> driver = new AndroidDriver<AndroidElement>(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
+        AndroidDriver driver = new AndroidDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
         // IOSDriver driver = new IOSDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
@@ -99,33 +97,35 @@ public class MyApp {
             //step1: Validate login page
             reportiumClient.stepStart("step1: Validate login page");
             WebDriverWait wait = new WebDriverWait(driver, 15);  // timeout of 15 seconds
-            try {
-                wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/sso']")));
-            } catch (TimeoutException t) {
-                testpassed=false;
-                System.out.println("Did not find the Label within explicit wait time");
-            }
+            //try {
+            //    wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/sso']")));
+            //} catch (TimeoutException t) {
+            //    testpassed=false;
+            //    System.out.println("Did not find the Label within explicit wait time");
+            //}
 
             // Step2: Login to app
             reportiumClient.stepStart("step2: Login to app");
 
             // Enter community username
-            AndroidElement email = driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/email_address']");
-            email.sendKeys(communityUser);
-            // Enter community password
-            AndroidElement password = driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/password']");
+            driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/email_address']").sendKeys(communityUser);
 
-            password.sendKeys(communityPassword);
+            System.out.println("passed first");
+            Thread.currentThread().sleep(3000);
+
+            // Enter community password
+            driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/password']").sendKeys(communityPassword);
+
+
             // Click Done
-            AndroidElement Done = driver.findElementByName("Done");
-            Done.click();
+            driver.findElementByName("Done").click();
+
 
             // Validate successful login and add assertion to the execution report
             try {
                 wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//*[@resource-id='android:id/action_bar_title']")));
                 reportiumClient.reportiumAssert("successful login", true);
             } catch (TimeoutException t) {
-                testpassed=false;
                 System.out.println("Did not find the home screen title");
                 reportiumClient.reportiumAssert("unsuccessful login - timeout", false);
             }
@@ -156,17 +156,17 @@ public class MyApp {
             driver.removeApp("com.bloomfire.android.perfecto");
 
             //STOP TEST
-            reportiumClient.testStop(TestResultFactory.createSuccess());
+            testResult=TestResultFactory.createSuccess();
 
         } catch (Exception | AssertionError e) {
             e.printStackTrace();
-            testpassed=false;
-            reportiumClient.testStop(TestResultFactory.createFailure("Test stop failure.", e));
+            testResult = TestResultFactory.createFailure("Test stop failure.", e);
+
         } finally {
             try {
                 // Retrieve the URL of the Single Test Report, can be saved to your execution summary and used to download the report at a later point
                 //String reportURL = (String)(driver.getCapabilities().getCapability(WindTunnelUtils.SINGLE_TEST_REPORT_URL_CAPABILITY));
-
+                reportiumClient.testStop(testResult);
                 //Open default browser to Report Library
                 String reportURL = reportiumClient.getReportUrl();
 
@@ -178,7 +178,7 @@ public class MyApp {
                 driver.close();
 
                 // In case you want to download the report or the report attachments, do it here.
-                PerfectoLabUtils.downloadReport(driver, "pdf", "C:\\test\\report");
+                //PerfectoLabUtils.downloadReport(driver, "pdf", "C:\\test\\report");
                 // PerfectoLabUtils.downloadAttachment(driver, "video", "C:\\test\\report\\video", "flv");
                 // PerfectoLabUtils.downloadAttachment(driver, "image", "C:\\test\\report\\images", "jpg");
 
@@ -188,7 +188,7 @@ public class MyApp {
 
             driver.quit();
         }
-        Assert.assertEquals(testpassed,true);
+
         System.out.println("Run ended");
 
     }
