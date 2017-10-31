@@ -15,9 +15,9 @@ import java.net.URI;
 
 public class ImportTestMobile {
     private static final String MY_COMPANY_ID = "company-id";
-    private static final String PERFECTO_TOKEN_KEY = "security-token";
+    private static final String PERFECTO_SECUIRTY_TOKEN_KEY = "security-token";
     private static final String REPORTIUM_URL = "https://" + System.getProperty(MY_COMPANY_ID) + ".reporting.perfectomobile.com"; // "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
-    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_TOKEN_KEY);
+    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECUIRTY_TOKEN_KEY);
 
     public static void main(String[] args) throws Exception {
         System.out.println(REPORTIUM_URL);

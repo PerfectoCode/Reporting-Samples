@@ -12,9 +12,9 @@ import java.net.URI;
 public class ImportTestSimple {
 
     private static final String REPORTING_URL_KEY = "reporting-url";
-    private static final String PERFECTO_TOKEN_KEY = "security-token";
+    private static final String PERFECTO_SECUIRTY_TOKEN_KEY = "security-token";
     private static final String REPORTIUM_URL = System.getProperty(REPORTING_URL_KEY); // "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
-    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_TOKEN_KEY);
+    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECUIRTY_TOKEN_KEY);
 
     public static void main(String[] args) throws Exception {
         ImportExecutionContext executionContext = new ImportExecutionContext.Builder().build();
