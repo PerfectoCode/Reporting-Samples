@@ -177,6 +177,8 @@ public class MyApp {
                 driver.close();
 
                 // In case you want to download the report or the report attachments, do it here.
+                String reportPdfUrl = (String)(driver.getCapabilities().getCapability("reportPdfUrl"));
+                System.out.println("reportPdfUrl: " + reportPdfUrl);
                 //PerfectoLabUtils.downloadReport(driver, "pdf", "C:\\test\\report");
                 // PerfectoLabUtils.downloadAttachment(driver, "video", "C:\\test\\report\\video", "flv");
                 // PerfectoLabUtils.downloadAttachment(driver, "image", "C:\\test\\report\\images", "jpg");
