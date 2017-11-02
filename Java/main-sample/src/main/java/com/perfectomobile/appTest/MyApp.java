@@ -97,12 +97,11 @@ public class MyApp {
             //step1: Validate login page
             reportiumClient.stepStart("step1: Validate login page");
             WebDriverWait wait = new WebDriverWait(driver, 15);  // timeout of 15 seconds
-            //try {
-            //    wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/sso']")));
-            //} catch (TimeoutException t) {
-            //    testpassed=false;
-            //    System.out.println("Did not find the Label within explicit wait time");
-            //}
+            try {
+                wait.until(ExpectedConditions.visibilityOf(driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/sso']")));
+            } catch (TimeoutException t) {
+                System.out.println("Did not find the Label within explicit wait time");
+            }
 
             // Step2: Login to app
             reportiumClient.stepStart("step2: Login to app");
