@@ -51,6 +51,8 @@
                             <id>run-stories-as-embeddables</id>
                             <phase>integration-test</phase>
                             <configuration>
+                                <scope>test</scope>
+                                <testSourceDirectory>${basedir}/src/main/java/</testSourceDirectory>
 
                                 <includes>
                                     <include>**/*Test.java</include>
@@ -92,7 +94,7 @@
         <dependency>
             <groupId>com.perfecto.reporting-sdk</groupId>
             <artifactId>reportium-java</artifactId>
-            <version>1.0.0</version>
+            <version>RELEASE</version>
         </dependency>
 
         <dependency>

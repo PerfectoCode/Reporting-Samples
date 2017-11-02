@@ -5,9 +5,9 @@ import org.jbehave.core.annotations.*;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 
-public class Customized extends PerfectoSteps {
+public class CustomizedTest extends PerfectoSteps {
 
-    public Customized(DriverProvider provider){
+    public CustomizedTest(DriverProvider provider){
         super(provider);
     }
 

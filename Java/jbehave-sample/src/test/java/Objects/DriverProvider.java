@@ -11,10 +11,12 @@ import java.net.URL;
 public class DriverProvider implements WebDriverProvider {
 
     private WebDriver driver;
-
-    private final String MyPerfectoUser = "My_User";
-    private final String MyPerfectoPassword = "My_Pass";
-    private final String MyHost = "My_Host.perfectomobile.com";
+    final String HOST_KEY = "host";
+    final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
+    String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
+    String myHost = System.getProperty(HOST_KEY);
+    String myPerfectoUser = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
+    String myPerfectoPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
 
     @Override
     public WebDriver get() {
@@ -26,13 +28,13 @@ public class DriverProvider implements WebDriverProvider {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("model", "Galaxy S5");
-        capabilities.setCapability("user", MyPerfectoUser);
-        capabilities.setCapability("password", MyPerfectoPassword);
+        capabilities.setCapability("user", myPerfectoUser);
+        capabilities.setCapability("password", myPerfectoPassword);
 
         //Other capabilities ...
 
         try {
-            driver = new RemoteWebDriver(new URL("http://" + MyHost + "/nexperience/perfectomobile/wd/hub"), capabilities);
+            driver = new RemoteWebDriver(new URL("http://" + myHost + "/nexperience/perfectomobile/wd/hub"), capabilities);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
