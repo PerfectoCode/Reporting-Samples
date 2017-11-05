@@ -20,7 +20,7 @@ import org.jbehave.core.steps.Steps;
 import test.CustomizedTest;
 
 
-public class RunnerTest1 extends JUnitStories {
+public class RunnerTest extends JUnitStories {
 
     DriverProvider driverProvider = new DriverProvider();
 
