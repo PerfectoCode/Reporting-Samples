@@ -108,17 +108,12 @@ public class MyApp {
 
             // Enter community username
             driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/email_address']").sendKeys(communityUser);
-
-            System.out.println("passed first");
-            Thread.currentThread().sleep(3000);
-
             // Enter community password
             driver.findElementByXPath("//*[@resource-id='com.bloomfire.android.perfecto:id/password']").sendKeys(communityPassword);
 
-
             // Click Done
             driver.findElementByName("Done").click();
-
+            Thread.currentThread().sleep(3000);
 
             // Validate successful login and add assertion to the execution report
             try {
