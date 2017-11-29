@@ -29,6 +29,7 @@ Stable version
 ##### 2.1.0  
 The following methods updated and now returning Promise:
 testStart, testStop, testStep, stepStart, stepEnd, reportiumAssert
+To handle cases such as synchronization between invoking testEnd and driver.close() commands
 
 ##### 2.0.0  
 Required cloud version - 10.3  
