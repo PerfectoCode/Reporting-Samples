@@ -26,6 +26,10 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.1.0  
+The following methods updated and now returning Promise:
+testStart, testStop, testStep, stepStart, stepEnd, reportiumAssert
+
 ##### 2.0.0  
 Required cloud version - 10.3  
 New features - assert and step end commands  
