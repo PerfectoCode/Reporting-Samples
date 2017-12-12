@@ -58,6 +58,10 @@ Stable version
   
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
+##### 2.0.0.1  
+Maintenance release
+##### 2.0.0.0  
+Maintenance release
 ##### 0.1.1.4  
 Required cloud version - 10.3  
 New features - assert and step end commands 
