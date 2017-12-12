@@ -37,6 +37,9 @@ New features - assert and step end commands
   
 ***
 ### Ruby SDK (https://rubygems.org/gems/perfecto-reporting)
+##### 2.0.2
+Maintenance release
+
 ##### 2.0.1  
 Documentation changes 
 
@@ -60,8 +63,10 @@ Stable version
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
 ##### 2.0.0.1  
 Maintenance release
+
 ##### 2.0.0.0  
 Maintenance release
+
 ##### 0.1.1.4  
 Required cloud version - 10.3  
 New features - assert and step end commands 
