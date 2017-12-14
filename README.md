@@ -26,6 +26,11 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.2.0
+*New features* - Support custom fields in PerfectoExecutionContext and in PerfectoTestContext
+
+*Changes* - reportingClient.testStart(testName, tags) is now deprecated, 
+use now reportingClient.testStart(testName, PerfectoTestContext<tags, customFields>)
 ##### 2.1.0  
 The following methods updated and now returning Promise:
 testStart, testStop, testStep, stepStart, stepEnd, reportiumAssert
