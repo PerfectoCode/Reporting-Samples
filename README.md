@@ -30,7 +30,7 @@ Stable version
 *New features* - Support custom fields in PerfectoExecutionContext and in PerfectoTestContext
 
 *Changes* - reportingClient.testStart(testName, tags) is now deprecated, 
-use now reportingClient.testStart(testName, PerfectoTestContext<tags, customFields>) 
+use now reportingClient.testStart(testName, PerfectoTestContext<tags, customFields>)
 ##### 2.1.0  
 The following methods updated and now returning Promise:
 testStart, testStop, testStep, stepStart, stepEnd, reportiumAssert
@@ -42,6 +42,12 @@ New features - assert and step end commands
   
 ***
 ### Ruby SDK (https://rubygems.org/gems/perfecto-reporting)
+##### 2.0.2
+Maintenance release
+
+##### 2.0.1  
+Documentation changes 
+
 ##### 2.0.0  
 Required cloud version - 10.3  
 New features - assert and step end commands  
@@ -60,6 +66,12 @@ Stable version
   
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
+##### 2.0.0.1  
+Maintenance release
+
+##### 2.0.0.0  
+Maintenance release
+
 ##### 0.1.1.4  
 Required cloud version - 10.3  
 New features - assert and step end commands 
