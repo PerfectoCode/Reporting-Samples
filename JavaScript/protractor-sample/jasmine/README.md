@@ -25,13 +25,13 @@ Test scripts can then be enriched with reporting of functional test steps by usi
 > browser.reportingClient.testStep('Step description comes here');
 
 ## 💡 important note
-to be able to report back test status in specDone or suiteDone, Jasmine callbacks
-please add this code at end of any describe block
+Jasmine framework does not wait for anything asynchronous that may have been started in a reporter on `specDone` or `suiteDone`.
+To report testEnd from this methods please add this following code snippet in the end of any `describe` block.
 
 ```
 afterAll(function(done){
     process.nextTick(done); // let all current waiting events to complete
 });
 ```
-for more details see: // https://github.com/angular/protractor/issues/1938
+For more details see: // https://github.com/angular/protractor/issues/1938
 
