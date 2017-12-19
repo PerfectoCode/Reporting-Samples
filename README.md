@@ -27,7 +27,7 @@ Stable version
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
 ##### 2.2.1
-Validationn on `status` param in `reportiumClient.reportiumAssert(message, status)` was added.
+Validation on `status` param in `reportiumClient.reportiumAssert(message, status)` was added.
 
 ##### 2.2.0
 *New features* - Support custom fields in PerfectoExecutionContext and in PerfectoTestContext
