@@ -26,6 +26,9 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.3.0
+PerfectoExecutionContext support jobBranch in job object
+
 ##### 2.2.1
 Validation on `status` param in `reportiumClient.reportiumAssert(message, status)` was added.
 
