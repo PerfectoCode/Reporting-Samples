@@ -26,7 +26,7 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
-##### 2.3.0
+##### 2.4.0
 PerfectoExecutionContext support jobBranch in job object
 
 ##### 2.2.1
