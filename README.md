@@ -2,6 +2,9 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+##### 1.1.22  
+Required cloud version - 10.11  
+New features - Support custom fields in PerfectoExecutionContext and ImportExecutionContext in addition to TestContext
 ##### 1.1.21  
 Required cloud version - 10.9  
 New features - Support feature branch and custom fields on tests
@@ -23,12 +26,35 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.4.0
+PerfectoExecutionContext support jobBranch in job object
+
+##### 2.2.1
+Validation on `status` param in `reportiumClient.reportiumAssert(message, status)` was added.
+
+##### 2.2.0
+*New features* - Support custom fields in PerfectoExecutionContext and in PerfectoTestContext
+
+*Changes* - `reportingClient.testStart(testName, tags)` is now deprecated,
+
+use instead `reportingClient.testStart(testName, PerfectoTestContext<tags, customFields>)`
+##### 2.1.0  
+The following methods updated and now returning Promise:
+testStart, testStop, testStep, stepStart, stepEnd, reportiumAssert
+To handle cases such as synchronization between invoking testEnd and driver.close() commands
+
 ##### 2.0.0  
 Required cloud version - 10.3  
 New features - assert and step end commands  
   
 ***
 ### Ruby SDK (https://rubygems.org/gems/perfecto-reporting)
+##### 2.0.2
+Maintenance release
+
+##### 2.0.1  
+Documentation changes 
+
 ##### 2.0.0  
 Required cloud version - 10.3  
 New features - assert and step end commands  
@@ -47,6 +73,12 @@ Stable version
   
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
+##### 2.0.0.1  
+Maintenance release
+
+##### 2.0.0.0  
+Maintenance release
+
 ##### 0.1.1.4  
 Required cloud version - 10.3  
 New features - assert and step end commands 

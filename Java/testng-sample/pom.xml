@@ -23,7 +23,7 @@
         <selenium.version>2.53.0</selenium.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <reportium-sdk.version>1.0.0</reportium-sdk.version>
+        <reportium-sdk.version>RELEASE</reportium-sdk.version>
 
         <allure.version>1.4.4</allure.version>
 
@@ -127,5 +127,16 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.perfectomobile</groupId>
-  <artifactId>communityTest</artifactId>
+  <artifactId>communityTestReporting</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -29,7 +29,7 @@
             </snapshots>
         </repository>
     </repositories>
-    
+
     <pluginRepositories>
         <pluginRepository>
             <id>central</id>
@@ -49,23 +49,37 @@
 	<maven.compiler.source>1.7</maven.compiler.source>
 	<maven.compiler.target>1.7</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- {latest-reporting-version} -->
+    <reportium-sdk.version>RELEASE</reportium-sdk.version>
   </properties>
 
 	<dependencies>
-		<dependency> 
-    		<groupId>org.testng</groupId> 
-   			<artifactId>testng</artifactId> 
-    		<version>6.8.7</version>  
+		<!-- Reporting SDK -->
+		<dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-java</artifactId>
+			<version>${reportium-sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.perfecto.reporting-sdk</groupId>
+			<artifactId>reportium-testng</artifactId>
+			<version>${reportium-sdk.version}</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>org.testng</groupId>
+   			<artifactId>testng</artifactId>
+    		<version>6.9.10</version>
 		</dependency>
 		<dependency>
             <groupId>com.perfectomobile</groupId>
             <artifactId>pm-webdriver</artifactId>
-            <version>6.1.0.7</version>
+            <version>RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.perfectomobile</groupId>
             <artifactId>http-client</artifactId>
-            <version>6.1.0.7</version>
+            <version>RELEASE</version>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>
@@ -105,12 +119,12 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-api</artifactId>
-            <version>2.48.2</version>
+            <version>2.53.1</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
-            <version>2.48.2</version>
+            <version>2.53.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -130,7 +144,12 @@
         <dependency>
             <groupId>io.appium</groupId>
     		<artifactId>java-client</artifactId>
-            <version>3.3.0</version>
-        </dependency>  
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+        </dependency>
   </dependencies>
 </project>

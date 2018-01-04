@@ -2,7 +2,6 @@ package com.perfecto.reporting.sample;
 
 import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
-import com.perfecto.reportium.model.OperatingSystem;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
@@ -39,10 +38,10 @@ public class AbstractPerfectoSeleniumTestJunit {
     private static final String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
     private static final String IS_LOCAL_DRIVER = "is-local-driver";
 
-    protected static final OperatingSystem operatingSystemName = OperatingSystem.WINDOWS;
-    protected static final String operatingSystemVersion = "7";
-    protected static final String browserVersion = "49";
-    protected static final String displayResolution = "1366x768";
+    protected static final String operatingSystemName = "Windows";
+    protected static final String operatingSystemVersion = "10";
+    protected static final String browserVersion = "latest";
+    protected static final String displayResolution = "1280x1024";
     protected static final String location = "US East";
 
     @ClassRule

@@ -1,5 +1,6 @@
 package runner;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,10 +17,10 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.jbehave.core.steps.Steps;
-import test.Customized;
+import test.CustomizedTest;
 
 
-public class runner extends JUnitStories {
+public class RunnerTest extends JUnitStories {
 
     DriverProvider driverProvider = new DriverProvider();
 
@@ -36,7 +37,7 @@ public class runner extends JUnitStories {
     @Override
     public InjectableStepsFactory stepsFactory() {
         ArrayList<Steps> stepFileList = new ArrayList<>();
-        stepFileList.add(new Customized(driverProvider));
+        stepFileList.add(new CustomizedTest(driverProvider));
 
         return new InstanceStepsFactory(configuration(), stepFileList);
     }

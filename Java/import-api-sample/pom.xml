@@ -44,7 +44,7 @@
     </pluginRepositories>
 
     <properties>
-        <reportium-sdk.version>1.1.19</reportium-sdk.version>
+        <reportium-sdk.version>RELEASE</reportium-sdk.version>
     </properties>
 
     <dependencies>
