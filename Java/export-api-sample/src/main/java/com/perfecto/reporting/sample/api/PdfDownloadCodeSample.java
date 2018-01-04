@@ -31,8 +31,8 @@ public class PdfDownloadCodeSample {
     public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
 
     // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
-    private static final String PERFECTO_SECUIRTY_TOKEN_KEY = "security-token";
-    public static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECUIRTY_TOKEN_KEY);
+    private static final String PERFECTO_SECURITY_TOKEN_KEY = "security-token";
+    public static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECURITY_TOKEN_KEY);
 
     public static final int PDF_DOWNLOAD_ATTEMPTS = 5;
 
@@ -49,12 +49,12 @@ public class PdfDownloadCodeSample {
         String testId = "MY_TEST_ID";
 
         // Download an execution summary PDF report of an execution (may contain several tests)
-        Path summaryPdfPath = Paths.get(tempDir, testId + ".pdf");
+        Path summaryPdfPath = Paths.get(tempDir, driverExecutionId + ".pdf");
         downloadExecutionSummaryReport(summaryPdfPath, driverExecutionId);
 
         // Download a PDF report of a single test - create a "task" for PDF generation and download the PDF on task completion
         CreatePdfTask task = startTestReportGeneration(testId);
-        Path testPdfPath = Paths.get(tempDir, driverExecutionId + ".pdf");
+        Path testPdfPath = Paths.get(tempDir, testId + ".pdf");
         downloadTestReport(testPdfPath, task, testId);
     }
 
