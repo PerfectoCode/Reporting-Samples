@@ -17,7 +17,7 @@ fdescribe('Protractor Perfecto Demo', function () {
 
   });
 
-  //This test should fail 
+  //This test should fail
   it('should fail test', function () {
     browser.reportingClient.stepStart('Step 1: Navigate Google');
     browser.driver.get('https://www.google.com'); //Navigate to google.com
@@ -32,4 +32,8 @@ fdescribe('Protractor Perfecto Demo', function () {
     browser.reportingClient.stepEnd();
   });
 
+    afterAll(function(done){
+        // https://github.com/angular/protractor/issues/1938
+        process.nextTick(done); // let all current waiting events to complete
+    });
 });

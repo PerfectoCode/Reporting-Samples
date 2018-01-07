@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 public class PdfDownloadCodeSample {
@@ -30,8 +31,8 @@ public class PdfDownloadCodeSample {
     public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
 
     // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
-    private static final String PERFECTO_SECUIRTY_TOKEN_KEY = "security-token";
-    public static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECUIRTY_TOKEN_KEY);
+    private static final String PERFECTO_SECURITY_TOKEN_KEY = "security-token";
+    public static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECURITY_TOKEN_KEY);
 
     public static final int PDF_DOWNLOAD_ATTEMPTS = 5;
 
@@ -39,6 +40,7 @@ public class PdfDownloadCodeSample {
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) throws Exception {
+        String tempDir = Files.createTempDirectory("reporting_pdf_sample_").toString();
 
         // TODO put your driver execution ID here
         String driverExecutionId = "MY_DRIVER_EXECUTION_ID";
@@ -47,18 +49,20 @@ public class PdfDownloadCodeSample {
         String testId = "MY_TEST_ID";
 
         // Download an execution summary PDF report of an execution (may contain several tests)
-        downloadExecutionSummaryReport(driverExecutionId);
+        Path summaryPdfPath = Paths.get(tempDir, driverExecutionId + ".pdf");
+        downloadExecutionSummaryReport(summaryPdfPath, driverExecutionId);
 
         // Download a PDF report of a single test - create a "task" for PDF generation and download the PDF on task completion
         CreatePdfTask task = startTestReportGeneration(testId);
-        downloadTestReport(task, testId);
+        Path testPdfPath = Paths.get(tempDir, testId + ".pdf");
+        downloadTestReport(testPdfPath, task, testId);
     }
 
-    private static void downloadExecutionSummaryReport(String driverExecutionId) throws URISyntaxException, IOException {
+    private static void downloadExecutionSummaryReport(Path summaryPdfPath, String driverExecutionId) throws URISyntaxException, IOException {
         System.out.println("Downloading PDF for driver execution ID: " + driverExecutionId);
         URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v1/test-executions/pdf");
         uriBuilder.addParameter("externalId[0]", driverExecutionId);
-        downloadPdfFileToFS(uriBuilder.build(), driverExecutionId, "_summary.pdf");
+        downloadPdfFileToFS(summaryPdfPath, uriBuilder.build());
     }
 
     private static CreatePdfTask startTestReportGeneration(String testId) throws URISyntaxException, IOException {
@@ -96,7 +100,7 @@ public class PdfDownloadCodeSample {
         return task;
     }
 
-    private static void downloadTestReport(CreatePdfTask task, String testId) throws URISyntaxException, IOException {
+    private static void downloadTestReport(Path testPdfPath, CreatePdfTask task, String testId) throws URISyntaxException, IOException {
         System.out.println("Downloading PDF for test ID: " + testId);
         long startTime = System.currentTimeMillis();
         int maxWaitMin = 10;
@@ -117,7 +121,7 @@ public class PdfDownloadCodeSample {
         while (updatedTask.getStatus() != TaskStatus.COMPLETE && startTime + maxGenerationTime < System.currentTimeMillis());
 
         if (updatedTask.getStatus() == TaskStatus.COMPLETE) {
-            downloadPdfFileToFS(new URI(updatedTask.getUrl()), testId, "_report.pdf");
+            downloadPdfFileToFS(testPdfPath, new URI(updatedTask.getUrl()));
         } else {
             throw new RuntimeException("The task is still in " + updatedTask.getStatus() + " status after waiting " + maxWaitMin + " min");
         }
@@ -138,7 +142,7 @@ public class PdfDownloadCodeSample {
         return task;
     }
 
-    private static void downloadPdfFileToFS(URI uri, String fileName, String suffix) throws IOException {
+    private static void downloadPdfFileToFS(Path pdfPath, URI uri) throws IOException {
         boolean downloadComplete = false;
         HttpGet httpGet = new HttpGet(uri);
         addDefaultRequestHeaders(httpGet);
@@ -150,10 +154,9 @@ public class PdfDownloadCodeSample {
             try {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (HttpStatus.SC_OK == statusCode) {
-                    Path file = Files.createTempFile(fileName, suffix);
-                    fileOutputStream = new FileOutputStream(file.toFile());
+                    fileOutputStream = new FileOutputStream(pdfPath.toFile());
                     IOUtils.copy(response.getEntity().getContent(), fileOutputStream);
-                    System.out.println("\nSaved downloaded file to: " + file.toFile().getAbsolutePath());
+                    System.out.println("\nSaved downloaded file to: " + pdfPath.toString());
                     downloadComplete = true;
                 } else if (HttpStatus.SC_NO_CONTENT == statusCode) {
 
