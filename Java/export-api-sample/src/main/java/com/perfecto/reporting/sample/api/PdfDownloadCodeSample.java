@@ -26,18 +26,17 @@ import java.util.concurrent.TimeUnit;
 public class PdfDownloadCodeSample {
 
     // The Perfecto Continuous Quality Lab you work with
-    public static final String CQL_NAME = "demo";
-
-    public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
+    public static final String CQL_NAME = "demo"; // TODO put your Continuous Quality Lab name here
 
     // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
-    private static final String PERFECTO_SECURITY_TOKEN_KEY = "security-token";
-    public static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECURITY_TOKEN_KEY);
+    private static final String PERFECTO_SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN"; // TODO put your security token here
 
-    public static final int PDF_DOWNLOAD_ATTEMPTS = 5;
 
+    public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
+    public static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
     static HttpClient httpClient = HttpClientBuilder.create().build();
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static final int PDF_DOWNLOAD_ATTEMPTS = 5;
 
     public static void main(String[] args) throws Exception {
         String tempDir = Files.createTempDirectory("reporting_pdf_sample_").toString();
@@ -97,6 +96,9 @@ public class PdfDownloadCodeSample {
                 EntityUtils.consumeQuietly(response.getEntity());
             }
         }
+        if (task == null) {
+            throw new RuntimeException("Unable to create a CreatePdfTask");
+        }
         return task;
     }
 
@@ -118,7 +120,7 @@ public class PdfDownloadCodeSample {
                 throw new RuntimeException(e);
             }
         }
-        while (updatedTask.getStatus() != TaskStatus.COMPLETE && startTime + maxGenerationTime < System.currentTimeMillis());
+        while (updatedTask.getStatus() != TaskStatus.COMPLETE && startTime + maxGenerationTime > System.currentTimeMillis());
 
         if (updatedTask.getStatus() == TaskStatus.COMPLETE) {
             downloadPdfFileToFS(testPdfPath, new URI(updatedTask.getUrl()));
@@ -182,6 +184,9 @@ public class PdfDownloadCodeSample {
     }
 
     private static void addDefaultRequestHeaders(HttpRequestBase request) {
+        if (SECURITY_TOKEN == null || SECURITY_TOKEN.equals("MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN")) {
+            throw new RuntimeException("Invalid security token '" + SECURITY_TOKEN + "'. Please set a security token");
+        }
         request.addHeader("PERFECTO_AUTHORIZATION", SECURITY_TOKEN);
     }
 
