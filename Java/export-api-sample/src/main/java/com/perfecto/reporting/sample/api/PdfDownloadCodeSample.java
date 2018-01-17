@@ -34,6 +34,7 @@ public class PdfDownloadCodeSample {
 
     public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
     public static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
+
     static HttpClient httpClient = HttpClientBuilder.create().build();
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final int PDF_DOWNLOAD_ATTEMPTS = 5;
