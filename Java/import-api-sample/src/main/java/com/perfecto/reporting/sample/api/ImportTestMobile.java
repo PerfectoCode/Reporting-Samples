@@ -22,7 +22,6 @@ public class ImportTestMobile {
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
     public static void main(String[] args) throws Exception {
-        System.out.println(REPORTIUM_URL);
         MobileInfo mobileInfo = new MobileInfo.Builder()
                 .withManufacturer("Samsung")
                 .withModel("Galaxy Note 8")

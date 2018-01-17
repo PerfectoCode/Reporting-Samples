@@ -24,7 +24,6 @@ public class ImportTestWeb {
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
     public static void main(String[] args) throws Exception {
-        System.out.println(REPORTIUM_URL);
         BrowserInfo browserInfo = new BrowserInfo.Builder()
                 .withBrowserType(BrowserType.CHROME)
                 .withBrowserVersion("60")
