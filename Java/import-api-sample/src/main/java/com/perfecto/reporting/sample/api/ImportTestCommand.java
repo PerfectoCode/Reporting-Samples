@@ -30,7 +30,7 @@ public class ImportTestCommand {
 
         long commandStartTime = System.currentTimeMillis();
         long commandEndTime = commandStartTime + 100;
-        Command build = new Command.Builder()
+        Command command = new Command.Builder()
                 .withName("my command name")
                 .withMessage("my command message")
                 .withStatus(CommandStatus.SUCCESS)
@@ -40,7 +40,7 @@ public class ImportTestCommand {
                 .addParameter(new CommandParameter("name2", "value2"))
                 .build();
 
-        reportiumClient.command(build);
+        reportiumClient.command(command);
 
         reportiumClient.stepEnd();
 

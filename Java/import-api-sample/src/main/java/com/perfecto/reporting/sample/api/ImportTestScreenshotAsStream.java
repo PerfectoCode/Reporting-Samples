@@ -32,7 +32,7 @@ public class ImportTestScreenshotAsStream {
         long commandStartTime = System.currentTimeMillis();
         long commandEndTime = commandStartTime + 100;
         InputStream screenshotInputStream = ImportTestScreenshotAsStream.class.getClassLoader().getResourceAsStream("screenshots/digital-zoom.jpg");
-        Command build = new Command.Builder()
+        Command command = new Command.Builder()
                 .withName("my command name")
                 .withStatus(CommandStatus.SUCCESS)
                 .withStartTime(commandStartTime)
@@ -43,7 +43,7 @@ public class ImportTestScreenshotAsStream {
                         .build())
                 .build();
 
-        reportiumClient.command(build);
+        reportiumClient.command(command);
 
         reportiumClient.stepEnd();
 
