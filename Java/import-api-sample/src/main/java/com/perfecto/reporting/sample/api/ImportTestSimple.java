@@ -4,6 +4,8 @@ import com.perfecto.reportium.imports.client.ReportiumImportClient;
 import com.perfecto.reportium.imports.client.ReportiumImportClientFactory;
 import com.perfecto.reportium.imports.client.connection.Connection;
 import com.perfecto.reportium.imports.model.ImportExecutionContext;
+import com.perfecto.reportium.imports.model.command.Command;
+import com.perfecto.reportium.imports.model.command.CommandStatus;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
 
