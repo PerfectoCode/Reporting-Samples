@@ -26,6 +26,13 @@ public class ImportTestSimple {
 
         reportiumClient.stepStart("my step");
 
+        reportiumClient.command(new Command.Builder()
+                .withName("my command name")
+                .withStatus(CommandStatus.SUCCESS)
+                .withStartTime(System.currentTimeMillis())
+                .withEndTime(System.currentTimeMillis())
+                .build());
+
         reportiumClient.stepEnd();
 
         reportiumClient.testStop(TestResultFactory.createSuccess());
