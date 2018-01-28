@@ -1,9 +1,6 @@
 package com.perfecto.reporting.sample.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,7 +29,7 @@ public class ExportAllDataCodeSample {
     public static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
     public static void main(String[] args) throws Exception {
-        // TODO replace with your export directory
+        // TODO replace with your export root directory
         Path exportRoot = Files.createTempDirectory("perfecto_reporting_exports_");
 
         // TODO put your driver execution ID here
@@ -40,6 +37,29 @@ public class ExportAllDataCodeSample {
 
         // get all the tests of the execution and stores them as JSON to a file
         JsonObject testExecutionsJson = retrieveTestExecutions(executionId);
+
+        JsonArray testExecutionsArray = testExecutionsJson.getAsJsonArray("resources");
+        if (testExecutionsArray.size() == 0) {
+            System.out.println("There are no test executions for that driver execution ID");
+        } else {
+            for (JsonElement testExecutionElement : testExecutionsArray) {
+                JsonObject testExecution = testExecutionElement.getAsJsonObject();
+                String testId = testExecution.get("id").getAsString();
+
+                // TODO create a folder for test execution exports
+                // TODO write test execution to file
+                // TODO retrieve commands
+                // TODO download PDF
+                // TODO download video
+                // TODO download attachments
+
+            }
+
+            // TODO download summary PDF
+        }
+
+
+
         Path testExecutionsJsonPath = Paths.get(exportRoot.toString(), "test_executions_export.json");
         writeJsonToFile(testExecutionsJsonPath, testExecutionsJson);
 
