@@ -4,6 +4,8 @@ import com.perfecto.reportium.imports.client.ReportiumImportClient;
 import com.perfecto.reportium.imports.client.ReportiumImportClientFactory;
 import com.perfecto.reportium.imports.client.connection.Connection;
 import com.perfecto.reportium.imports.model.ImportExecutionContext;
+import com.perfecto.reportium.imports.model.command.Command;
+import com.perfecto.reportium.imports.model.command.CommandStatus;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
 
@@ -25,6 +27,13 @@ public class ImportTestSimple {
         reportiumClient.testStart("my test name", new TestContext());
 
         reportiumClient.stepStart("my step");
+
+        reportiumClient.command(new Command.Builder()
+                .withName("my command name")
+                .withStatus(CommandStatus.SUCCESS)
+                .withStartTime(System.currentTimeMillis())
+                .withEndTime(System.currentTimeMillis())
+                .build());
 
         reportiumClient.stepEnd();
 
