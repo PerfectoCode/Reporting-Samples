@@ -134,7 +134,7 @@ public class ReportiumExportUtils {
                 } else if (HttpStatus.SC_NO_CONTENT == statusCode) {
 
                     // if the execution is being processed, the server will respond with empty response and status code 204
-                    System.out.println("\nThe server responded with 204 (no content). " +
+                    System.out.println("The server responded with 204 (no content). " +
                             "The execution is still being processed. Attempting again in 5 sec (" + attempt + "/" + PDF_DOWNLOAD_ATTEMPTS + ")");
                     Thread.sleep(5000);
                 } else {
@@ -247,12 +247,12 @@ public class ReportiumExportUtils {
                 if (HttpStatus.SC_OK == statusCode) {
                     fileOutputStream = new FileOutputStream(pdfPath.toFile());
                     IOUtils.copy(response.getEntity().getContent(), fileOutputStream);
-                    System.out.println("\nSaved downloaded file to: " + pdfPath.toString());
+                    System.out.println("Saved downloaded file to: " + pdfPath.toString());
                     downloadComplete = true;
                 } else if (HttpStatus.SC_NO_CONTENT == statusCode) {
 
                     // if the execution is being processed, the server will respond with empty response and status code 204
-                    System.out.println("\nThe server responded with 204 (no content). " +
+                    System.out.println("The server responded with 204 (no content). " +
                             "The execution is still being processed. Attempting again in 5 sec (" + attempt + "/" + PDF_DOWNLOAD_ATTEMPTS + ")");
                     Thread.sleep(5000);
                 } else {

@@ -99,7 +99,7 @@ public class ExportAllDataCodeSample {
                 ReportiumExportUtils.downloadFileToFS(artifactPath, new URI(path));
             }
         } else {
-            System.out.println("\nNo attachments found for test execution '" + testName + "'");
+            System.out.println("No attachments found for test execution '" + testName + "'");
         }
     }
 
@@ -117,7 +117,7 @@ public class ExportAllDataCodeSample {
                 ReportiumExportUtils.downloadFileToFS(videoPath, new URI(downloadUrl));
             }
         } else {
-            System.out.println("\nNo videos found for test execution '" + testName + "'");
+            System.out.println("No videos found for test execution '" + testName + "'");
         }
     }
 }
