@@ -27,7 +27,7 @@ public class ExportAllDataCodeSample {
         Path exportRoot = Files.createTempDirectory("perfecto_reporting_exports_");
 
         // TODO put your driver execution ID here
-        String executionId = "ci@reportium.com_noname_18-01-29_07_42_54_9920";
+        String executionId = "MY_DRIVER_EXECUTION_ID";
 
         // get all the tests of the execution as JSON
         JsonObject testExecutionsJson = ReportiumExportUtils.retrieveTestExecutions(executionId);
