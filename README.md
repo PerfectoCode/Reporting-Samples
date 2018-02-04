@@ -29,6 +29,9 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.4.1
+Fix: handle undefined in Tags and Customfields
+
 ##### 2.4.0
 PerfectoExecutionContext support jobBranch in job object
 
