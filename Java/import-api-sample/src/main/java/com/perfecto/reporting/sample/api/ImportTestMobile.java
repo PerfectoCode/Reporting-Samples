@@ -14,13 +14,14 @@ import com.perfecto.reportium.test.result.TestResultFactory;
 import java.net.URI;
 
 public class ImportTestMobile {
-    private static final String MY_COMPANY_ID = "company-id";
-    private static final String PERFECTO_SECUIRTY_TOKEN_KEY = "security-token";
-    private static final String REPORTIUM_URL = "https://" + System.getProperty(MY_COMPANY_ID) + ".reporting.perfectomobile.com"; // "https://[MY_COMPANY_ID].reporting.perfectomobile.com";
-    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECUIRTY_TOKEN_KEY);
+
+    private static final String COMPANY_ID = "my-company-id"; //TODO put your company ID here
+    private static final String PERFECTO_SECURITY_TOKEN = "my-security-token"; //TODO put your security token here
+
+    private static final String REPORTIUM_URL = "https://" + System.getProperty("company-id", COMPANY_ID) + ".reporting.perfectomobile.com"; // "https://[COMPANY_ID].reporting.perfectomobile.com";
+    private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
     public static void main(String[] args) throws Exception {
-        System.out.println(REPORTIUM_URL);
         MobileInfo mobileInfo = new MobileInfo.Builder()
                 .withManufacturer("Samsung")
                 .withModel("Galaxy Note 8")
