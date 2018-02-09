@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class ApiExportCodeSample {
 
     // The Perfecto Continuous Quality Lab you work with
-    public static final String CQL_NAME = "demo"; // TODO put your Continuous Quality Lab name here
+    public static final String CQL_NAME = System.getProperty("CQL_NAME", "demo"); // TODO put your Continuous Quality Lab name here
 
     // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
     private static final String PERFECTO_SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN"; // TODO put your security token here
