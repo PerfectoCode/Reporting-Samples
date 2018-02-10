@@ -14,11 +14,12 @@ import java.io.InputStream;
 import java.net.URI;
 
 public class ImportTestScreenshotAsStream {
-    private static final String COMPANY_ID = "my-company-id"; //TODO put your company ID here
-    private static final String PERFECTO_SECURITY_TOKEN = "my-security-token"; //TODO put your security token here
 
+    private static final String PERFECTO_SECURITY_TOKEN = "my-security-token"; //TODO put your security token here
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
-    private static final String REPORTIUM_URL = "https://" + System.getProperty("company-id", COMPANY_ID) + ".reporting.perfectomobile.com"; // "https://[COMPANY_ID].reporting.perfectomobile.com";
+
+    private static final String CQL_NAME = System.getProperty("CQL_NAME", "my-company-id"); // TODO put your Continuous Quality Lab name here
+    private static final String REPORTIUM_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com"; // "https://[COMPANY_ID].reporting.perfectomobile.com";
 
     public static void main(String[] args) throws Exception {
         ImportExecutionContext executionContext = new ImportExecutionContext.Builder().build();
