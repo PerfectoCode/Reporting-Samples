@@ -48,7 +48,7 @@ public class ExportAllDataCodeSample {
                 String testName = testJson.get("name").getAsString();
 
                 Path testFolder = Paths.get(exportRoot.toString(), "test-" + String.format("%03d", testCounter) + "-" + FilenameUtils.normalize(testName));
-                Files.createDirectory(testFolder);
+                Files.createDirectories(testFolder);
 
                 // write test's data to a file
                 Path testJsonPath = Paths.get(testFolder.toString(), "test.json");
@@ -87,13 +87,13 @@ public class ExportAllDataCodeSample {
         JsonArray attachmentsArray = testJson.getAsJsonArray("artifacts");
         if (attachmentsArray.size() > 0) {
             Path attachmentsDir = Paths.get(testFolder.toString(), "attachments");
-            Files.createDirectory(attachmentsDir);
+            Files.createDirectories(attachmentsDir);
 
             for (JsonElement attachmentElement : attachmentsArray) {
                 JsonObject artifactJson = attachmentElement.getAsJsonObject();
                 String type = artifactJson.get("type").getAsString();
                 Path attachmentDir = Paths.get(attachmentsDir.toString(), type.toLowerCase());
-                Files.createDirectory(attachmentDir);
+                Files.createDirectories(attachmentDir);
                 String path = artifactJson.get("path").getAsString();
                 Path artifactPath = Paths.get(attachmentDir.toString(), FilenameUtils.getName(path));
                 ReportiumExportUtils.downloadFileToFS(artifactPath, new URI(path));
@@ -108,7 +108,7 @@ public class ExportAllDataCodeSample {
         JsonArray videosArray = testJson.getAsJsonArray("videos");
         if (videosArray.size() > 0) {
             Path videosDir = Paths.get(testFolder.toString(), "videos");
-            Files.createDirectory(videosDir);
+            Files.createDirectories(videosDir);
 
             for (JsonElement videosElement : videosArray) {
                 JsonObject videoJson = videosElement.getAsJsonObject();
