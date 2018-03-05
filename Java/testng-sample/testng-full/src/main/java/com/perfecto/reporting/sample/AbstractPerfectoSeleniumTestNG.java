@@ -140,7 +140,7 @@ public class AbstractPerfectoSeleniumTestNG {
         desiredCapabilities.setCapability("browserName", "Chrome");
         desiredCapabilities.setCapability("browserVersion", "latest");
         desiredCapabilities.setCapability("resolution", "1920x1080");
-        desiredCapabilities.setCapability("outputVideo", false);
+//        desiredCapabilities.setCapability("outputVideo", false);
         desiredCapabilities.setCapability("location", "US East");
         WebDriver driver = new org.openqa.selenium.remote.RemoteWebDriver(
                 new HttpCommandExecutor(new URL(seleniumGridUrl)), desiredCapabilities);
