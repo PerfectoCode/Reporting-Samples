@@ -79,6 +79,7 @@ Stable version
   
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
+(python 2.7.X only).
 ##### 2.0.0.1  
 Maintenance release
 
