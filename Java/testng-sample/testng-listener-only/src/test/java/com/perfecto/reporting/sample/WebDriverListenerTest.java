@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @Listeners(ReportiumTestNgListener.class)
-public class TodoMvcWithListenerTest implements WebDriverProvider {
+public class WebDriverListenerTest implements WebDriverProvider {
 
     private WebDriver driver;
     private TodoMvcService todoMvcService;
@@ -40,6 +40,15 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
 
         // Name of script
         capabilities.setCapability("scriptName", this.getClass().getName());
+
+        capabilities.setCapability("deviceType", "Web");
+        capabilities.setCapability("platformName", "Windows");
+        capabilities.setCapability("platformVersion", "10");
+        capabilities.setCapability("browserName", "Chrome");
+        capabilities.setCapability("browserVersion", "latest");
+        capabilities.setCapability("location", "US East");
+        capabilities.setCapability("resolution", "1920x1080");
+        capabilities.setCapability("outputVideo", false);
 
         // Create Remote WebDriver
         Reporter.log("Allocating Mobile device per specified capabilities");

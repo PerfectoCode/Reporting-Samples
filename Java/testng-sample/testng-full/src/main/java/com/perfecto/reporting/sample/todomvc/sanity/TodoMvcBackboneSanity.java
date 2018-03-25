@@ -26,11 +26,13 @@ public class TodoMvcBackboneSanity extends AbstractTodoMvcSanityTest {
         String todoName = createUniqueTodo("backbone");
         filterActive();
 
-        reportiumClient.testStep("Verify todo " + todoName + " appears in the active todos list");
+        reportiumClient.stepStart("Verify todo " + todoName + " appears in the active todos list");
         verifyAddedTodo(todoName);
+        reportiumClient.stepEnd();
 
-        reportiumClient.testStep("Mark todo " + todoName + " as completed - it should be removed from the list");
+        reportiumClient.stepStart("Mark todo " + todoName + " as completed - it should be removed from the list");
         completeTodo(todoName);
+        reportiumClient.stepEnd();
 
         verifyRemovedTodo(todoName);
 

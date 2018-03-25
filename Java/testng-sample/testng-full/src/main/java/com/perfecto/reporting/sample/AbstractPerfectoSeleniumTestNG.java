@@ -136,10 +136,10 @@ public class AbstractPerfectoSeleniumTestNG {
         desiredCapabilities.setCapability("user", seleniumGridUsername);
         desiredCapabilities.setCapability("password", seleniumGridPassword);
         desiredCapabilities.setCapability("platformName", "Windows");
-        desiredCapabilities.setCapability("platformVersion", "7");
+        desiredCapabilities.setCapability("platformVersion", "10");
         desiredCapabilities.setCapability("browserName", "Chrome");
-        desiredCapabilities.setCapability("browserVersion", "50");
-        desiredCapabilities.setCapability("resolution", "1366x768");
+        desiredCapabilities.setCapability("resolution", "1920x1080");
+        desiredCapabilities.setCapability("outputVideo", false);
         desiredCapabilities.setCapability("location", "US East");
         WebDriver driver = new org.openqa.selenium.remote.RemoteWebDriver(
                 new HttpCommandExecutor(new URL(seleniumGridUrl)), desiredCapabilities);
