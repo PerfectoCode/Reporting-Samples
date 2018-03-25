@@ -63,7 +63,7 @@ public class ImportSdkListenerTest {
         capabilities.setCapability("browserName", "Chrome");
         capabilities.setCapability("browserVersion", "latest");
         capabilities.setCapability("resolution", "1920x1080");
-        capabilities.setCapability("outputVideo", false);
+//        capabilities.setCapability("outputVideo", false);
         capabilities.setCapability("location", "US East");
 
 

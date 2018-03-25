@@ -48,7 +48,7 @@ public class WebDriverListenerTest implements WebDriverProvider {
         capabilities.setCapability("browserVersion", "latest");
         capabilities.setCapability("location", "US East");
         capabilities.setCapability("resolution", "1920x1080");
-        capabilities.setCapability("outputVideo", false);
+//        capabilities.setCapability("outputVideo", false);
 
         // Create Remote WebDriver
         Reporter.log("Allocating Mobile device per specified capabilities");

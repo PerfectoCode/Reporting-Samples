@@ -47,7 +47,9 @@ use instead `reportingClient.testStart(testName, PerfectoTestContext<tags, custo
 ##### 2.1.0  
 The following methods updated and now returning Promise:
 testStart, testStop, testStep, stepStart, stepEnd, reportiumAssert
-To handle cases such as synchronization between invoking testEnd and driver.close() commands
+To handle cases such as synchronization between invoking testEnd and driver.close() commands.
+Update selenium-driver to 3.6.0, which means in turn that the required version of node is >= 6.9.0.
+
 
 ##### 2.0.0  
 Required cloud version - 10.3  
@@ -79,6 +81,7 @@ Stable version
   
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
+(python 2.7.X only).
 ##### 2.0.0.1  
 Maintenance release
 
