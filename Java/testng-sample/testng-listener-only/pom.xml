@@ -17,7 +17,14 @@
             <groupId>com.perfecto.reporting-sdk</groupId>
             <artifactId>reportium-java</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.perfecto.reporting-sdk</groupId>
+            <artifactId>reportium-import-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.perfecto.reporting-sdk</groupId>
+            <artifactId>reportium-import-selenium</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.perfecto.reporting-sdk</groupId>
             <artifactId>reportium-testng</artifactId>

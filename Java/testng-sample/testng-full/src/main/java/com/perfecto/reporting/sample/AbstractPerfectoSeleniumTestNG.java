@@ -136,7 +136,7 @@ public class AbstractPerfectoSeleniumTestNG {
         desiredCapabilities.setCapability("user", seleniumGridUsername);
         desiredCapabilities.setCapability("password", seleniumGridPassword);
         desiredCapabilities.setCapability("platformName", "Windows");
-        desiredCapabilities.setCapability("platformVersion", "7");
+        desiredCapabilities.setCapability("platformVersion", "10");
         desiredCapabilities.setCapability("browserName", "Chrome");
         desiredCapabilities.setCapability("browserVersion", "latest");
         desiredCapabilities.setCapability("resolution", "1920x1080");

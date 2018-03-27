@@ -38,6 +38,16 @@
             </dependency>
             <dependency>
                 <groupId>com.perfecto.reporting-sdk</groupId>
+                <artifactId>reportium-import-java</artifactId>
+                <version>${reportium-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perfecto.reporting-sdk</groupId>
+                <artifactId>reportium-import-selenium</artifactId>
+                <version>${reportium-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perfecto.reporting-sdk</groupId>
                 <artifactId>reportium-allure-integration</artifactId>
                 <version>${reportium-sdk.version}</version>
             </dependency>

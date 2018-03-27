@@ -46,9 +46,10 @@ public abstract class AbstractTodoMvcTest extends AbstractPerfectoSeleniumTestNG
      */
     protected String createUniqueTodo(String prefix) {
         String todoName = prefix + " " + UUID.randomUUID().toString();
-        reportiumClient.testStep("Add new unique todo and commit with Enter key. Generated todo name is " + todoName);
+        reportiumClient.stepStart("Add new unique todo and commit with Enter key. Generated todo name is " + todoName);
         WebElement newTodo = findElement(getNewTodoBy());
         newTodo.sendKeys(todoName, Keys.ENTER);
+        reportiumClient.stepEnd();
         return todoName;
     }
 
@@ -57,9 +58,10 @@ public abstract class AbstractTodoMvcTest extends AbstractPerfectoSeleniumTestNG
      * @param todoName Todo name
      */
     protected void verifyAddedTodo(String todoName) {
-        reportiumClient.testStep("Validate new todo exists in todo list");
+        reportiumClient.stepStart("Validate new todo exists in todo list");
         List<WebElement> elements = driver.findElements(getTodoBy(todoName));
         Assert.assertEquals(elements.size(), 1);
+        reportiumClient.stepEnd();
     }
 
     /**
@@ -67,18 +69,20 @@ public abstract class AbstractTodoMvcTest extends AbstractPerfectoSeleniumTestNG
      * @param todoName Todo name
      */
     protected void removeTodo(String todoName) {
-        reportiumClient.testStep("Hover over new todo");
+        reportiumClient.stepStart("Hover over new todo");
         List<WebElement> elements = driver.findElements(getTodoBy(todoName));
         Assert.assertEquals(elements.size(), 1);
         WebElement todo = elements.get(0);
         Actions builder = new Actions(driver);
         builder.moveToElement(todo).perform();
+        reportiumClient.stepEnd();
 
-        reportiumClient.testStep("Remove todo by clicking on X");
+        reportiumClient.stepStart("Remove todo by clicking on X");
         WebElement removeTodoX = todo.findElement(By.className("destroy"));
         new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(removeTodoX));
         // Clicking the WebElement does not work with Firefox
         builder.click(removeTodoX).perform();
+        reportiumClient.stepEnd();
     }
 
     /**
@@ -86,10 +90,11 @@ public abstract class AbstractTodoMvcTest extends AbstractPerfectoSeleniumTestNG
      * @param todoName Todo name
      */
     protected void verifyRemovedTodo(String todoName) {
-        reportiumClient.testStep("Validate new todo removed from list");
+        reportiumClient.stepStart("Validate new todo removed from list");
         new WebDriverWait(driver, 3)
                 .pollingEvery(500, TimeUnit.MILLISECONDS)
                 .until(ExpectedConditions.invisibilityOfElementLocated(getTodoBy(todoName)));
+        reportiumClient.stepEnd();
     }
 
     /**
@@ -97,9 +102,10 @@ public abstract class AbstractTodoMvcTest extends AbstractPerfectoSeleniumTestNG
      */
     protected void completeTodo(String todoName) {
         WebElement todo = driver.findElement(getTodoBy(todoName));
-        reportiumClient.testStep("Mark todo " + todoName + " as completed");
+        reportiumClient.stepStart("Mark todo " + todoName + " as completed");
         WebElement checkbox = todo.findElement(By.tagName("input"));
         checkbox.click();
+        reportiumClient.stepEnd();
     }
 
     /**
@@ -107,18 +113,20 @@ public abstract class AbstractTodoMvcTest extends AbstractPerfectoSeleniumTestNG
      */
     protected void verifyCompletedTodo(String todoName) {
         WebElement todo = driver.findElement(getTodoBy(todoName));
-        reportiumClient.testStep("Mark todo " + todoName + " as completed");
+        reportiumClient.stepStart("Mark todo " + todoName + " as completed");
         WebElement li = todo.findElement(By.xpath(".."));
         Assert.assertTrue(li.getAttribute("class").contains("completed"));
+        reportiumClient.stepEnd();
     }
 
     /**
      * Click on the "Completed" button to show only completed todos
      */
     protected void filterCompleted() {
-        reportiumClient.testStep("Filter by completed");
+        reportiumClient.stepStart("Filter by completed");
         WebElement completed = findElement(By.xpath("//a[@href='#/completed']"));
         completed.click();
+        reportiumClient.stepEnd();
     }
 
     /**
