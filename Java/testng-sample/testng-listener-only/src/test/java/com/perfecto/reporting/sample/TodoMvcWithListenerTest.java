@@ -4,7 +4,6 @@ import com.perfecto.reportium.WebDriverProvider;
 import com.perfecto.reportium.testng.ReportiumTestNgListener;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
@@ -19,7 +18,6 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
 
     private WebDriver driver;
     private TodoMvcService todoMvcService;
-    public static final String IS_LOCAL_DRIVER = "is-local-driver";
     private static final String SELENIUM_GRID_URL_KEY = "selenium-grid-url";
     private static final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
     private static final String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
@@ -43,12 +41,8 @@ public class TodoMvcWithListenerTest implements WebDriverProvider {
 
         // Create Remote WebDriver
         Reporter.log("Allocating Mobile device per specified capabilities");
-        if (!Boolean.parseBoolean(System.getProperty(IS_LOCAL_DRIVER))) {
-            String seleniumGridUrl = System.getProperty(SELENIUM_GRID_URL_KEY, "https://MYCOMPANY.perfectomobile.com/nexperience/perfectomobile/wd/hub");
-            driver = new RemoteWebDriver(new URL(seleniumGridUrl), capabilities);
-        } else {
-            driver = new FirefoxDriver();
-        }
+        String seleniumGridUrl = System.getProperty(SELENIUM_GRID_URL_KEY, "https://MYCOMPANY.perfectomobile.com/nexperience/perfectomobile/wd/hub");
+        driver = new RemoteWebDriver(new URL(seleniumGridUrl), capabilities);
         todoMvcService = new TodoMvcService(driver);
     }
 

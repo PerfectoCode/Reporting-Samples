@@ -20,13 +20,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <testng.version>6.9.10</testng.version>
-        <selenium.version>2.53.0</selenium.version>
-        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <selenium.version>3.11.0</selenium.version>
+        <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
         <commons-logging.version>1.2</commons-logging.version>
         <reportium-sdk.version>RELEASE</reportium-sdk.version>
 
         <allure.version>1.4.4</allure.version>
-
     </properties>
 
     <dependencyManagement>
@@ -64,11 +63,6 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-remote-driver</artifactId>
-                <version>${selenium.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-firefox-driver</artifactId>
                 <version>${selenium.version}</version>
             </dependency>
             <dependency>
