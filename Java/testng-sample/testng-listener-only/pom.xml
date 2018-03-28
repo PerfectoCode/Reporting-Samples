@@ -49,6 +49,10 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
+        </dependency>
         <!-- Apache Commons Logging -->
         <dependency>
             <groupId>commons-logging</groupId>
