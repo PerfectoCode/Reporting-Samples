@@ -31,14 +31,10 @@ public class ImportTestScreenshotAsFile {
 
         reportiumClient.stepStart("my step");
 
-        long commandStartTime = System.currentTimeMillis();
-        long commandEndTime = commandStartTime + 100;
         File screenshotFile = new File(ImportTestScreenshotAsFile.class.getClassLoader().getResource("screenshots/digital-zoom.jpg").getFile());
         Command command = new Command.Builder()
                 .withName("my command name")
                 .withStatus(CommandStatus.SUCCESS)
-                .withStartTime(commandStartTime)
-                .withEndTime(commandEndTime)
                 .addScreenshotAttachment(new ScreenshotAttachment.Builder()
                         .withAbsolutePath(screenshotFile.getAbsolutePath())
                         .build())
