@@ -31,8 +31,6 @@ public class ImportTestSimple {
         reportiumClient.command(new Command.Builder()
                 .withName("my command name")
                 .withStatus(CommandStatus.SUCCESS)
-                .withStartTime(System.currentTimeMillis())
-                .withEndTime(System.currentTimeMillis())
                 .build());
 
         reportiumClient.stepEnd();

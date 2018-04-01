@@ -45,6 +45,7 @@
 
     <properties>
         <reportium-sdk.version>RELEASE</reportium-sdk.version>
+        <selenium.version>3.11.0</selenium.version>
     </properties>
 
     <dependencies>
@@ -54,6 +55,24 @@
             <artifactId>reportium-import-java</artifactId>
             <version>${reportium-sdk.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.perfecto.reporting-sdk</groupId>
+            <artifactId>reportium-import-selenium</artifactId>
+            <version>${reportium-sdk.version}</version>
+        </dependency>
+
+        <!-- 3rd party dependencies-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
