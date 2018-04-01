@@ -47,8 +47,8 @@ public class ImportSdkListenerTest {
 
         // Define target mobile device
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY, "ci@reportium.com");
-        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY, "reportium");
+        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY, "MYUSER");
+        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY, "MYPASSWORD");
         capabilities.setCapability("user", seleniumGridUsername);
         capabilities.setCapability("password", seleniumGridPassword);
         // Define device allocation timeout, in minutes
