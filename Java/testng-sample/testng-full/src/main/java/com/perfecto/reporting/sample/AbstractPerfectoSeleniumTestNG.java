@@ -60,8 +60,13 @@ public class AbstractPerfectoSeleniumTestNG {
 
     @BeforeMethod(alwaysRun = true)
     public void beforeTest(Method method) {
-        String testName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
-        reportiumClient.testStart(testName, new TestContext());
+        try {
+            String testName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
+            reportiumClient.testStart(testName, new TestContext());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @AfterMethod(alwaysRun = true)
@@ -79,7 +84,7 @@ public class AbstractPerfectoSeleniumTestNG {
                 // Ignore
                 break;
             default:
-                throw new ReportiumException("Unexpected status " + status);
+                throw new ReportiumException("Unexpected status: " + status);
         }
     }
 
