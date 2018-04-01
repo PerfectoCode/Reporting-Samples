@@ -52,7 +52,7 @@ public class AbstractPerfectoSeleniumTestNG {
 
     @AfterClass(alwaysRun = true)
     public void baseAfterClass() {
-        System.out.println("Report url = " + reportiumClient.getReportUrl());
+        System.out.println("Report url for " + this.getClass().getSimpleName() + ": " + reportiumClient.getReportUrl());
         if (driver != null) {
             driver.quit();
         }
