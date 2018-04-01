@@ -54,7 +54,9 @@ public class AbstractPerfectoSeleniumTestNG {
     public void baseAfterClass() {
         System.out.println("Report url for " + this.getClass().getSimpleName() + ": " + reportiumClient.getReportUrl());
         if (driver != null) {
+            long before = System.currentTimeMillis();
             driver.quit();
+            System.out.println("Driver quit took " + (System.currentTimeMillis() - before) + "ms");
         }
     }
 
