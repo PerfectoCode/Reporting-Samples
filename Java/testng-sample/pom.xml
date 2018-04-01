@@ -3,12 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>testng-sample</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>testng-full</module>
         <module>testng-listener-only</module>
+        <module>testng-import-listener</module>
     </modules>
 
     <groupId>com.perfecto.reporting-sdk</groupId>
