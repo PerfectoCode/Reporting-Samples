@@ -70,17 +70,17 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
-                        <reportsDirectory>${project.build.directory}/surefire-reports/${reportsDirectory}
-                        </reportsDirectory>
+                        <!-- Optional sample on how to set the listener from maven pom instead of code -->
+                        <!--
                         <properties>
                             <property>
-                                <!-- configure the TestNG listener -->
                                 <name>listener</name>
                                 <value>
                                     com.perfecto.reportium.testng.ReportiumTestNgListener
                                 </value>
                             </property>
                         </properties>
+                        -->
                     </configuration>
                 </plugin>
             </plugins>
