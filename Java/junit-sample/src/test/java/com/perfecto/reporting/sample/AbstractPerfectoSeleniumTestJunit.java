@@ -57,6 +57,7 @@ public class AbstractPerfectoSeleniumTestJunit {
 
         @Override
         protected void after() {
+            System.out.println("Report url for " + this.getClass().getSimpleName() + ": " + reportiumClient.getReportUrl());
             if (driver != null) {
                 //  Get link to report
                 driver.quit();
