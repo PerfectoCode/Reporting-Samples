@@ -4,6 +4,7 @@ import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
 import com.perfecto.reportium.exception.ReportiumException;
 import com.perfecto.reportium.model.CustomField;
+import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
@@ -129,6 +130,7 @@ public class AbstractPerfectoSeleniumTestNG {
     private static ReportiumClient createRemoteReportiumClient(WebDriver driver) {
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withProject(new Project("Sample Reportium project", "1.0"))
+                .withJob(new Job("Daily Build", 2).withBranch("master"))
                 .withContextTags("sanity")
                 .withWebDriver(driver)
                 .build();

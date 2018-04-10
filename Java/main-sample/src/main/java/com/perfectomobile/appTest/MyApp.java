@@ -82,7 +82,7 @@ public class MyApp {
 
         // Reporting client
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-                .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))
+                .withJob(new Job("my-custom-job-name", 123).withBranch("master"))
                 .withProject(new Project("Sample Reportium project", "1.0"))
                 .withContextTags("AndroidNativeAppTests")
                 .withCustomFields(customFields)
