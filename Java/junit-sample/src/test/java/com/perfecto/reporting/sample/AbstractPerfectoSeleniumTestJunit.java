@@ -2,6 +2,8 @@ package com.perfecto.reporting.sample;
 
 import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
+import com.perfecto.reportium.model.CustomField;
+import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
@@ -37,6 +39,7 @@ public class AbstractPerfectoSeleniumTestJunit {
     private static final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
     private static final String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
     private static final String IS_LOCAL_DRIVER = "is-local-driver";
+    private static final String SOURCE_FILE_ROOT_PATH = "Java/junit-sample/src/test/java";
 
     protected static final String operatingSystemName = "Windows";
     protected static final String operatingSystemVersion = "10";
@@ -54,6 +57,7 @@ public class AbstractPerfectoSeleniumTestJunit {
 
         @Override
         protected void after() {
+            System.out.println("Report url: " + reportiumClient.getReportUrl());
             if (driver != null) {
                 //  Get link to report
                 driver.quit();
@@ -82,22 +86,26 @@ public class AbstractPerfectoSeleniumTestJunit {
         @Override
         protected void starting(Description description) {
             try {
-                String testName = description.getTestClass().getSimpleName() + "." + description.getMethodName();
+                Class<?> testClass = description.getTestClass();
+                String testName = testClass.getSimpleName() + "." + description.getMethodName();
                 // Get JUnit group name
-                Category categoryAnnotation = description.getTestClass().getAnnotation(Category.class);
-                TestContext testContext;
-
+                Category categoryAnnotation = testClass.getAnnotation(Category.class);
+                String[] tags;
                 if (categoryAnnotation != null) {
                     // Add category value as a tag
                     Class<?>[] categoryClasses = categoryAnnotation.value();
-                    String[] tags = new String[categoryClasses.length];
+                    tags = new String[categoryClasses.length];
                     for (int i = 0; i < categoryClasses.length; i++) {
                         tags[i] = categoryClasses[i].getSimpleName();
                     }
-                    testContext = new TestContext(tags);
                 } else {
-                    testContext = new TestContext();
+                    tags = new String[0];
                 }
+                CustomField[] vcsFields = VcsUtils.createVcsFields(SOURCE_FILE_ROOT_PATH, testClass.getName());
+                TestContext testContext = new TestContext.Builder()
+                        .withTestExecutionTags(tags)
+                        .withCustomFields(vcsFields)
+                        .build();
                 reportiumClient.testStart(testName, testContext);
             } catch (RuntimeException e) {
                 System.err.println("Failed to submit test start to reportium: " + e.getMessage());
@@ -175,6 +183,7 @@ public class AbstractPerfectoSeleniumTestJunit {
     private static ReportiumClient createRemoteReportiumClient(WebDriver driver) {
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withProject(new Project("Sample Reportium project", "1.0"))
+                .withJob(new Job("Daily Build", 2).withBranch("master"))
                 .withWebDriver(driver)
                 .build();
         return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
