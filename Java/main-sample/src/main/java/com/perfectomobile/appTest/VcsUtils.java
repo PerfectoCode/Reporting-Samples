@@ -7,10 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 /*
- * Source control integration:
+ * Source control integration
+ * --------------------------
  * If your build environment supports integration with version control systems, you should be able to automatically
- * set the repository URL, commit and branch values to system properties or environment variables.  For example,
- * the GIT plugin in Jenkins sets these values to the GIT_URL, GIT_COMMIT and GIT_BRANCH environment variables.
+ * set the repository URL and commit values to custom fields in the CI job's build command.  For example, Jenkin's GIT
+ * plugin sets these values to the GIT_URL and GIT_COMMIT environment variables, so you can add the following VM option:
+ *    -DReportiumCustomFields=perfecto.vcs.repositoryUrl=${GIT_URL},perfecto.vcs.commit=${GIT_COMMIT}
+ *
+ * For more information see https://developers.perfectomobile.com/display/PD/Accessing+Source+Code
  */
 public class VcsUtils {
 
