@@ -43,6 +43,8 @@ public class ImportTestCommand {
 
         reportiumClient.testStop(TestResultFactory.createSuccess());
 
+        reportiumClient.close();
+
         System.out.println(reportiumClient.getReportUrl());
     }
 }

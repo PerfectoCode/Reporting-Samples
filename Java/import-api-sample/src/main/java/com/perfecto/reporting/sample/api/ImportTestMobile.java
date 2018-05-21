@@ -53,6 +53,8 @@ public class ImportTestMobile {
 
         reportiumClient.testStop(TestResultFactory.createFailure("it was a failure"));
 
+        reportiumClient.close();
+
         System.out.println(reportiumClient.getReportUrl());
 
     }
