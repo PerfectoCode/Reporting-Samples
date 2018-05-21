@@ -3,7 +3,7 @@ SDK Release Notes
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
 ##### 1.2.4
-Required cloud version - 18.2
+Required cloud version - 18.2  
 New features:
 - Ability to upload text attachments and get them via export-api
 - When using asynchronous command upload method, you are able to wait for upload completion by using the "close()" method
