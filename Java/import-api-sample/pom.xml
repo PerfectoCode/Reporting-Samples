@@ -45,7 +45,7 @@
 
     <properties>
         <reportium-sdk.version>RELEASE</reportium-sdk.version>
-        <selenium.version>3.11.0</selenium.version>
+        <selenium.version>3.12.0</selenium.version>
     </properties>
 
     <dependencies>
