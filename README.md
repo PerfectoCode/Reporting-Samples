@@ -2,7 +2,10 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
-##### 1.2.7  
+##### 1.2.8
+New features:
+- Support Selenium version 3.13.0 and Appium version 6.1.0
+##### 1.2.7
 New features:
 - Support custom proxy configuration
 ##### 1.2.4
