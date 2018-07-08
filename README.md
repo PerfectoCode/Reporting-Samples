@@ -2,6 +2,9 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+##### 1.2.7  
+New features:
+- Support custom proxy configuration
 ##### 1.2.4
 Required cloud version - 18.2  
 New features:
