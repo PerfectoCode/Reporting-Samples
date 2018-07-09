@@ -8,20 +8,24 @@ class MyTests < PerfectoTest
 
   def test_navigation_to_perfecto_code_should_fail
     begin
-      @reportiumClient.testStep('Step1: navigate to google')
+      @reportiumClient.stepStart('Step1: navigate to google')
       @driver.get 'https://google.com'
+	  @reportiumClient.stepEnd()
 
-      @reportiumClient.testStep('Step2: Searching for PerfectoCode')
+      @reportiumClient.stepStart('Step2: Searching for PerfectoCode')
       @driver.find_element(:name => 'q').send_keys('PerfectoCode GitHub')
 
       #click search button
-      @driver.find_element(:id => 'tsbb').click
+      # @driver.find_element(:id => 'tsbb').click
+	  @driver.find_element(:class => 'Tg7LZd').click
 
       #click the first search result
-      @driver.find_element(:css => '#rso > div > div:nth-child(1) > div > div > div._OXf > div._fSg > h3 > a').click
+      @driver.find_element(:css => '#rso > div:nth-of-type(1) > div.ZINbbc.xpd > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a.C8nzq.JTuIPc').click
+	  @reportiumClient.stepEnd()
 
-      @reportiumClient.testStep('Step3: Asserting page title contains keyword')
+      @reportiumClient.stepStart('Step3: Asserting page title contains keyword')
       assert(@driver.title.include? 'Perfecto')
+	  @reportiumClient.stepEnd()
 
     # Logging the exception into the reporting client
     rescue Exception => exception
