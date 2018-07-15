@@ -72,11 +72,10 @@ class PerfectoTest < Test::Unit::TestCase
     puts 'starting a new test: ' + self.name
 	cfT1 = CustomField.new("testField", "kuku")
 	cfT2 = CustomField.new("tester", "new_tester")
-    @reportiumClient.testStart(self.name, TestContext.new(
-																TestContext::TestContextBuilder
-																	.withCustomFields(cfT1, cfT2)
-																	.withTestExecutionTags('TagYW1', 'TagYW2', 'unittest')
-																	.build()))
+    @reportiumClient.testStart(self.name, TestContext.new(TestContext::TestContextBuilder
+	    							.withCustomFields(cfT1, cfT2)
+								.withTestExecutionTags('TagYW1', 'TagYW2', 'unittest')
+								.build()))
   end
 
   # End test method
