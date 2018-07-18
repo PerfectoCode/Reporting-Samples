@@ -26,8 +26,7 @@ public class SimpleTest {
     public static void main(String[] args) throws IOException {
         //boolean test passed = true; // assume true until failure
         TestResult testResult = TestResultFactory.createFailure("Test stop failure");// assume failure until proven passed
-        WebDriver driver = null;
-        init(driver);
+        WebDriver driver=init();
         ReportiumClient reportiumClient = setReportingClient(driver);
         try {
             reportiumClient.testStart("simpleTest", new TestContext.Builder()
@@ -56,17 +55,19 @@ public class SimpleTest {
     }
 
     private static ReportiumClient setReportingClient(WebDriver driver) {
+        System.out.println("end of init driver: "+ driver.getTitle());
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))
                 .withProject(new Project("Sample Reportium project", "1.0"))
-                .withContextTags("AndroidNativeAppTests")
+                .withContextTags("AndroidNativeTests")
                 .withCustomFields(new CustomField("team", "devOps"))
                 .withWebDriver(driver)
                 .build();
+        System.out.println("end of client setup");
         return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
     }
 
-    private static void init(WebDriver driver) {
+    private static WebDriver init() throws MalformedURLException {
         final String HOST = "host";
         final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
         String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
@@ -79,11 +80,9 @@ public class SimpleTest {
 
         //Other capabilities ...
 
-        try {
-            driver = new RemoteWebDriver(new URL("http://" + System.getProperty(HOST) + "/nexperience/perfectomobile/wd/hub"), capabilities);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
+        return new RemoteWebDriver(new URL("http://" + System.getProperty(HOST) + "/nexperience/perfectomobile/wd/hub"), capabilities);
+
     }
 
 }
