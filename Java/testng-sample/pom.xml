@@ -3,12 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>testng-sample</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>testng-full</module>
         <module>testng-listener-only</module>
+        <module>testng-import-listener</module>
     </modules>
 
     <groupId>com.perfecto.reporting-sdk</groupId>
@@ -19,14 +20,13 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <testng.version>6.9.10</testng.version>
-        <selenium.version>2.53.0</selenium.version>
-        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <testng.version>6.14.2</testng.version>
+        <selenium.version>3.11.0</selenium.version>
+        <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
         <commons-logging.version>1.2</commons-logging.version>
         <reportium-sdk.version>RELEASE</reportium-sdk.version>
 
         <allure.version>1.4.4</allure.version>
-
     </properties>
 
     <dependencyManagement>
@@ -35,6 +35,16 @@
             <dependency>
                 <groupId>com.perfecto.reporting-sdk</groupId>
                 <artifactId>reportium-java</artifactId>
+                <version>${reportium-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perfecto.reporting-sdk</groupId>
+                <artifactId>reportium-import-java</artifactId>
+                <version>${reportium-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.perfecto.reporting-sdk</groupId>
+                <artifactId>reportium-import-selenium</artifactId>
                 <version>${reportium-sdk.version}</version>
             </dependency>
             <dependency>

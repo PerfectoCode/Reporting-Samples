@@ -23,14 +23,14 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiExportCodeSample {
 
-    // The Perfecto Continuous Quality Lab you work with
-    public static final String CQL_NAME = "demo";
-
-    public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
-
     // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
-    private static final String PERFECTO_SECUIRTY_TOKEN_KEY = "security-token";
-    private static final String SECURITY_TOKEN = System.getProperty(PERFECTO_SECUIRTY_TOKEN_KEY);
+    private static final String PERFECTO_SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN"; // TODO put your security token here
+    private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
+
+    // The Perfecto Continuous Quality Lab you work with
+    private static final String CQL_NAME = System.getProperty("CQL_NAME", "my-company-id"); // TODO put your Continuous Quality Lab name here
+    private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
+
     public static void main(String[] args) throws Exception {
         // Retrieve a list of the test executions in your lab (as a json)
         JsonObject executions = retrieveTestExecutions();
@@ -150,6 +150,9 @@ public class ApiExportCodeSample {
     }
 
     private static void addDefaultRequestHeaders(HttpRequestBase request) {
+        if (SECURITY_TOKEN == null || SECURITY_TOKEN.equals("MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN")) {
+            throw new RuntimeException("Invalid security token '" + SECURITY_TOKEN + "'. Please set a security token");
+        }
         request.addHeader("PERFECTO_AUTHORIZATION", SECURITY_TOKEN);
     }
 }

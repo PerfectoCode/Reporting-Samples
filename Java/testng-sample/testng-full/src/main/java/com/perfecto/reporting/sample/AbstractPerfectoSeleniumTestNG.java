@@ -52,16 +52,23 @@ public class AbstractPerfectoSeleniumTestNG {
 
     @AfterClass(alwaysRun = true)
     public void baseAfterClass() {
-        System.out.println("Report url = " + reportiumClient.getReportUrl());
+        System.out.println("Report url for " + this.getClass().getSimpleName() + ": " + reportiumClient.getReportUrl());
         if (driver != null) {
+            long before = System.currentTimeMillis();
             driver.quit();
+            System.out.println("Driver quit took " + (System.currentTimeMillis() - before) + "ms");
         }
     }
 
     @BeforeMethod(alwaysRun = true)
     public void beforeTest(Method method) {
-        String testName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
-        reportiumClient.testStart(testName, new TestContext());
+        try {
+            String testName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
+            reportiumClient.testStart(testName, new TestContext());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @AfterMethod(alwaysRun = true)
@@ -79,7 +86,7 @@ public class AbstractPerfectoSeleniumTestNG {
                 // Ignore
                 break;
             default:
-                throw new ReportiumException("Unexpected status " + status);
+                throw new ReportiumException("Unexpected status: " + status);
         }
     }
 
@@ -136,10 +143,11 @@ public class AbstractPerfectoSeleniumTestNG {
         desiredCapabilities.setCapability("user", seleniumGridUsername);
         desiredCapabilities.setCapability("password", seleniumGridPassword);
         desiredCapabilities.setCapability("platformName", "Windows");
-        desiredCapabilities.setCapability("platformVersion", "7");
+        desiredCapabilities.setCapability("platformVersion", "10");
         desiredCapabilities.setCapability("browserName", "Chrome");
-        desiredCapabilities.setCapability("browserVersion", "50");
-        desiredCapabilities.setCapability("resolution", "1366x768");
+        desiredCapabilities.setCapability("browserVersion", "latest");
+        desiredCapabilities.setCapability("resolution", "1920x1080");
+//        desiredCapabilities.setCapability("outputVideo", false);
         desiredCapabilities.setCapability("location", "US East");
         WebDriver driver = new org.openqa.selenium.remote.RemoteWebDriver(
                 new HttpCommandExecutor(new URL(seleniumGridUrl)), desiredCapabilities);
