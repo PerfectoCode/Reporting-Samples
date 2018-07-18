@@ -59,7 +59,7 @@ public class SimpleTest {
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))
                 .withProject(new Project("Sample Reportium project", "1.0"))
-                .withContextTags("AndroidSeleniumTests")
+                .withContextTags("simpleSeleniumTests")
                 .withCustomFields(new CustomField("team", "devOps"))
                 .withWebDriver(driver)
                 .build();
@@ -74,7 +74,7 @@ public class SimpleTest {
         String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
         String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("platformName", "iOS");
         capabilities.setCapability("user", seleniumGridUsername);
         capabilities.setCapability("password", seleniumGridPassword);
 
