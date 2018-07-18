@@ -43,11 +43,12 @@ public class SimpleTest {
             //STOP TEST
             testResult = TestResultFactory.createSuccess();
 
-            driver.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             reportiumClient.testStop(testResult);
+            driver.close();
             driver.quit();
         }
 
@@ -58,7 +59,7 @@ public class SimpleTest {
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))
                 .withProject(new Project("Sample Reportium project", "1.0"))
-                .withContextTags("AndroidNativeTests")
+                .withContextTags("AndroidSeleniumTests")
                 .withCustomFields(new CustomField("team", "devOps"))
                 .withWebDriver(driver)
                 .build();
@@ -78,7 +79,9 @@ public class SimpleTest {
         capabilities.setCapability("password", seleniumGridPassword);
 
         //Other capabilities ...
-        return new RemoteWebDriver(new URL("http://" + System.getProperty(HOST) + "/nexperience/perfectomobile/wd/hub"), capabilities);
+        RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("http://" + System.getProperty(HOST) + "/nexperience/perfectomobile/wd/hub"), capabilities);
+        System.out.println("end of init driver");
+        return remoteWebDriver;
     }
 
 }
