@@ -1,4 +1,4 @@
-package com.perfectomobile.appTest;
+package com.perfectomobile.sample;
 
 import com.perfecto.reportium.model.CustomField;
 

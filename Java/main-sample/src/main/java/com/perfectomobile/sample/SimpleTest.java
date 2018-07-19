@@ -22,6 +22,7 @@ import java.net.URL;
  */
 public class SimpleTest {
 
+    private static final String SOURCE_FILE_ROOT_PATH = "Java/main-sample/src/main/java";
 
     public static void main(String[] args) throws IOException {
         //boolean test passed = true; // assume true until failure
@@ -36,6 +37,8 @@ public class SimpleTest {
             reportiumClient.stepStart("browser navigate to google");
             driver.get("http://www.google.com");
             reportiumClient.stepEnd();
+
+
             reportiumClient.stepStart("browser navigate to ebay");
             driver.get("http://www.ebay.com");
             reportiumClient.stepEnd();
@@ -56,11 +59,19 @@ public class SimpleTest {
     }
 
     private static ReportiumClient setReportingClient(WebDriver driver) {
+
+        // Custom fields
+        CustomField teamCustomField = new CustomField("team", "devOps");
+        CustomField departmentCustomField = new CustomField("department", "engineering");
+        CustomField[] customFields = VcsUtils.addVcsFields(SOURCE_FILE_ROOT_PATH, teamCustomField, departmentCustomField);
+
+
+
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))
                 .withProject(new Project("Sample Reportium project", "1.0"))
                 .withContextTags("simpleSeleniumTests")
-                .withCustomFields(new CustomField("team", "devOps"))
+                .withCustomFields(customFields)
                 .withWebDriver(driver)
                 .build();
         System.out.println("end of reporting client setup");
