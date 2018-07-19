@@ -2,6 +2,21 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+##### 1.2.8
+New features:
+- Support Selenium version 3.13.0 and Appium version 6.1.0
+##### 1.2.7
+New features:
+- Support custom proxy configuration
+##### 1.2.4
+Required cloud version - 18.2  
+New features:
+- Ability to upload text attachments and get them via export-api
+- When using asynchronous command upload method, you are able to wait for upload completion by using the "close()" method
+
+Compiled with selenium 3.12.0
+
+Compiled with appium 5.0.4
 ##### 1.2.0
 Required cloud version - 10.12  
 New features - Ability to upload commands with screenshot attachments

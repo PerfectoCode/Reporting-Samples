@@ -2,22 +2,19 @@ package com.perfectomobile.appTest;
 
 import com.perfecto.reportium.client.ReportiumClient;
 import com.perfecto.reportium.client.ReportiumClientFactory;
-import com.perfecto.reportium.model.PerfectoExecutionContext;
-import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.model.CustomField;
 import com.perfecto.reportium.model.Job;
+import com.perfecto.reportium.model.PerfectoExecutionContext;
+import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResult;
 import com.perfecto.reportium.test.result.TestResultFactory;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -30,6 +27,9 @@ import java.util.concurrent.TimeUnit;
  * Community sample test including Perfecto Reporting
  */
 public class MyApp {
+
+    private static final String SOURCE_FILE_ROOT_PATH = "Java/main-sample/src/main/java";
+
     public static void main(String[] args) throws IOException {
         System.out.println("Run started");
         //boolean test passed = true; // assume true until failure
@@ -75,12 +75,17 @@ public class MyApp {
         // IOSDriver driver = new IOSDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
+        // Custom fields
+        CustomField teamCustomField = new CustomField("team", "devOps");
+        CustomField departmentCustomField = new CustomField("department", "engineering");
+        CustomField[] customFields = VcsUtils.addVcsFields(SOURCE_FILE_ROOT_PATH, teamCustomField, departmentCustomField);
+
         // Reporting client
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-                .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))    
+                .withJob(new Job("my-custom-job-name", 123).withBranch("master"))
                 .withProject(new Project("Sample Reportium project", "1.0"))
                 .withContextTags("AndroidNativeAppTests")
-                .withCustomFields(new CustomField("team", "devOps"))
+                .withCustomFields(customFields)
                 .withWebDriver(driver)
                 .build();
         ReportiumClient reportiumClient = new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);

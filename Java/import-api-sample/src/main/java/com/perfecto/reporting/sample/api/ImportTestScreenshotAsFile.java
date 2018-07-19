@@ -46,6 +46,8 @@ public class ImportTestScreenshotAsFile {
 
         reportiumClient.testStop(TestResultFactory.createSuccess());
 
+        reportiumClient.close();
+
         System.out.println(reportiumClient.getReportUrl());
     }
 }

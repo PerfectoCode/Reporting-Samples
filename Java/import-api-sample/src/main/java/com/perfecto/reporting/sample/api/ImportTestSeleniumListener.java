@@ -92,6 +92,7 @@ public class ImportTestSeleniumListener {
                 perfectoDriver.close();
                 perfectoDriver.quit();
             }
+            reportiumImportClient.close();
         }
         System.out.println(reportiumImportClient.getReportUrl());
     }

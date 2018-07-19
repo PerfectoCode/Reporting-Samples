@@ -22,9 +22,9 @@ class PerfectoTest < Test::Unit::TestCase
   def initialize(name = nil)
     super(name) unless name.nil?
 
-    host = 'MY_LAB.perfectomobile.com'
-    user = 'My_User'
-    pass = 'My_Pass'
+    host = 'branchtest.perfectomobile.com'
+    @user = 'yaacovw@perfectomobile.com'
+    pass = 'sas17dec'
 
     # device capabilities:
     capabilities = {
@@ -34,7 +34,7 @@ class PerfectoTest < Test::Unit::TestCase
         :browserName => 'mobileOS',
         :browserVersion => '',
         :deviceName => '',
-        :user => user,
+        :user => @user,
         :password => pass
     }
 
@@ -50,11 +50,14 @@ class PerfectoTest < Test::Unit::TestCase
   # TODO: (optional)
   # Define a project, job and context tags for one or more tests.
   def create_reportium_client
+  	cf1 = CustomField.new("test", "sample")
+	cf2 = CustomField.new("tester", @user)
     perfectoExecutionContext = PerfectoExecutionContext.new(
         PerfectoExecutionContext::PerfectoExecutionContextBuilder
             .withProject(Project.new('Reporting SDK Ruby', '1')) # Optional
-            .withJob(Job.new('Ruby Job', 1)) # Optional
+            .withJob(Job.new('Ruby Job', 2).withBranch("branch-ruby")) # Optional
             .withContextTags('Test tag1', 'Test tag2', 'Test tag3') # Optional
+			.withCustomFields(cf1, cf2) # Optional
             .withWebDriver(@driver)
             .build)
 
@@ -67,7 +70,12 @@ class PerfectoTest < Test::Unit::TestCase
   # add here additional before test settings.
   def setup
     puts 'starting a new test: ' + self.name
-    @reportiumClient.testStart(self.name, TestContext.new('Tag1', 'Tag2', 'unittest'))
+	cfT1 = CustomField.new("testField", "kuku")
+	cfT2 = CustomField.new("tester", "new_tester")
+    @reportiumClient.testStart(self.name, TestContext.new(TestContext::TestContextBuilder
+	    							.withCustomFields(cfT1, cfT2)
+								.withTestExecutionTags('TagYW1', 'TagYW2', 'unittest')
+								.build()))
   end
 
   # End test method

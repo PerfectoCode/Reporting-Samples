@@ -4,17 +4,17 @@ import com.perfecto.reportium.imports.client.ReportiumImportClient;
 import com.perfecto.reportium.imports.client.ReportiumImportClientFactory;
 import com.perfecto.reportium.imports.client.connection.Connection;
 import com.perfecto.reportium.imports.model.ImportExecutionContext;
-import com.perfecto.reportium.imports.model.attachment.ScreenshotAttachment;
+import com.perfecto.reportium.imports.model.attachment.TextAttachment;
 import com.perfecto.reportium.imports.model.command.Command;
 import com.perfecto.reportium.imports.model.command.CommandStatus;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 
-public class ImportTestScreenshotAsStream {
-
+public class ImportTestTextAttachment {
     private static final String PERFECTO_SECURITY_TOKEN = "my-security-token"; //TODO put your security token here
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
@@ -30,21 +30,26 @@ public class ImportTestScreenshotAsStream {
 
         reportiumClient.stepStart("my step");
 
-        InputStream screenshotInputStream = ImportTestScreenshotAsStream.class.getClassLoader().getResourceAsStream("screenshots/digital-zoom.jpg");
-        Command command = new Command.Builder()
+        reportiumClient.command(new Command.Builder()
                 .withName("my command name")
                 .withStatus(CommandStatus.SUCCESS)
-                .addScreenshotAttachment(new ScreenshotAttachment.Builder()
-                        .withInputStream(screenshotInputStream)
-                        .withContentType(ScreenshotAttachment.IMAGE_JPEG)
-                        .build())
-                .build();
-
-        reportiumClient.command(command);
+                .build());
 
         reportiumClient.stepEnd();
 
-        reportiumClient.testStop(TestResultFactory.createSuccess());
+        File xmlFile = new File(ImportTestScreenshotAsFile.class.getClassLoader().getResource("attachments/xml_file.xml").getFile());
+        TextAttachment xmlAttachment = new TextAttachment.Builder()
+                .withAbsolutePath(xmlFile.getAbsolutePath())
+                .build(); // no need to pass content type and file name, since we can guess them from the provided path
+
+        InputStream textFileInputStream = ImportTestScreenshotAsStream.class.getClassLoader().getResourceAsStream("attachments/text_file.txt");
+        TextAttachment txtAttachment = new TextAttachment.Builder()
+                .withInputStream(textFileInputStream)
+                .withContentType(TextAttachment.TEXT_PLAIN)
+                .withFileName("text_file.txt")
+                .build();
+
+        reportiumClient.testStop(TestResultFactory.createSuccess(), xmlAttachment, txtAttachment);
 
         reportiumClient.close();
 
