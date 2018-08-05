@@ -72,10 +72,10 @@ New features - assert and step end commands
   
 ***
 ### Ruby SDK (https://rubygems.org/gems/perfecto-reporting)
-##### 2.0.5
-New features
-Support jobBranch in job object
-Support custom fields
+##### 2.0.5  
+New features  
+Support jobBranch in job object  
+Support custom fields  
 
 ##### 2.0.2
 Maintenance release
