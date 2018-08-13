@@ -44,6 +44,9 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.4.3
+Update selenium-webdriver dependency to support anything above 2.0.0 
+
 ##### 2.4.1
 Fix: handle undefined in Tags and Customfields
 
