@@ -2,6 +2,10 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+##### 2.0.1
+Required cloud version - 18.10 
+New features:
+- Support sending tags and custom fields on reportiumClient.testEnd
 ##### 1.2.8
 New features:
 - Support Selenium version 3.13.0 and Appium version 6.1.0
