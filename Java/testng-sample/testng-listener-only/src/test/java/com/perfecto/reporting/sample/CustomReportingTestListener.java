@@ -4,9 +4,10 @@ import com.perfecto.reportium.testng.ReportiumTestNgListener;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 
-/**
- * TestNG listener using custom credentials for connecting to Reportium
+/*
+ * You can extend the listener in order to provide the driver from a custom location
  */
+
 public class CustomReportingTestListener extends ReportiumTestNgListener {
 
     @Override

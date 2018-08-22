@@ -22,9 +22,11 @@ class TestConf(unittest.TestCase):
         }
         self.driver = webdriver.Remote('https://' + self.host + '/nexperience/perfectomobile/wd/hub', capabilities)
         self.create_reporting_client()
+        cf2 = CustomField('key1', 'Tvalue1')
+        cf2 = CustomField('key2', 'Tvalue2')
         self.reporting_client.test_start(self.id(),
-                                         TestContext('Tag1', 'Tag2', 'Tag3'))
-
+                                         TestContext(cusFields=[cf1, cf2], test_tags=['Tag1', 'Tag2', 'Tag3']))
+ 
     def run(self, result=None):
         self.currentResult = result  # remember result for use in tearDown
         unittest.TestCase.run(self, result)  # call superclass run method
@@ -44,5 +46,13 @@ class TestConf(unittest.TestCase):
         self.driver.quit()
 
     def create_reporting_client(self):
-        perfecto_execution_context = PerfectoExecutionContext(self.driver)
+        cf1 = CustomField('key1','Evalue1')
+        cf2 = CustomField('key3', 'Evalue3'])
+
+        perfecto_execution_context = PerfectoExecutionContext(webdriver=self.driver,
+                                                              context_tags=['Etag0', 'Etag1', 'Etag2', 'Etag3'],
+                                                              job=Job('Jobname', '12', 'branch_name'),
+                                                              project=Project('project_name', '2.0'),
+                                                              cusFields=[cf1, cf2])
+        
         self.reporting_client = PerfectoReportiumClient(perfecto_execution_context)
