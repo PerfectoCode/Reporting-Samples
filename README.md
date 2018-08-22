@@ -48,6 +48,9 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.4.4
+removing unused code
+
 ##### 2.4.3
 Update selenium-webdriver dependency to support anything above 2.0.0 
 
