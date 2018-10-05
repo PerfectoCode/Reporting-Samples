@@ -133,7 +133,7 @@ if __name__ == '__main__':
 
     resources = executions['resources']
     if len(resources) == 0:
-        print 'there are no test executions for that period of time'
+        print('there are no test executions for that period of time')
     else:
         test_execution = resources[1]  # retrieve a test execution
         driver_execution_id = test_execution['externalId']  # retrieve the execution id
