@@ -2,6 +2,8 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+##### 2.2.0
+- Artifact upload changes. Bug fixes
 ##### 2.0.2
 - Fixed text artifacts upload issues
 ##### 2.0.1
