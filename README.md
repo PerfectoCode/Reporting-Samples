@@ -54,7 +54,7 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
-##### 2.5
+##### 2.5.0
 - Support for providing a failure reason
 
 ##### 2.4.4
