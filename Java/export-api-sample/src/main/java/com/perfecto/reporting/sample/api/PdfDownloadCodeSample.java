@@ -15,7 +15,7 @@ public class PdfDownloadCodeSample {
         Path tempDir = Files.createTempDirectory("reporting_pdf_sample_");
 
         // TODO put your driver execution ID here
-        String driverExecutionId = "MY_DRIVER_EXECUTION_ID";
+        String driverExecutionId = "Galaxy S6";
 
         // TODO put your reportium test execution ID here (you have to know it in advance)
         String testId = "MY_TEST_ID";
