@@ -5,7 +5,6 @@ import com.perfecto.reportium.imports.client.ReportiumImportClientFactory;
 import com.perfecto.reportium.imports.client.connection.Connection;
 import com.perfecto.reportium.imports.model.ImportExecutionContext;
 import com.perfecto.reportium.test.TestContext;
-import com.perfecto.reportium.test.TestEndContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -87,11 +86,7 @@ public class ImportTestSeleniumListener {
 
             reportiumImportClient.testStop(TestResultFactory.createSuccess());
         } catch (Exception e) {
-            TestEndContext testEndContext = new TestEndContext.Builder()
-                    .withFailureReasonName("Application not found") //Add here the failure reason name as appear in the failure reasons admin tab
-                    .build();
-
-            reportiumImportClient.testStop(TestResultFactory.createFailure(e), testEndContext);
+            reportiumImportClient.testStop(TestResultFactory.createFailure(e, "Application not found"));  //Add here the failure reason name as appear in the failure reasons admin tab
         } finally {
             if (perfectoDriver != null) {
                 perfectoDriver.close();

@@ -7,7 +7,6 @@ import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.model.PerfectoExecutionContext;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
-import com.perfecto.reportium.test.TestEndContext;
 import com.perfecto.reportium.test.result.TestResult;
 import com.perfecto.reportium.test.result.TestResultFactory;
 import org.openqa.selenium.WebDriver;
@@ -48,11 +47,8 @@ public class SimpleTest {
             reportiumClient.testStop(testResult);
 
         } catch (Exception e) {
-            TestResult testResult = TestResultFactory.createFailure("Test stop failure");
-            TestEndContext testEndContext = new TestEndContext.Builder()
-                    .withFailureReasonName("Application not found") //Add here the failure reason name as appear in the failure reasons admin tab
-                    .build();
-            reportiumClient.testStop(testResult, testEndContext);
+            TestResult testResult = TestResultFactory.createFailure("Test stop failure", e, "Application not found");  //Add here the failure reason name as appear in the failure reasons admin tab
+            reportiumClient.testStop(testResult);
             e.printStackTrace();
         } finally {
             driver.close();

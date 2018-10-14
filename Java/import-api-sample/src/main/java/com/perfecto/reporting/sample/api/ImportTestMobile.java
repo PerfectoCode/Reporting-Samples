@@ -10,8 +10,8 @@ import com.perfecto.reportium.imports.model.platform.Platform;
 import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
-import com.perfecto.reportium.test.TestEndContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
+
 import java.net.URI;
 
 public class ImportTestMobile {
@@ -52,11 +52,7 @@ public class ImportTestMobile {
 
         reportiumClient.stepEnd();
 
-        TestEndContext testEndContext = new TestEndContext.Builder()
-                .withFailureReasonName("Application not found") //Add here the failure reason name as appear in the failure reasons admin tab
-                .build();
-
-        reportiumClient.testStop(TestResultFactory.createFailure("it was a failure"), testEndContext);
+        reportiumClient.testStop(TestResultFactory.createFailure("it was a failure", null, "Application not found"));  //Add here the failure reason name as appear in the failure reasons admin tab
 
         reportiumClient.close();
 
