@@ -12,7 +12,7 @@ let myHooks = function () {
      * Logs a new test to reporting client.
      * Test named same as scenario's name.
      */
-    this.Before((scenario, callback) => {
+    this.Before((scenario) => {
         let tags = [];
 
         for (let tag of scenario.getTags()) {
@@ -21,9 +21,7 @@ let myHooks = function () {
 
         //Adding the current feature to reporting tags
         tags.push(browser.currentFeature);
-        browser.reportingClient.testStart(scenario.getName(), tags);
-
-        callback();
+        return browser.reportingClient.testStart(scenario.getName(), tags);
     });
 
     /**
@@ -46,7 +44,7 @@ let myHooks = function () {
         browser.reportingClient.getReportUrl()
             .then(url=> {
                 console.log(`Report-url: ${url}`);
-                callback();
+	            callback();
             });
     });
 };

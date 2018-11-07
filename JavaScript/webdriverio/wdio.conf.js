@@ -5,7 +5,7 @@ const host = 'MY_HOST.perfectomobile.com';
 const user = 'MY_USER';
 const pass = 'MY_PASS';
 
-//Define your global tags here: 
+//Define your global tags here:
 const tags = ['SampleTag1', 'SampleTag2', 'SampleTag3'];
 
 exports.config = {
@@ -24,10 +24,10 @@ exports.config = {
     // ============
     // Capabilities
     // ============
-    // Define your capabilities here. 
+    // Define your capabilities here.
     maxInstances: 10,
     capabilities: [{
-        // maxInstances can get overwritten per capability. 
+        // maxInstances can get overwritten per capability.
         user: user,
         password: pass,
         platformName: 'Android',
@@ -93,7 +93,7 @@ exports.config = {
         reportingClient = new Reporting.Perfecto.PerfectoReportingClient(new Reporting.Perfecto.PerfectoExecutionContext({
             webdriver: {
                 executeScript: (command, params) => {
-                    browser.execute(command, params);
+                    return browser.execute(command, params);
                 }
 
             },
