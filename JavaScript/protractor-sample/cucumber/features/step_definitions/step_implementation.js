@@ -13,10 +13,13 @@ expect = chai.expect;
 
 module.exports = function () {
     this.Given(/^I'm on the google search page$/, {timeout: STEP_TIMEOUT_SEC}, () => {
+	    browser.reportingClient.stepStart('I\'m on the google search page');
         return browser.driver.get('http://www.google.com');
     });
 
     this.Then(/^I search for Perfecto-Code repository$/, {timeout: STEP_TIMEOUT_SEC}, () => {
+	    browser.reportingClient.stepStart('I search for Perfecto-Code repository');
+
         browser.driver.findElement(by.name('q'))
             .sendKeys('Perfecto-Code GitHub');
         return browser.driver.findElement(by.id('tsbb'))
@@ -24,11 +27,15 @@ module.exports = function () {
     });
 
     this.Then(/^click the first search result$/, {timeout: STEP_TIMEOUT_SEC}, () => {
+	    browser.reportingClient.stepStart('click the first search result');
+
         return browser.driver.findElement(by.partialLinkText('GitHub - PerfectoCode'))
             .click();
     });
 
     this.Then(/^I validate the page's title\.$/, {timeout: STEP_TIMEOUT_SEC}, ()=> {
+	    browser.reportingClient.stepStart('I validate the page\'s title');
+
         browser.driver.wait(() => {
             return browser.driver.getCurrentUrl()
                 .then(url => url.indexOf('google') === -1);
