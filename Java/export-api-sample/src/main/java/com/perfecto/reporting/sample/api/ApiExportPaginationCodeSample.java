@@ -21,7 +21,7 @@ public class ApiExportPaginationCodeSample {
     public static final String PERFECTO_SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN"; // TODO put your security token here
 
 
-    public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
+    public static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
     public static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
     public static void main(String[] args) throws Exception {

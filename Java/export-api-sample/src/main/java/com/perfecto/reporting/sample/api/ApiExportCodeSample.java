@@ -29,7 +29,7 @@ public class ApiExportCodeSample {
 
     // The Perfecto Continuous Quality Lab you work with
     private static final String CQL_NAME = System.getProperty("CQL_NAME", "my-company-id"); // TODO put your Continuous Quality Lab name here
-    private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
+    private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
 
     public static void main(String[] args) throws Exception {
         // Retrieve a list of the test executions in your lab (as a json)

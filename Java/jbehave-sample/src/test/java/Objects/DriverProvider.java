@@ -27,7 +27,7 @@ public class DriverProvider implements WebDriverProvider {
     public void initialize() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("model", "Galaxy S5");
+        capabilities.setCapability("model", "Galaxy S6");
         capabilities.setCapability("user", myPerfectoUser);
         capabilities.setCapability("password", myPerfectoPassword);
 

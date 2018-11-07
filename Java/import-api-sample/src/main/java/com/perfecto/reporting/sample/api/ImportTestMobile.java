@@ -11,6 +11,7 @@ import com.perfecto.reportium.model.Job;
 import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResultFactory;
+
 import java.net.URI;
 
 public class ImportTestMobile {
@@ -19,7 +20,7 @@ public class ImportTestMobile {
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
     private static final String CQL_NAME = System.getProperty("CQL_NAME", "my-company-id"); // TODO put your Continuous Quality Lab name here
-    private static final String REPORTIUM_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com"; // "https://[COMPANY_ID].reporting.perfectomobile.com";
+    private static final String REPORTIUM_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
 
     public static void main(String[] args) throws Exception {
         MobileInfo mobileInfo = new MobileInfo.Builder()
@@ -51,7 +52,7 @@ public class ImportTestMobile {
 
         reportiumClient.stepEnd();
 
-        reportiumClient.testStop(TestResultFactory.createFailure("it was a failure"));
+        reportiumClient.testStop(TestResultFactory.createFailure("it was a failure", null, "Application not found"));  //Add here the failure reason name as appear in the failure reasons admin tab
 
         reportiumClient.close();
 

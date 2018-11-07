@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 public class TodoMvcJquerySanityTest extends AbstractTodoMvcSanityTest {
 
     protected By getNewTodoBy() {
-        return By.id("new-todo");
+        return By.className("new-todo");
     }
 
     protected String getUrl() {

@@ -36,7 +36,7 @@ namespace PerfectoSpecFlow
             capabilities.SetCapability("password", PerfectoPass);
 
             capabilities.SetCapability("platformName", "Android");
-            capabilities.SetCapability("model", "Galaxy S5");
+            capabilities.SetCapability("model", "Galaxy S6");
             //capabilities.SetCapability("platformVersion", "");
             //capabilities.SetCapability("browserName", "");
             //capabilities.SetCapability("deviceName", "");

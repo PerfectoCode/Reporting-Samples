@@ -39,7 +39,7 @@ public class TodoMvcJquerySanityTest extends AbstractPerfectoSeleniumTestJunit {
     }
 
     protected By getNewTodoBy() {
-        return By.id("new-todo");
+        return By.className("new-todo");
     }
 
 }

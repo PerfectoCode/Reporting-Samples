@@ -28,7 +28,7 @@ public class ImportTestSeleniumListener {
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
     private static final String CQL_NAME = System.getProperty("CQL_NAME", "my-company-id"); // TODO put your Continuous Quality Lab name here
-    private static final String REPORTIUM_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com"; // "https://[COMPANY_ID].reporting.perfectomobile.com";
+    private static final String REPORTIUM_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
 
     public static void main(String[] args) throws Exception {
         ImportExecutionContext executionContext = new ImportExecutionContext.Builder().build();
@@ -86,7 +86,7 @@ public class ImportTestSeleniumListener {
 
             reportiumImportClient.testStop(TestResultFactory.createSuccess());
         } catch (Exception e) {
-            reportiumImportClient.testStop(TestResultFactory.createFailure(e));
+            reportiumImportClient.testStop(TestResultFactory.createFailure(e, "Application not found"));  //Add here the failure reason name as appear in the failure reasons admin tab
         } finally {
             if (perfectoDriver != null) {
                 perfectoDriver.close();

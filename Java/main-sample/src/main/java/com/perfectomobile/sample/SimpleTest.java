@@ -26,7 +26,6 @@ public class SimpleTest {
 
     public static void main(String[] args) throws IOException {
         //boolean test passed = true; // assume true until failure
-        TestResult testResult = TestResultFactory.createFailure("Test stop failure");// assume failure until proven passed
         WebDriver driver = getDriver();
         ReportiumClient reportiumClient = setReportingClient(driver);
         try {
@@ -44,13 +43,14 @@ public class SimpleTest {
             reportiumClient.stepEnd();
 
             //STOP TEST
-            testResult = TestResultFactory.createSuccess();
-
+            TestResult testResult = TestResultFactory.createSuccess();
+            reportiumClient.testStop(testResult);
 
         } catch (Exception e) {
+            TestResult testResult = TestResultFactory.createFailure("Test stop failure", e, "Application not found");  //Add here the failure reason name as appear in the failure reasons admin tab
+            reportiumClient.testStop(testResult);
             e.printStackTrace();
         } finally {
-            reportiumClient.testStop(testResult);
             driver.close();
             driver.quit();
         }
@@ -64,7 +64,6 @@ public class SimpleTest {
         CustomField teamCustomField = new CustomField("team", "devOps");
         CustomField departmentCustomField = new CustomField("department", "engineering");
         CustomField[] customFields = VcsUtils.addVcsFields(SOURCE_FILE_ROOT_PATH, teamCustomField, departmentCustomField);
-
 
 
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
