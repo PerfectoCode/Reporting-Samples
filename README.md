@@ -2,6 +2,8 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+##### 2.2.3
+- Bug fixes
 ##### 2.2.1
 - Support for providing a failure reason
 ##### 2.2.0
