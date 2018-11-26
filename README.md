@@ -95,6 +95,10 @@ New features - assert and step end commands
   
 ***
 ### Ruby SDK (https://rubygems.org/gems/perfecto-reporting)
+##### 3.0.0  
+- Support sending tags and custom fields on reportiumClient.testEnd
+- Support for providing a failure reason
+
 ##### 2.0.5  
 New features  
 Support jobBranch in job object  
