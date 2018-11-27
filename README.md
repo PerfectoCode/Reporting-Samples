@@ -129,6 +129,10 @@ Stable version
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
 (python 2.7.X only).
+##### 3.0.0  
+- Support sending tags and custom fields on reportiumClient.testEnd
+- Support for providing a failure reason
+
 ##### 2.0.0.1  
 Maintenance release
 
