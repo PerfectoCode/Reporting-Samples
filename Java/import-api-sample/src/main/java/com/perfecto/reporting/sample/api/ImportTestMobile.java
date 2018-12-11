@@ -52,7 +52,7 @@ public class ImportTestMobile {
 
         reportiumClient.stepEnd();
 
-        reportiumClient.testStop(TestResultFactory.createFailure("it was a failure", null, "Application not found"));  //Add here the failure reason name as appear in the failure reasons admin tab
+        reportiumClient.testStop(TestResultFactory.createFailure("it was a failure", null, "ApplicationNotFound-1542806871"));  //Add here the failure reason id as appear in the failure reasons admin tab
 
         reportiumClient.close();
 

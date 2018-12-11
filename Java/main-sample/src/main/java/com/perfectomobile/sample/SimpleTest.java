@@ -47,7 +47,7 @@ public class SimpleTest {
             reportiumClient.testStop(testResult);
 
         } catch (Exception e) {
-            TestResult testResult = TestResultFactory.createFailure("Test stop failure", e, "Application not found");  //Add here the failure reason name as appear in the failure reasons admin tab
+            TestResult testResult = TestResultFactory.createFailure("Test stop failure", e, "ApplicationNotFound-1542806871");  //Add here the failure reason name as appear in the failure reasons admin tab
             reportiumClient.testStop(testResult);
             e.printStackTrace();
         } finally {

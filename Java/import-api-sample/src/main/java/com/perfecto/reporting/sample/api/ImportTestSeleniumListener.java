@@ -86,7 +86,7 @@ public class ImportTestSeleniumListener {
 
             reportiumImportClient.testStop(TestResultFactory.createSuccess());
         } catch (Exception e) {
-            reportiumImportClient.testStop(TestResultFactory.createFailure(e, "Application not found"));  //Add here the failure reason name as appear in the failure reasons admin tab
+            reportiumImportClient.testStop(TestResultFactory.createFailure(e, "ApplicationNotFound-1542806871"));  //Add here the failure reason id as appear in the failure reasons admin tab
         } finally {
             if (perfectoDriver != null) {
                 perfectoDriver.close();
