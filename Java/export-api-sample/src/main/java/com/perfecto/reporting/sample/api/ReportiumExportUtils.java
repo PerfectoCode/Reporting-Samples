@@ -40,8 +40,8 @@ public class ReportiumExportUtils {
 
 
     private static final int TIMEOUT_MILLIS = 60000;
-    private static final int PDF_DOWNLOAD_ATTEMPTS = 5;
-    private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".reporting.perfectomobile.com";
+    private static final int PDF_DOWNLOAD_ATTEMPTS = 12;
+    private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static HttpClient httpClient = HttpClientBuilder.create()

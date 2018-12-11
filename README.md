@@ -2,6 +2,10 @@ SDK Release Notes
 =============
 
 ### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+##### 2.2.4
+- Support selenium 3.141.5
+##### 2.2.3
+- Bug fixes
 ##### 2.2.1
 - Support for providing a failure reason
 ##### 2.2.0
@@ -9,7 +13,7 @@ SDK Release Notes
 ##### 2.0.2
 - Fixed text artifacts upload issues
 ##### 2.0.1
-Required cloud version - 18.10 
+Required cloud version - 18.10  
 New features:
 - Support sending tags and custom fields on reportiumClient.testEnd
 ##### 1.2.8
@@ -91,6 +95,10 @@ New features - assert and step end commands
   
 ***
 ### Ruby SDK (https://rubygems.org/gems/perfecto-reporting)
+##### 3.0.0  
+- Support sending tags and custom fields on reportiumClient.testEnd
+- Support for providing a failure reason
+
 ##### 2.0.5  
 New features  
 Support jobBranch in job object  
@@ -121,6 +129,10 @@ Stable version
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
 (python 2.7.X only).
+##### 3.0.0  
+- Support sending tags and custom fields on reportiumClient.testEnd
+- Support for providing a failure reason
+
 ##### 2.0.0.1  
 Maintenance release
 
