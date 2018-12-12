@@ -1,7 +1,7 @@
 SDK Release Notes
 =============
 
-### Java SDK (https://repository-perfectomobile.forge.cloudbees.com/public/com/perfecto/reporting-sdk/reportium-java)
+### Java SDK (https://repo1.perfectomobile.com/public/repositories/maven/com/perfecto/reporting-sdk/reportium-java)
 ##### 2.2.4
 - Support selenium 3.141.5
 ##### 2.2.3

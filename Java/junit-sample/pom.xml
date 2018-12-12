@@ -64,9 +64,9 @@
 
     <repositories>
         <repository>
-            <id>perfectomobile</id>
+            <id>repo1.perfectomobile.com</id>
             <name>Perfecto mobile</name>
-            <url>http://repository-perfectomobile.forge.cloudbees.com/public</url>
+            <url>https://repo1.perfectomobile.com/public/repositories/maven</url>
         </repository>
         <repository>
             <id>central</id>
