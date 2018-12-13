@@ -26,7 +26,7 @@ class TestConf(unittest.TestCase):
 
 The sample uses the following import statements:<br/>
 ```Python
-from perfecto import PerfectoExecutionContext,TestResultFactory,TestContext,PerfectoReportiumClient
+from perfecto import PerfectoExecutionContext, TestResultFactory, TestContext, PerfectoReportiumClient, model
 ```
 ## Running the project :
 
