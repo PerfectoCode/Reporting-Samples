@@ -3,7 +3,7 @@ SDK Release Notes
 
 ### Java SDK (https://repo1.perfectomobile.com/public/repositories/maven/com/perfecto/reporting-sdk/reportium-java)
 ##### 2.2.8
-- Added support for generic attachment upload
+- Added support for generic attachment upload in external data sdk
 ##### 2.2.4
 - Support selenium 3.141.5
 ##### 2.2.3
