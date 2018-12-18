@@ -1,10 +1,14 @@
 import unittest
+import urllib3
 from selenium import webdriver
 from perfecto import PerfectoExecutionContext,TestResultFactory,TestContext,PerfectoReportiumClient,model
 
 
 class TestConf(unittest.TestCase):
     def __init__(self, *args, **kwargs):
+        #Suppress InsecureRequestWarning: Unverified HTTPS request is being made 
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        
         self.user = 'My_User'
         self.password = 'My_Pass'
         self.host = 'My_Host.perfectomobile.com'
