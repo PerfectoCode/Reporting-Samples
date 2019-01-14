@@ -5,7 +5,7 @@ import json
 import shutil
 
 # The Perfecto Continuous Quality Lab you work with
-CQL_NAME = 'MY_CQL_NAME'
+CQL_NAME = os.environ['LAB']
 
 # The reporting Server address depends on the location of the lab. Please refer to the documentation at
 # http://developers.perfectomobile.com/display/PD/Reporting#Reporting-ReportingserverAccessingthereports
@@ -15,7 +15,7 @@ REPORTING_SERVER_URL = 'https://' + CQL_NAME + '.reporting.perfectomobile.com'
 
 # See http://developers.perfectomobile.com/display/PD/Using+the+Reporting+Public+API on how to obtain an Offline Token
 # In this case the offline token is stored as a env variable
-OFFLINE_TOKEN = os.environ['offline-token']
+OFFLINE_TOKEN = os.environ['OFFLINE_TOKEN']
 
 CQL_SERVER_URL = 'https://' + CQL_NAME + '.perfectomobile.com'
 
