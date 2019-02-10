@@ -1,3 +1,5 @@
+import sys
+
 import requests
 import os
 import time
@@ -20,6 +22,15 @@ OFFLINE_TOKEN = os.environ['OFFLINE_TOKEN']
 CQL_SERVER_URL = 'https://' + CQL_NAME + '.perfectomobile.com'
 
 
+def check_request(r):
+    status = r.status_code
+    if status != 200 and status != 302:
+        print "Error in Download please check your token and cloud"
+        print "Error message" + r.content
+        sys.exit(1)
+    return r.content
+
+
 def retrieve_tests_executions():
     """
     Retrieve a list of test executions within the last month
@@ -38,7 +49,7 @@ def retrieve_tests_executions():
     # creates http get request with the url, given parameters (payload) and header (for authentication)
     r = requests.get(api_url, params=payload, headers={'PERFECTO_AUTHORIZATION': OFFLINE_TOKEN})
 
-    return r.content
+    return check_request(r)
 
 
 def retrieve_test_commands(test_id):
@@ -49,7 +60,7 @@ def retrieve_test_commands(test_id):
     """
     api_url = REPORTING_SERVER_URL + "/export/api/v1/test-executions/" + test_id + "/commands"
     r = requests.get(api_url, headers={'PERFECTO_AUTHORIZATION': OFFLINE_TOKEN})
-    return r.content
+    return check_request(r)
 
 
 def download_execution_summary_report(driver_execution_id):
