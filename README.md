@@ -131,6 +131,12 @@ Stable version
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
 (python 2.7.X only).
+##### 3.0.4  
+- Bug fixes
+
+##### 3.0.3  
+- Bug fixes
+
 ##### 3.0.2  
 - Test stop api fixes
 
