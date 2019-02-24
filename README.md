@@ -65,6 +65,9 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.5.1
+- Update license to Apache2
+
 ##### 2.5.0
 - Support for providing a failure reason
 
