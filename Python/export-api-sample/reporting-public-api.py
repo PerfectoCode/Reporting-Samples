@@ -121,7 +121,7 @@ def download_file_attachment(r, filename):
             r.raw.decode_content = True
             shutil.copyfileobj(r.raw, f)
     else:
-        raise Exception('Request status code is not valid: ' + r.status_code)
+        raise Exception('Request status code is not valid: ' + str(r.status_code))
 
 
 if __name__ == '__main__':
