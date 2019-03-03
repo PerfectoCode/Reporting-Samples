@@ -23,7 +23,7 @@ class ReportingTests(TestConf):
             element.submit()
             self.reporting_client.step_end()
             self.reporting_client.step_start('Step3: Navigate to the first search result')
-            self.driver.find_element(By.CSS_SELECTOR, '#rso > div > div > div:nth-child(1) > div > div.rc > div.r > a > h3').click()
+            self.driver.find_element(By.CSS_SELECTOR, '#rso > div > div > div:nth-child(1) > div > div > div.r > a > h3').click()
           
 
             self.reporting_client.step_end()
