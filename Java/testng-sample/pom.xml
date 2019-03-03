@@ -24,7 +24,7 @@
         <selenium.version>3.11.0</selenium.version>
         <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <reportium-sdk.version>RELEASE</reportium-sdk.version>
+        <reportium-sdk.version>2.2.9</reportium-sdk.version>
 
 
     </properties>
