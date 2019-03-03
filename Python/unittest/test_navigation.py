@@ -26,7 +26,7 @@ class ReportingTests(TestConf):
             print "end of sleep"
             self.reporting_client.step_end()
             self.reporting_client.step_start('Step3: Navigate to the first search result')
-            element = self.driver.find_element(By.XPATH('//*[@id="rso"]/div/div/div[1]/div/div/div[1]/a/h3'))
+            element = self.driver.find_element_by_xpath('//*[@id="rso"]/div/div/div[1]/div/div/div[1]/a/h3')#//*[text()="PerfectoCode/Samples - GitHub"]
             element.click()
 
             self.reporting_client.step_end()
