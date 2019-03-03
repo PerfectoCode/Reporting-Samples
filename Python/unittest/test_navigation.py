@@ -23,6 +23,7 @@ class ReportingTests(TestConf):
             element.send_keys('PerfectoCode GitHub')
             element.submit()
             time.sleep(2)
+            print "end of sleep"
             self.reporting_client.step_end()
             self.reporting_client.step_start('Step3: Navigate to the first search result')
             self.driver.find_element(By.XPATH('//*[@id="rso"]/div/div/div[1]/div/div/div[1]/a/h3')).click()
