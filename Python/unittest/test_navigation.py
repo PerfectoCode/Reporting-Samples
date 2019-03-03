@@ -3,6 +3,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 from Conf import TestConf
 import unittest
+import time
 from selenium.webdriver.common.by import By
 
 
@@ -21,6 +22,7 @@ class ReportingTests(TestConf):
             element = self.driver.find_element(By.NAME, 'q')
             element.send_keys('PerfectoCode GitHub')
             element.submit()
+            time.sleep(2)
             self.reporting_client.step_end()
             self.reporting_client.step_start('Step3: Navigate to the first search result')
             self.driver.find_element(By.XPATH('//*[@id="rso"]/div/div/div[1]/div/div/div[1]/a/h3')).click()
