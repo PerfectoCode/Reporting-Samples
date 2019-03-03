@@ -104,6 +104,8 @@ def download_attachments(test_execution):
             if type == 'DEVICE_LOGS':
                 test_id = test_execution['id']
                 path = arti['path']
+                print "path:" + path
+                print "test_id:" + test_id
                 r = requests.get(path, stream=True)
                 download_file_attachment(r, test_id + '.zip')
     else:
