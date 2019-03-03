@@ -26,8 +26,8 @@ class ReportingTests(TestConf):
             print "end of sleep"
             self.reporting_client.step_end()
             self.reporting_client.step_start('Step3: Navigate to the first search result')
-            self.driver.find_element(By.XPATH('//*[@id="rso"]/div/div/div[1]/div/div/div[1]/a/h3')).click()
-
+            element = self.driver.find_element(By.XPATH('//*[@id="rso"]/div/div/div[1]/div/div/div[1]/a/h3'))
+            element.click()
 
             self.reporting_client.step_end()
             self.reporting_client.step_start('Step4: Validate title contains the work Perfecto')
@@ -38,6 +38,7 @@ class ReportingTests(TestConf):
             self.reporting_client.test_stop(TestResultFactory.create_failure("NoSuchElementException", ex))
             print ex
         self.reporting_client.test_stop(TestResultFactory.create_success())
+
 
 if __name__ == '__main__':
     unittest.main()
