@@ -48,6 +48,7 @@ def retrieve_test_commands(test_id):
     :return: a JSON object contains the commands of the test with a given test id
     """
     api_url = REPORTING_SERVER_URL + "/export/api/v1/test-executions/" + test_id + "/commands"
+    print "api_url " + api_url
     r = requests.get(api_url, headers={'PERFECTO_AUTHORIZATION': OFFLINE_TOKEN})
     return r.content
 
@@ -71,6 +72,7 @@ def download_test_report(test_id):
     :param test_id: test id
     """
     api_url = REPORTING_SERVER_URL + "/export/api/v1/test-executions/pdf/" + test_id
+    print "download_test_report api_url :" + api_url
     r = requests.get(api_url, headers={'PERFECTO_AUTHORIZATION': OFFLINE_TOKEN}, stream=True)
     download_file_attachment(r, test_id + '.pdf')
 
@@ -104,8 +106,6 @@ def download_attachments(test_execution):
             if type == 'DEVICE_LOGS':
                 test_id = test_execution['id']
                 path = arti['path']
-                print "path:" + path
-                print "test_id:" + test_id
                 r = requests.get(path, stream=True)
                 download_file_attachment(r, test_id + '.zip')
     else:
