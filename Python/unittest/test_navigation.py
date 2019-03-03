@@ -21,6 +21,7 @@ class ReportingTests(TestConf):
             element = self.driver.find_element(By.NAME, 'q')
             element.send_keys('PerfectoCode GitHub')
             element.submit()
+            self.reporting_client.step_end()
             self.reporting_client.step_start('Step3: Navigate to the first search result')
             self.driver.find_element(By.CSS_SELECTOR, '#rso > div > div:nth-child(1) > div > div > div._OXf > h3 > a').click()
 
