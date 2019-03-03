@@ -22,7 +22,8 @@ class ReportingTests(TestConf):
             element.send_keys('PerfectoCode GitHub')
             element.submit()
             self.reporting_client.step_start('Step3: Navigate to the first search result')
-            self.driver.find_element(By.CSS_SELECTOR, '#rso > div > div:nth-child(1) > div > div > div._OXf > h3 > a')
+            self.driver.find_element(By.CSS_SELECTOR, '#rso > div > div:nth-child(1) > div > div > div._OXf > h3 > a').click()
+
             self.reporting_client.step_end()
             self.reporting_client.step_start('Step4: Validate title contains the work Perfecto')
             assert 'Perfecto' in self.driver.title
