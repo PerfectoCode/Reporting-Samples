@@ -3,6 +3,7 @@ import os
 import time
 import json
 import shutil
+import sys
 
 # The Perfecto Continuous Quality Lab you work with
 CQL_NAME = os.environ['LAB']
@@ -11,7 +12,7 @@ CQL_NAME = os.environ['LAB']
 # http://developers.perfectomobile.com/display/PD/Reporting#Reporting-ReportingserverAccessingthereports
 # to find your relevant address
 # For example the following is used for US:
-REPORTING_SERVER_URL = 'https://' + CQL_NAME + '.reporting.perfectomobile.com'
+REPORTING_SERVER_URL = 'https://' + CQL_NAME + '.app.perfectomobile.com'
 
 # See http://developers.perfectomobile.com/display/PD/Using+the+Reporting+Public+API on how to obtain an Offline Token
 # In this case the offline token is stored as a env variable
@@ -71,8 +72,24 @@ def download_test_report(test_id):
     download test report summary (pdf format)
     :param test_id: test id
     """
-    api_url = REPORTING_SERVER_URL + "/export/api/v1/test-executions/pdf/" + test_id
+    api_url = REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/"
     print "download_test_report api_url :" + api_url
+    print "check if pdf is ready"
+    task_status = ""
+    count = 0;
+    while task_status != "COMPLETE": #check if pdf is readt
+        task = requests.post(api_url, headers={'PERFECTO_AUTHORIZATION': OFFLINE_TOKEN},
+                             params={'testExecutionId': test_id}, stream=True).text
+        task_data = json.loads(task)
+        task_status = task_data['status']
+        count = count + 1
+        print "status is:" + task_status
+        time.sleep(5)
+        if count > 60: #exit if not ready after 5 minutes
+            print "error: Didn't get a pdf after 5 minutes"
+            sys.exit(1)
+
+    api_url = task_data['url']
     r = requests.get(api_url, headers={'PERFECTO_AUTHORIZATION': OFFLINE_TOKEN}, stream=True)
     download_file_attachment(r, test_id + '.pdf')
 
