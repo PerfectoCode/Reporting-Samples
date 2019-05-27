@@ -27,17 +27,10 @@
         </dependency>
         <dependency>
             <groupId>com.perfecto.reporting-sdk</groupId>
-            <artifactId>reportium-allure-integration</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.perfecto.reporting-sdk</groupId>
             <artifactId>reportium-testng</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>ru.yandex.qatools.allure</groupId>
-            <artifactId>allure-java-annotations</artifactId>
-        </dependency>
+
 
         <!-- TestNG -->
         <dependency>

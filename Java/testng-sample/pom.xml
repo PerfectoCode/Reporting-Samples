@@ -24,9 +24,9 @@
         <selenium.version>3.11.0</selenium.version>
         <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
         <commons-logging.version>1.2</commons-logging.version>
-        <reportium-sdk.version>RELEASE</reportium-sdk.version>
+        <reportium-sdk.version>2.2.9</reportium-sdk.version>
 
-        <allure.version>1.4.4</allure.version>
+
     </properties>
 
     <dependencyManagement>
@@ -45,11 +45,6 @@
             <dependency>
                 <groupId>com.perfecto.reporting-sdk</groupId>
                 <artifactId>reportium-import-selenium</artifactId>
-                <version>${reportium-sdk.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.perfecto.reporting-sdk</groupId>
-                <artifactId>reportium-allure-integration</artifactId>
                 <version>${reportium-sdk.version}</version>
             </dependency>
             <dependency>
@@ -87,11 +82,6 @@
                 <version>${selenium.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>ru.yandex.qatools.allure</groupId>
-                <artifactId>allure-java-annotations</artifactId>
-                <version>${allure.version}</version>
-            </dependency>
 
             <!-- Apache Commons Logging -->
             <dependency>

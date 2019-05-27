@@ -1,7 +1,16 @@
 SDK Release Notes
 =============
+Licensed under the Apache License, Version 2.0
 
 ### Java SDK (https://repo1.perfectomobile.com/public/repositories/maven/com/perfecto/reporting-sdk/reportium-java)
+##### 2.2.13
+- Added single report for multiple executions support
+##### 2.2.10
+- Added license information
+##### 2.2.9
+- Support any type of test attachment
+##### 2.2.8
+- Added support for generic attachment upload in external data sdk
 ##### 2.2.4
 - Support selenium 3.141.5
 ##### 2.2.3
@@ -58,6 +67,9 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.5.1
+- Update license to Apache2
+
 ##### 2.5.0
 - Support for providing a failure reason
 
@@ -129,6 +141,15 @@ Stable version
 ***
 ### Python SDK (https://pypi.python.org/pypi/perfecto)
 (python 2.7.X only).
+##### 3.0.4  
+- Bug fixes
+
+##### 3.0.3  
+- Bug fixes
+
+##### 3.0.2  
+- Test stop api fixes
+
 ##### 3.0.0  
 - Support sending tags and custom fields on reportiumClient.testEnd
 - Support for providing a failure reason
