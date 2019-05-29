@@ -3,6 +3,8 @@ SDK Release Notes
 Licensed under the Apache License, Version 2.0
 
 ### Java SDK (https://repo1.perfectomobile.com/public/repositories/maven/com/perfecto/reporting-sdk/reportium-java)
+##### 2.3
+- SDKis open source: https://github.com/PerfectoCode/reporting-java-sdk
 ##### 2.2.13
 - Added single report for multiple executions support
 ##### 2.2.10
