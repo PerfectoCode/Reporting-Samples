@@ -70,6 +70,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
+                         <useSystemClassLoader>false</useSystemClassLoader>
                         <!-- Optional sample on how to set the listener from maven pom instead of code -->
                         <!--
                         <properties>

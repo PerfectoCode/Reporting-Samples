@@ -36,6 +36,7 @@
                         </execution>
                     </executions>
                     <configuration>
+                         <useSystemClassLoader>false</useSystemClassLoader>
                         <includes>
                             <include>**/*Test.java</include>
                         </includes>
