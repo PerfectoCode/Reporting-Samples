@@ -26,17 +26,14 @@ module Utils
     # capabilities - device desired capabilities
     #
     # return new selenium webdriver instance
-    def self.create_device host, user, pass, capabilities
-
-      capabilities['user'] = user
-      capabilities['password'] = pass
+    def self.create_device host, capabilities
 
       # create a new driver instance
       @@driver = Selenium::WebDriver.for(:remote, :url => 'http://' + host + '/nexperience/perfectomobile/wd/hub', :desired_capabilities => capabilities)
 
       # setting timeouts
-      @@driver.manage.timeouts.implicit_wait = 15
-      @@driver.manage.timeouts.page_load = 10
+      @@driver.manage.timeouts.implicit_wait = 30
+      @@driver.manage.timeouts.page_load = 30
 
       return @@driver
     end
@@ -73,7 +70,12 @@ module Utils
 
     def self.start_new_test test_name, *tags
       @@currentStep = 0
-      @@reportiumClient.testStart test_name,  TestContext.new(*tags)
+      tcf = CustomField.new('Perfecto', 'Demo')
+      tc = TestContext::TestContextBuilder
+        .withTestExecutionTags(*tags)
+        .withCustomFields(tcf)
+        .build()
+      @@reportiumClient.testStart test_name,  tc
     end
 
     # helper function to log a test step
@@ -82,8 +84,9 @@ module Utils
     # scenario step name will be assigned to be reporting step description
     def self.logStep
       unless @@reportiumClient.nil?
-        step_name = Utils::Cucumber.scenario.test_steps[@@currentStep].name
-        @@reportiumClient.testStep step_name
+        step_name = Utils::Cucumber.scenario.test_steps[@@currentStep].text
+        @@reportiumClient.stepStart step_name
+        @@currentStep = @@currentStep + 1
       else
         raise 'Reporting client uninitialized'
       end

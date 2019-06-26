@@ -28,19 +28,21 @@ module Geico
   class CostumerPage < Page
 
     def has_insurance ans
-      @driver.find_element(:xpath => '(//*[text() = \'' + ans + '\'])[1]').click
+      @driver.find_element(:xpath => '//*[@class="radio" and text()=\'' + ans + '\']').click
+      @driver.find_element(:xpath => '//*[text() = \'Next\']').click
     end
 
     def insert_costumer_info
       @driver.find_element(:id => 'firstName').send_keys 'Test Name'
       @driver.find_element(:id => 'lastName').send_keys 'Test LastName'
-      @driver.find_element(:id => 'street').send_keys 'SomeStreet'
-      @driver.find_element(:id => 'apt').send_keys '12345'
+      @driver.find_element(:xpath => '//*[text() = \'Next\']').click
       @driver.find_element(:id => 'date-monthdob').send_keys '11'
       @driver.find_element(:id => 'date-daydob').send_keys '11'
       @driver.find_element(:id => 'date-yeardob').send_keys '1992'
-      @driver.find_element(:id => 'hasCycle').click
-      @driver.find_element(:xpath => '//*[@id = \'hasCycle\']/option[@value = \'N\']').click
+      @driver.find_element(:xpath => '//*[text() = \'Next\']').click
+      @driver.find_element(:id => 'street').send_keys 'SomeStreet'
+      @driver.find_element(:id => 'apt').send_keys '12345'
+      @driver.find_element(:xpath => '//*[text() = \'Next\']').click
     end
 
   end

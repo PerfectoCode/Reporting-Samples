@@ -12,9 +12,8 @@ Before do |scenario|
 
   Utils::Cucumber.scenario = scenario
 
-  host = 'My_Host.perfectomobile.com'
-  user = 'My_User'
-  pass = 'My_Pass'
+  host = 'demo.perfectomobile.com'
+  securityToken =''
 
   capabilities = {
       :platformName => 'Android',
@@ -23,13 +22,12 @@ Before do |scenario|
       :browserName => '',
       :browserVersion => '',
       :deviceName => '',
-      :user => user,
-      :password => pass
+      :securityToken => securityToken
   }
 
-  Utils::Device.create_device host, user, pass, capabilities
-  Utils::Reporting.create_reporting_client(Utils::Device.driver, 'Tag1', 'Tag2', 'Tag3') # Optional, add more tags 
-  Utils::Reporting.start_new_test scenario.name, 'Tag1' # Optional, add more tags 
+  Utils::Device.create_device host, capabilities
+  Utils::Reporting.create_reporting_client(Utils::Device.driver, 'Ruby', 'Demo', 'Perfecto') # Optional, add more tags 
+  Utils::Reporting.start_new_test scenario.name, 'RubyTest' # Optional, add more tags 
 
 end
 
@@ -42,10 +40,16 @@ end
 # unless the driver nil quiting the session
 After do |scenario|
 
+  cfe1 = CustomField.new('Ruby', 'Demo')
+  cfe2 = CustomField.new('CustomField', 'Demo')
+  tec = TestContext::TestContextBuilder
+         .withTestExecutionTags('PerfectoEndTag1' , 'PerfectoEndTag2')
+         .withCustomFields(cfe1, cfe2)
+         .build()
   if scenario.failed?
-    Utils::Reporting.reportiumClient.testStop TestResultFactory.createFailure scenario.exception.message, scenario.exception
+    Utils::Reporting.reportiumClient.testStop(TestResultFactory.createFailure(scenario.exception.message, scenario.exception, nil), tec)
   else
-    Utils::Reporting.reportiumClient.testStop TestResultFactory.createSuccess
+    Utils::Reporting.reportiumClient.testStop(TestResultFactory.createSuccess(), tec)
   end
 
   puts '========================================================================================'
