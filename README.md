@@ -73,7 +73,7 @@ Stable version
 Add validation on tags - only non empty string values are allowed.
 
 ##### 2.5.2
-reporting-node-sdk repository is an open source.
+reporting-node-sdk repository is now an open source.
 
 ##### 2.5.1
 - Update license to Apache2
