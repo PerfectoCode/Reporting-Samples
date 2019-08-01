@@ -69,6 +69,12 @@ Stable version
    
 ***
 ### Javascript SDK (https://www.npmjs.com/package/perfecto-reporting)
+##### 2.5.3
+Add validation on tags - only non empty string values are allowed.
+
+##### 2.5.2
+reporting-node-sdk repository is now an open source.
+
 ##### 2.5.1
 - Update license to Apache2
 
