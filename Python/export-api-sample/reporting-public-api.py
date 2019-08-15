@@ -149,7 +149,7 @@ if __name__ == '__main__':
 
     # Loads JSON string into JSON object
     executions = json.loads(executions)
-    print executions
+    #print executions 
     resources = executions['resources']
     if len(resources) == 0:
         print('there are no test executions for that period of time')
