@@ -157,10 +157,11 @@ public class AbstractPerfectoSeleniumTestJunit {
         String seleniumGridUrl = SystemPropertyGetter.getProperty(SELENIUM_GRID_URL_KEY);
         String seleniumGridUsername = SystemPropertyGetter.getProperty(SELENIUM_GRID_USERNAME_KEY);
         String seleniumGridPassword = SystemPropertyGetter.getProperty(SELENIUM_GRID_PASSWORD_KEY);
+        String SECURITY_TOKEN = System.getProperty("security-token", "PERFECTO_SECURITY_TOKEN");
 
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability("user", seleniumGridUsername);
-        desiredCapabilities.setCapability("password", seleniumGridPassword);
+
+        desiredCapabilities.setCapability("securityToken", SECURITY_TOKEN);
         desiredCapabilities.setCapability("platformName", operatingSystemName);
         desiredCapabilities.setCapability("platformVersion", operatingSystemVersion);
         desiredCapabilities.setCapability("browserName", "Chrome");
