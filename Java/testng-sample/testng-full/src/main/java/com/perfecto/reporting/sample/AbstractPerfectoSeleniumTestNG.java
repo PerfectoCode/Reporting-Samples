@@ -142,12 +142,11 @@ public class AbstractPerfectoSeleniumTestNG {
         // to prevent them from being leaked here
 
         String seleniumGridUrl = System.getProperty(SELENIUM_GRID_URL_KEY, "https://MYCOMPANY.perfectomobile.com/nexperience/perfectomobile/wd/hub");
-        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY, "MYUSER");
-        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY, "MYPASSWORD");
+        String SECURITY_TOKEN = System.getProperty("security-token", "PERFECTO_SECURITY_TOKEN");
 
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability("user", seleniumGridUsername);
-        desiredCapabilities.setCapability("password", seleniumGridPassword);
+
+        desiredCapabilities.setCapability("securityToken", SECURITY_TOKEN);
         desiredCapabilities.setCapability("platformName", "Windows");
         desiredCapabilities.setCapability("platformVersion", "10");
         desiredCapabilities.setCapability("browserName", "Chrome");
