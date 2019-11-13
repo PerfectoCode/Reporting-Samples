@@ -25,8 +25,6 @@ public class ImportSdkListenerTest {
 
     public static final String IS_LOCAL_DRIVER = "is-local-driver";
     private static final String SELENIUM_GRID_URL_KEY = "selenium-grid-url";
-    private static final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
-    private static final String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
 
     private static final String PERFECTO_SECURITY_TOKEN = "my-security-token"; //TODO put your security token here
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
@@ -44,13 +42,10 @@ public class ImportSdkListenerTest {
         Connection connection = new Connection(new URI(REPORTIUM_URL), SECURITY_TOKEN);
         ReportiumImportClient reportiumClient = new ReportiumImportClientFactory().createReportiumImportClient(connection, executionContext);
         ReportiumClientProvider.set(reportiumClient);
-
+        String SECURITY_TOKEN = System.getProperty("security-token", "PERFECTO_SECURITY_TOKEN");
         // Define target mobile device
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY, "MYUSER");
-        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY, "MYPASSWORD");
-        capabilities.setCapability("user", seleniumGridUsername);
-        capabilities.setCapability("password", seleniumGridPassword);
+        capabilities.setCapability("securityToken", SECURITY_TOKEN);
         // Define device allocation timeout, in minutes
         capabilities.setCapability("openDeviceTimeout", 5);
 
