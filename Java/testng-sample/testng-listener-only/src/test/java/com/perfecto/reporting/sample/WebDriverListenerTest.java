@@ -19,20 +19,17 @@ public class WebDriverListenerTest implements WebDriverProvider {
     private WebDriver driver;
     private TodoMvcService todoMvcService;
     private static final String SELENIUM_GRID_URL_KEY = "selenium-grid-url";
-    private static final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
-    private static final String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
+
 
     @SuppressWarnings("Duplicates")
     @BeforeClass
     public void setupDriver() throws MalformedURLException {
-
+        String SECURITY_TOKEN = System.getProperty("security-token", "PERFECTO_SECURITY_TOKEN");
         // Define target mobile device
         String browserName = "mobileOS";
         DesiredCapabilities capabilities = new DesiredCapabilities(browserName, "", Platform.ANY);
-        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY, "MYUSER");
-        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY, "MYPASSWORD");
-        capabilities.setCapability("user", seleniumGridUsername);
-        capabilities.setCapability("password", seleniumGridPassword);
+
+
         // Define device allocation timeout, in minutes
         capabilities.setCapability("openDeviceTimeout", 5);
 
@@ -46,6 +43,7 @@ public class WebDriverListenerTest implements WebDriverProvider {
         capabilities.setCapability("browserVersion", "latest");
         capabilities.setCapability("location", "US East");
         capabilities.setCapability("resolution", "1920x1080");
+        capabilities.setCapability("securityToken", SECURITY_TOKEN);
 //        capabilities.setCapability("outputVideo", false);
 
         // Create Remote WebDriver
