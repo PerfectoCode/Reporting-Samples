@@ -1,10 +1,12 @@
 ﻿using System;
 using NUnit.Framework;
 using OpenQA.Selenium.Remote;
-using Reportium.client;
-using Reportium.model;
-using Reportium.test.Result;
-using Reportium.test;
+using Reportium.Client;
+using Reportium.Model;
+using Reportium.Test.Result;
+using Reportium.Test;
+using TestContext = Reportium.Test.TestContext;
+using NTestContext = NUnit.Framework.TestContext;
 
 namespace ReportingTests.NUnit
 {
@@ -21,7 +23,7 @@ namespace ReportingTests.NUnit
     {
         //Perfecto lab username, password and host.
         private const string PERFECTO_USER = "MY_USER";
-        private const string PERFECTO_PASS = "MY_PASS";
+        private const string PERFECTO_TOKEN = "MY_TOKEN";
         private const string PERFECTO_HOST = "MY_HOST.perfectomobile.com";
 
         internal static RemoteWebDriver driver;
@@ -37,16 +39,16 @@ namespace ReportingTests.NUnit
             DesiredCapabilities capabilities = new DesiredCapabilities();
 
             //Provide your Perfecto lab user and pass
-            capabilities.SetCapability("user", PERFECTO_USER);
-            capabilities.SetCapability("password", PERFECTO_PASS);
+            //capabilities.SetCapability("user", PERFECTO_USER);
+            capabilities.SetCapability("securityToken", PERFECTO_TOKEN);
 
             //Device capabilities
             capabilities.SetCapability("platformName", "Android");
 
             //Create RemoteWebDriver
-            var url = new Uri(string.Format("http://{0}/nexperience/perfectomobile/wd/hub", PERFECTO_HOST));
+            var url = new Uri(string.Format("http://{0}/nexperience/perfectomobile/wd/hub/fast", PERFECTO_HOST));
             driver = new RemoteWebDriver(url, capabilities);
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(15));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
 
             //Initialize driver
             reportiumClient = clientCreator();
@@ -59,13 +61,14 @@ namespace ReportingTests.NUnit
         private static ReportiumClient clientCreator()
         {
             PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-                .withProject(new Project("My project", "2.1")) //optional 
-                .withContextTags(new[] { "Tag", "Tag2" , "c#" }) //optional 
-                .withJob(new Job("Job name", 12345)) //optional 
-                .withWebDriver(driver)
-                .build();
-
-            return PerfectoClientFactory.createPerfectoReportiumClient(perfectoExecutionContext);
+                .WithProject(new Project("My project", "2.1")) //optional 
+                .WithContextTags(new[] { "sample tag1", "sample tag2", "c#" }) //optional 
+                .WithCustomFields(new[] { new CustomField("tester", "john") }) //optional 
+                .WithJob(new Job("Job name", 12345, "master")) //optional 
+                .WithWebDriver(driver)
+                .Build();
+             
+            return PerfectoClientFactory.CreatePerfectoReportiumClient(perfectoExecutionContext);
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace ReportingTests.NUnit
         public void SetUp()
         {
             //Start a new reporting for the test with the full test name
-            reportiumClient.testStart(TestContext.CurrentContext.Test.FullName , new TestContextTags("My First NUnit test" , "Tag1" , "Tag2"));
+            reportiumClient.TestStart(NTestContext.CurrentContext.Test.FullName , new TestContext("My First NUnit test" , "Tag1" , "Tag2"));
         }
 
         /// <summary>
@@ -86,20 +89,20 @@ namespace ReportingTests.NUnit
         {
             try
             {
-                var status = TestContext.CurrentContext.Result.Outcome.Status.ToString();
+                var status = NTestContext.CurrentContext.Result.Outcome.Status.ToString();
 
                 //test success, generates successful reporting
                 if (status.Equals("Passed"))
                 {
-                    reportiumClient.testStop(TestResultFactory.createSuccess());
+                    reportiumClient.TestStop(TestResultFactory.CreateSuccess());
                 }
                 //test fail, generates failure repostiung
                 else
                 {
-                    var Message = TestContext.CurrentContext.Result.Message;
-                    var trace = TestContext.CurrentContext.Result.StackTrace;
+                    var Message = NTestContext.CurrentContext.Result.Message;
+                    var trace = NTestContext.CurrentContext.Result.StackTrace;
                     Message = Message + ". Stack Trace:" + trace;
-                    reportiumClient.testStop(TestResultFactory.createFailure(Message, null));
+                    reportiumClient.TestStop(TestResultFactory.CreateFailure(Message, null));
                 }
             }
             catch (Exception ex)
@@ -122,7 +125,7 @@ namespace ReportingTests.NUnit
             try
             {
                 driver.Close();
-                var url = reportiumClient.getReportUrl();
+                var url = reportiumClient.GetReportUrl();
                 Console.WriteLine(url);
 
                 //Optional open browser after test finished: 

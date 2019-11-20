@@ -16,20 +16,21 @@ namespace PerfectoSpecFlow
         [Given(@"I search for (.*)")]
         public void GivenISearchForPerfectoCodeGitHub(string valueToSearch)
         {
+            //locate the search bar and sendkeys
             driver.FindElementByName("q").SendKeys(valueToSearch);
-            driver.FindElementById("tsbb").Click();
+
+            //click on the search button
+            driver.FindElementByXPath("//*[@aria-label='Google Search']").Click();
+            
         }
         
-        [When(@"I click the first search result")]
-        public void WhenIClickTheFirstSearchResult()
-        {
-            driver.FindElementByCssSelector("#rso > div > div:nth-child(1) > div > div > div._OXf > h3 > a").Click();
-        }
         
-        [Then(@"I validate that (.*) is in the page's title")]
+        [Then(@"I validate that (.*) is in the page")]
         public void ThenIValidateThatPerfectoIsInThePageSTitle(string val)
         {
-            StringAssert.Contains(val, driver.Title);
+            
+            var keyword = "Perfecto"; //a keyword to validate
+            Assert.IsTrue(driver.FindElementByPartialLinkText(val).Displayed);
         } 
     }
 }

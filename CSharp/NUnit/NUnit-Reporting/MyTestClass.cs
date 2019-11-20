@@ -16,25 +16,21 @@ namespace ReportingTests.NUnit
         [Test]
         public void should_success()
         {
-            //Test step will be shown on the report ui
-            reportiumClient.testStep("Navigate to google and search PerfectoCode GitHub"); 
+
+            reportiumClient.TestStep("Navigate to google and search PerfectoCode GitHub"); //Test step will be shown on the report ui
             driver.Navigate().GoToUrl("https://www.google.com");
 
             //locate the search bar and sendkeys
             driver.FindElementByName("q").SendKeys("PerfectoCode GitHub");
 
             //click on the search button
-            driver.FindElementById("tsbb").Click();
+            driver.FindElementByXPath("//*[@aria-label='Google Search']").Click();
 
-            //Add as many test steps as you want
-            reportiumClient.testStep("Choose first result and validate title"); 
-            driver.FindElementByCssSelector("#rso > div > div:nth-child(1) > div > div > div._OXf > h3 > a").Click();
+            reportiumClient.TestStep("Choose first result and validate title"); //Add as many test steps as you want
+                                                                               
+            var keyword = "Perfecto"; //a keyword to validate
+            Assert.IsTrue(driver.FindElementByPartialLinkText(keyword).Displayed);
 
-            //a keyword to validate
-            var keyword = "Perfecto"; 
-
-            //assert that Keyword is in the page title
-            Assert.IsTrue(driver.Title.Contains(keyword));
         }
 
         /// <summary>

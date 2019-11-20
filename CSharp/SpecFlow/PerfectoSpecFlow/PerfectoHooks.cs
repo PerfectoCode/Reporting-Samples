@@ -3,10 +3,10 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.iOS;
 using OpenQA.Selenium.Remote;
-using Reportium.client;
-using Reportium.model;
-using Reportium.test;
-using Reportium.test.Result;
+using Reportium.Client;
+using Reportium.Model;
+using Reportium.Test;
+using Reportium.Test.Result;
 using System;
 using TechTalk.SpecFlow;
 
@@ -20,7 +20,7 @@ namespace PerfectoSpecFlow
 
         //Perfecto Lab credentials
         const string PerfectoUser = "My_User";
-        const string PerfectoPass = "My_Pass";
+        const string PerfectoToken = "MySecurity_Token";
         const string PerfectoHost = "My_Host.perfectomobile.com"; 
         
         /**
@@ -31,27 +31,33 @@ namespace PerfectoSpecFlow
         public static void beforeFeature()
         {
 
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.SetCapability("user", PerfectoUser);
-            capabilities.SetCapability("password", PerfectoPass);
-
-            capabilities.SetCapability("platformName", "Android");
-            capabilities.SetCapability("model", "Galaxy S6");
-            //capabilities.SetCapability("platformVersion", "");
-            //capabilities.SetCapability("browserName", "");
-            //capabilities.SetCapability("deviceName", "");
-
-            var url = new Uri(string.Format("http://{0}/nexperience/perfectomobile/wd/hub", PerfectoHost));
-
-            if (capabilities.GetCapability("platformName").Equals("Android"))
+           
+            var desiredCaps = new AppiumOptions
             {
-                driver = new AndroidDriver<IWebElement>(url, capabilities);
+                PlatformName = "Android"
+               // PlatformName = "iOS"
+            };
+            //Credentials from setting file named properties
+            desiredCaps.AddAdditionalCapability("user", PerfectoUser);
+            desiredCaps.AddAdditionalCapability("securityToken", PerfectoToken);
+
+
+            desiredCaps.AddAdditionalCapability("platformName", "Android");
+            desiredCaps.AddAdditionalCapability("model", "Galaxy S6");
+
+            Uri url = new Uri(string.Format("http://{0}/nexperience/perfectomobile/wd/hub/fast", PerfectoHost));
+
+            if (desiredCaps.ToCapabilities().GetCapability("platformName").Equals("Android"))
+            {
+                driver = new AndroidDriver<IWebElement>(url, desiredCaps);
+               
             }
             else
             {
-                driver = new IOSDriver<IWebElement>(url, capabilities);
+                driver = new IOSDriver<IWebElement>(url, desiredCaps);
             }
-
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
+           
             reportingClient = CreateReportingClient();
         }
 
@@ -62,7 +68,7 @@ namespace PerfectoSpecFlow
         [BeforeScenario]
         public static void beforeScenario()
         {
-            reportingClient.testStart(ScenarioContext.Current.ScenarioInfo.Title, new TestContextTags(ScenarioContext.Current.ScenarioInfo.Tags));
+            reportingClient.TestStart(ScenarioContext.Current.ScenarioInfo.Title, new TestContext(ScenarioContext.Current.ScenarioInfo.Tags));
         }
 
         /**
@@ -72,7 +78,7 @@ namespace PerfectoSpecFlow
         [BeforeStep]
         public static void beforeStep()
         {
-            reportingClient.testStep(ScenarioStepContext.Current.StepInfo.Text);
+            reportingClient.TestStep(ScenarioStepContext.Current.StepInfo.Text);
         }
 
         /**
@@ -87,11 +93,11 @@ namespace PerfectoSpecFlow
 
             if (scenarioExpection == null)
             {
-                reportingClient.testStop(TestResultFactory.createSuccess());
+                reportingClient.TestStop(TestResultFactory.CreateSuccess());
             }
             else
             {
-                reportingClient.testStop(TestResultFactory.createFailure(scenarioExpection.Message, scenarioExpection));
+                reportingClient.TestStop(TestResultFactory.CreateFailure(scenarioExpection.Message, scenarioExpection));
             }
         }
 
@@ -101,7 +107,7 @@ namespace PerfectoSpecFlow
         [AfterFeature]
         public static void afterFeature()
         {
-            Console.WriteLine("Report-Url: " + reportingClient.getReportUrl());
+            Console.WriteLine("Report-Url: " + reportingClient.GetReportUrl());
             driver.Close();
             driver.Quit();
         }
@@ -109,12 +115,12 @@ namespace PerfectoSpecFlow
         private static ReportiumClient CreateReportingClient()
         {
             PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
-                .withProject(new Project("My first project", "v1.0")) //optional 
-                .withContextTags(new[] { "tag1", "tag2", "tag3" }) //optional 
-                .withJob(new Job("Job name", 12345)) //optional 
-                .withWebDriver(driver)
-                .build();
-            return PerfectoClientFactory.createPerfectoReportiumClient(perfectoExecutionContext);
+                .WithProject(new Project("My first project", "v1.0")) //optional 
+                .WithContextTags(new[] { "tag1", "tag2", "tag3" }) //optional 
+                .WithJob(new Job("Job name", 12345)) //optional 
+                .WithWebDriver(driver)
+                .Build();
+            return PerfectoClientFactory.CreatePerfectoReportiumClient(perfectoExecutionContext);
         }
 
     }

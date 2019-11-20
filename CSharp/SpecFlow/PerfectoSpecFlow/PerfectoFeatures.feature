@@ -5,6 +5,5 @@
 @Tag1 @Tag2
 Scenario: Navigating to Google and search for PerfectoCode
 	Given I navigate to google search page
-	And I search for PerfectoCode GitHub
-	When I click the first search result 
-	Then I validate that Perfecto is in the page's title 
+	And I search for Perfecto
+	Then I validate that Perfecto is in the page 

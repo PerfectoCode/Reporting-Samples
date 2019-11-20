@@ -27,7 +27,7 @@ namespace PerfectoSpecFlow
 #line 1 "PerfectoFeatures.feature"
 #line hidden
         
-        [NUnit.Framework.TestFixtureSetUpAttribute()]
+        [NUnit.Framework.SetUp()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
@@ -36,7 +36,7 @@ namespace PerfectoSpecFlow
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.TestFixtureTearDownAttribute()]
+        [NUnit.Framework.TearDown()]
         public virtual void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
@@ -78,11 +78,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 7
  testRunner.Given("I navigate to google search page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.And("I search for PerfectoCode GitHub", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I search for Perfecto", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
- testRunner.When("I click the first search result", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 10
- testRunner.Then("I validate that Perfecto is in the page\'s title", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I validate that Perfecto is in the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
