@@ -9,6 +9,7 @@ import com.perfecto.reportium.model.Project;
 import com.perfecto.reportium.test.TestContext;
 import com.perfecto.reportium.test.result.TestResult;
 import com.perfecto.reportium.test.result.TestResultFactory;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -98,18 +99,16 @@ public class MultipleExecutionsTest {
     }
 
     private static WebDriver acquireDriver() throws MalformedURLException {
-        final String HOST = "host";
-        final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
-        String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
-        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
-        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+        final String HOST = "CloudURL.perfectomobile.com";
+
+        DesiredCapabilities capabilities = new DesiredCapabilities("", "", Platform.ANY);
         capabilities.setCapability("platformName", "iOS");
-        capabilities.setCapability("user", seleniumGridUsername);
-        capabilities.setCapability("password", seleniumGridPassword);
+        capabilities.setCapability("manufacturer", "Apple");
+        capabilities.setCapability("securityToken", "");
+
 
         // Create the driver
-        RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("http://" + System.getProperty(HOST) + "/nexperience/perfectomobile/wd/hub"), capabilities);
+        RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("https://CloudURL.perfectomobile.com/nexperience/perfectomobile/wd/hub/fast"), capabilities);
         System.out.println("end of init driver");
         return remoteWebDriver;
     }
