@@ -16,8 +16,19 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
 public class MultipleExecutionsTest {
+
+    // TODO put your Continuous Quality Lab name here
+    private static final String LAB_NAME = "my-lab.perfectomobile.com";
+
+    // TODO put your Continuous Quality username here
+    private static final String USERNAME = "my-lab-username";
+
+    // TODO put your Continuous Quality password here
+    private static final String PASSWORD = "my-lab-password";
+
 
     private static final String SOURCE_FILE_ROOT_PATH = "Java/main-sample/src/main/java";
 
@@ -74,8 +85,9 @@ public class MultipleExecutionsTest {
         webDriver.quit();
     }
 
-    private static ReportiumClient createReportingClient(WebDriver webDriver1, String alias1, WebDriver webDriver2, String alias2,
-            WebDriver webDriver3, String alias3) {
+    private static ReportiumClient createReportingClient(WebDriver webDriver1, String alias1,
+                                                         WebDriver webDriver2, String alias2,
+                                                         WebDriver webDriver3, String alias3) {
         // Custom fields
         CustomField teamCustomField = new CustomField("team", "devOps");
         CustomField departmentCustomField = new CustomField("department", "engineering");
@@ -98,18 +110,28 @@ public class MultipleExecutionsTest {
     }
 
     private static WebDriver acquireDriver() throws MalformedURLException {
-        final String HOST = "host";
-        final String SELENIUM_GRID_USERNAME_KEY = "selenium-grid-username";
-        String SELENIUM_GRID_PASSWORD_KEY = "selenium-grid-password";
-        String seleniumGridUsername = System.getProperty(SELENIUM_GRID_USERNAME_KEY);
-        String seleniumGridPassword = System.getProperty(SELENIUM_GRID_PASSWORD_KEY);
+        String host = System.getProperty("host", LAB_NAME);
+        if (Objects.equals("my-lab.perfectomobile.com", host)) {
+            throw new RuntimeException("Please set the lab name");
+        }
+
+        String userName = System.getProperty("selenium-grid-username", USERNAME);
+        if (Objects.equals("my-lab-username", userName)) {
+            throw new RuntimeException("Please set the username");
+        }
+
+        String password = System.getProperty("selenium-grid-password", PASSWORD);
+        if (Objects.equals("my-lab-password", password)) {
+            throw new RuntimeException("Please set the password");
+        }
+
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "iOS");
-        capabilities.setCapability("user", seleniumGridUsername);
-        capabilities.setCapability("password", seleniumGridPassword);
+        capabilities.setCapability("user", userName);
+        capabilities.setCapability("password", password);
 
         // Create the driver
-        RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("http://" + System.getProperty(HOST) + "/nexperience/perfectomobile/wd/hub"), capabilities);
+        RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
         System.out.println("end of init driver");
         return remoteWebDriver;
     }
