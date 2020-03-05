@@ -43,12 +43,18 @@ public class SimpleTest {
             driver.get("http://www.google.com");
             reportiumClient.stepEnd();
 
-
+            // Test start
             reportiumClient.stepStart("browser navigate to ebay");
             driver.get("http://www.ebay.com");
             reportiumClient.stepEnd();
 
-            //STOP TEST
+
+
+            // TODO write your test code here
+
+
+
+            // Test end
             TestResult testResult = TestResultFactory.createSuccess();
             reportiumClient.testStop(testResult);
 
@@ -60,6 +66,7 @@ public class SimpleTest {
             driver.close();
             driver.quit();
         }
+        System.out.println("Test completed");
     }
 
     private static ReportiumClient createReportingClient(WebDriver driver) {
@@ -76,7 +83,7 @@ public class SimpleTest {
                 .withCustomFields(customFields)
                 .withWebDriver(driver)
                 .build();
-        System.out.println("end of reporting client setup");
+        System.out.println("End of reporting client setup");
         return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
     }
 
@@ -103,7 +110,7 @@ public class SimpleTest {
 
         // Create the driver
         RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
-        System.out.println("end of init driver");
+        System.out.println("End of driver init");
         return remoteWebDriver;
     }
 }

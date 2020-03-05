@@ -63,6 +63,12 @@ public class MultipleExecutionsTest {
             webDriver3.get("http://www.cnn.com");
             reportiumClient.stepEnd();
 
+
+
+            // TODO write your test code here
+
+
+
             // Test stop
             TestResult testResult = TestResultFactory.createSuccess();
             reportiumClient.testStop(testResult);
@@ -77,6 +83,7 @@ public class MultipleExecutionsTest {
             closeDriver(webDriver2);
             closeDriver(webDriver3);
         }
+        System.out.println("Test completed");
     }
 
     private static void closeDriver(WebDriver webDriver) {
@@ -105,7 +112,7 @@ public class MultipleExecutionsTest {
                 .build();
 
         // Create and return the reporting client
-        System.out.println("end of reporting client setup");
+        System.out.println("End of reporting client setup");
         return new ReportiumClientFactory().createPerfectoReportiumClient(perfectoExecutionContext);
     }
 
@@ -132,7 +139,7 @@ public class MultipleExecutionsTest {
 
         // Create the driver
         RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
-        System.out.println("end of init driver");
+        System.out.println("End of drivers init");
         return remoteWebDriver;
     }
 }
