@@ -32,9 +32,8 @@ public class SimpleTest {
     private static final String SOURCE_FILE_ROOT_PATH = "Java/main-sample/src/main/java";
 
     public static void main(String[] args) throws IOException {
-        //boolean test passed = true; // assume true until failure
         WebDriver driver = getDriver();
-        ReportiumClient reportiumClient = setReportingClient(driver);
+        ReportiumClient reportiumClient = createReportingClient(driver);
         try {
             reportiumClient.testStart("simpleTest", new TestContext.Builder()
                     .withTestExecutionTags("google")
@@ -61,17 +60,14 @@ public class SimpleTest {
             driver.close();
             driver.quit();
         }
-
-
     }
 
-    private static ReportiumClient setReportingClient(WebDriver driver) {
+    private static ReportiumClient createReportingClient(WebDriver driver) {
 
         // Custom fields
         CustomField teamCustomField = new CustomField("team", "devOps");
         CustomField departmentCustomField = new CustomField("department", "engineering");
         CustomField[] customFields = VcsUtils.addVcsFields(SOURCE_FILE_ROOT_PATH, teamCustomField, departmentCustomField);
-
 
         PerfectoExecutionContext perfectoExecutionContext = new PerfectoExecutionContext.PerfectoExecutionContextBuilder()
                 .withJob(new Job("my-custom-job-name", 123).withBranch("my-branch"))
