@@ -17,7 +17,7 @@ public class ApiExportPaginationCodeSample {
     // The Perfecto Continuous Quality Lab you work with
     public static final String CQL_NAME = "demo"; // TODO put your Continuous Quality Lab name here
 
-    // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
+    // See https://developers.perfectomobile.com/display/PD/Smart+Reporting+Public+API on how to obtain a Security Token
     public static final String PERFECTO_SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN"; // TODO put your security token here
 
 

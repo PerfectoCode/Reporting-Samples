@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiExportCodeSample {
 
-    // See http://developers.perfectomobile.com/display/PD/DigitalZoom+Reporting+Public+API on how to obtain a Security Token
+    // See https://developers.perfectomobile.com/display/PD/Smart+Reporting+Public+API on how to obtain a Security Token
     private static final String PERFECTO_SECURITY_TOKEN = "MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN"; // TODO put your security token here
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
 
