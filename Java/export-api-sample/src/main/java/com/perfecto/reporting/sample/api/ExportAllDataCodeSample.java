@@ -47,7 +47,8 @@ public class ExportAllDataCodeSample {
                 String testId = testJson.get("id").getAsString();
                 String testName = testJson.get("name").getAsString();
 
-                Path testFolder = Paths.get(exportRoot.toString(), "test-" + String.format("%03d", testCounter) + "-" + FilenameUtils.normalize(testName));
+                String normalizedTestName = FilenameUtils.normalize(testName);
+                Path testFolder = Paths.get(exportRoot.toString(), "test-" + String.format("%03d", testCounter) + "-" + normalizedTestName);
                 Files.createDirectories(testFolder);
 
                 // write test's data to a file
@@ -60,10 +61,10 @@ public class ExportAllDataCodeSample {
                 ReportiumExportUtils.writeJsonToFile(commandsJsonPath, commandsJson);
 
                 // get PDF of the specific test and store it to a file
-                Path testPdfPath = Paths.get(testFolder.toString(), "report.pdf");
+                Path testPdfPath = Paths.get(testFolder.toString(), "report-" + normalizedTestName + ".pdf");
                 ReportiumExportUtils.downloadTestReport(testPdfPath, testId);
 
-                downloadAttachments(testJson, testFolder);
+                downloadAttachments(testJson, testFolder, normalizedTestName);
 
                 downloadVideos(testJson, testFolder);
 
@@ -82,7 +83,7 @@ public class ExportAllDataCodeSample {
         }
     }
 
-    private static void downloadAttachments(JsonObject testJson, Path testFolder) throws IOException, URISyntaxException {
+    private static void downloadAttachments(JsonObject testJson, Path testFolder, String normalizedTestName) throws IOException, URISyntaxException {
         String testName = testJson.get("name").getAsString();
         JsonArray attachmentsArray = testJson.getAsJsonArray("artifacts");
         if (attachmentsArray.size() > 0) {
@@ -92,10 +93,13 @@ public class ExportAllDataCodeSample {
             for (JsonElement attachmentElement : attachmentsArray) {
                 JsonObject artifactJson = attachmentElement.getAsJsonObject();
                 String type = artifactJson.get("type").getAsString();
+                String path = artifactJson.get("path").getAsString();
+                String fileName = artifactJson.get("fileName") != null ? artifactJson.get("fileName").getAsString() : FilenameUtils.getName(path);
+                fileName = type + "-" + normalizedTestName + "-" + fileName;
+                
                 Path attachmentDir = Paths.get(attachmentsDir.toString(), type.toLowerCase());
                 Files.createDirectories(attachmentDir);
-                String path = artifactJson.get("path").getAsString();
-                Path artifactPath = Paths.get(attachmentDir.toString(), FilenameUtils.getName(path));
+                Path artifactPath = Paths.get(attachmentDir.toString(), FilenameUtils.getName(fileName));
                 ReportiumExportUtils.downloadFileToFS(artifactPath, new URI(path));
             }
         } else {
