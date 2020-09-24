@@ -10,8 +10,7 @@ class TestConf(unittest.TestCase):
         #Suppress InsecureRequestWarning: Unverified HTTPS request is being made 
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
-        self.user = os.environ['USERNAME']
-        self.password = os.environ['PASSWORD']
+        self.securityToken = os.environ['OFFLINE_TOKEN']
         self.host = os.environ['LAB'] + '.perfectomobile.com'
         self.driver = None
         self.reporting_client = None
@@ -21,10 +20,10 @@ class TestConf(unittest.TestCase):
     def setUp(self):
         capabilities = {
             'platformName': 'Android',
-            'deviceName': '',
-            'user': self.user,
-            'password': self.password
+            'model': 'Galaxy S9',
+            'securityToken' : self.securityToken
         }
+        print ('capabilities:' + capabilities);
         self.driver = webdriver.Remote('https://' + self.host + '/nexperience/perfectomobile/wd/hub', capabilities)
         self.create_reporting_client()
         cf1 = model.CustomField('key1', 'Tvalue1')
