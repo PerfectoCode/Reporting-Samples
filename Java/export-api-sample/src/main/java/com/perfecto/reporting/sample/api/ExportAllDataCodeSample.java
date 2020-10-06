@@ -106,7 +106,40 @@ public class ExportAllDataCodeSample {
             System.out.println("No attachments found for test execution '" + testName + "'");
         }
     }
+    
+    // below is handled for downloading accessibility reports
+public static void downloadAttachmentsNew(JsonObject testJson, Path testFolder) throws IOException, URISyntaxException {
+        String testName = testJson.get("name").getAsString();
+        String testId = testJson.get("id").getAsString();
+        
+        JsonArray attachmentsArray = testJson.getAsJsonArray("artifacts");
+        if (attachmentsArray.size() > 0) {
+            Path attachmentsDir = Paths.get(testFolder.toString(), "attachments");
+            Files.createDirectories(attachmentsDir);
 
+            for (JsonElement attachmentElement : attachmentsArray) {
+                JsonObject artifactJson = attachmentElement.getAsJsonObject();
+                
+                String type=null;
+                Path attachmentDir =null;
+                if(artifactJson.get("type").getAsString().contains("Accessibility")){
+                	
+                	type = artifactJson.get("fileName").getAsString();
+                	attachmentDir= Paths.get(attachmentsDir.toString()+"/"+artifactJson.get("type").getAsString(), type.toLowerCase());
+                    
+                }else{
+                	  type = artifactJson.get("type").getAsString();
+                	  attachmentDir= Paths.get(attachmentsDir.toString(), type.toLowerCase());
+                }
+                        Files.createDirectories(attachmentDir);
+                String path = artifactJson.get("path").getAsString();
+                Path artifactPath = Paths.get(attachmentDir.toString(), FilenameUtils.getName(testName+"_"+testId+".Zip"));
+                ReportiumExportUtils.downloadFileToFS(artifactPath, new URI(path));
+            }
+        } else {
+            System.out.println("No attachments found for test execution '" + testName + "'");
+        }
+    }
     private static void downloadVideos(JsonObject testJson, Path testFolder) throws IOException, URISyntaxException {
         String testName = testJson.get("name").getAsString();
         JsonArray videosArray = testJson.getAsJsonArray("videos");
