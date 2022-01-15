@@ -1,6 +1,9 @@
 package com.perfecto.reporting.sample.api;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -40,6 +43,9 @@ public class ReportiumExportUtils {
     private static final int TIMEOUT_MILLIS = 60000;
     private static final int DOWNLOAD_ATTEMPTS = 12;
     private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
+    private static final String CSV_TASK_CREATION_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv";
+    private static final String PDF_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/";
+    private static final String CSV_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv/";
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static HttpClient httpClient = HttpClientBuilder.create()
@@ -159,42 +165,30 @@ public class ReportiumExportUtils {
      * @throws URISyntaxException
      * @throws IOException
      */
-    public static void downloadCsvTestReport(Path testCsvPath) throws URISyntaxException, IOException {
+    public static void downloadCsvTestReport(Path testCsvPath, JsonObject requestBody) throws URISyntaxException, IOException {
         System.out.println("Starting CSV generation");
-        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv");
+        URIBuilder taskUriBuilder = new URIBuilder(CSV_TASK_CREATION_URL);
         HttpPost httpPost = new HttpPost(taskUriBuilder.build());
         addDefaultRequestHeaders(httpPost);
-        addRequestBody(httpPost);
+        addRequestBody(httpPost, requestBody);
 
         CreateTask task = null;
         for (int attempt = 1; attempt <= DOWNLOAD_ATTEMPTS; attempt++) {
 
             HttpResponse response = httpClient.execute(httpPost);
-            try {
-                int statusCode = response.getStatusLine().getStatusCode();
-                if (HttpStatus.SC_OK == statusCode) {
-                    task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreateTask.class);
-                    break;
-                } else if (HttpStatus.SC_NO_CONTENT == statusCode) {
-
-                    // if the execution is being processed, the server will respond with empty response and status code 204
-                    System.out.println("The server responded with 204 (no content). " +
-                            "The execution is still being processed. Attempting again in 5 sec (" + attempt + "/" + DOWNLOAD_ATTEMPTS + ")");
-                    Thread.sleep(5000);
-                } else {
-                    String errorMsg = IOUtils.toString(response.getEntity().getContent(), Charset.defaultCharset());
-                    System.err.println("Error downloading file. Status: " + response.getStatusLine() + ".\nInfo: " + errorMsg);
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } finally {
-                EntityUtils.consumeQuietly(response.getEntity());
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (HttpStatus.SC_OK == statusCode) {
+                task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreateTask.class);
+                break;
+            } else {
+                String errorMsg = IOUtils.toString(response.getEntity().getContent(), Charset.defaultCharset());
+                System.err.println("Error downloading file. Status: " + response.getStatusLine() + ".\nInfo: " + errorMsg);
             }
+            EntityUtils.consumeQuietly(response.getEntity());
         }
         if (task == null) {
             throw new RuntimeException("Unable to create a CreateTask");
         }
-
         downloadCsvTestReport(testCsvPath, task);
     }
 
@@ -229,7 +223,7 @@ public class ReportiumExportUtils {
 
         CreateTask updatedTask;
         do {
-            updatedTask = getUpdatedTask(taskId);
+            updatedTask = getUpdatedTask(taskId, PDF_DOWNLOAD_URL);
             try {
                 if (updatedTask.getStatus() != TaskStatus.COMPLETE) {
                     Thread.sleep(3000);
@@ -256,7 +250,7 @@ public class ReportiumExportUtils {
 
         CreateTask updatedTask;
         do {
-            updatedTask = getUpdatedCsvTask(taskId);
+            updatedTask = getUpdatedTask(taskId, CSV_DOWNLOAD_URL);
             try {
                 if (updatedTask.getStatus() != TaskStatus.COMPLETE) {
                     Thread.sleep(3000);
@@ -274,24 +268,9 @@ public class ReportiumExportUtils {
         }
     }
 
-    private static CreateTask getUpdatedTask(String taskId) throws URISyntaxException, IOException {
+    private static CreateTask getUpdatedTask(String taskId, String downloadUrl) throws URISyntaxException, IOException {
         CreateTask task;
-        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/" + taskId);
-        HttpGet httpGet = new HttpGet(taskUriBuilder.build());
-        addDefaultRequestHeaders(httpGet);
-        HttpResponse response = httpClient.execute(httpGet);
-        int statusCode = response.getStatusLine().getStatusCode();
-        if (HttpStatus.SC_OK == statusCode) {
-            task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreateTask.class);
-        } else {
-            throw new RuntimeException("Error while getting AsyncTask: " + response.getStatusLine().toString());
-        }
-        return task;
-    }
-
-    private static CreateTask getUpdatedCsvTask(String taskId) throws URISyntaxException, IOException {
-        CreateTask task;
-        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv/" + taskId);
+        URIBuilder taskUriBuilder = new URIBuilder(downloadUrl + taskId);
         HttpGet httpGet = new HttpGet(taskUriBuilder.build());
         addDefaultRequestHeaders(httpGet);
         HttpResponse response = httpClient.execute(httpGet);
@@ -366,18 +345,9 @@ public class ReportiumExportUtils {
     }
 
 
-    private static void addRequestBody(HttpPost request) {
-        JsonObject json = new JsonObject();
-        JsonObject filerJson = new JsonObject();
-        JsonArray values = new JsonArray();
-        values.add("1641839400000");
-        JsonObject fieldsJson = new JsonObject();
-        fieldsJson.add("startExecutionTime", values);
-        filerJson.add("fields", fieldsJson);
-        json.add("filter", filerJson);
-
+    private static void addRequestBody(HttpPost request, JsonObject requestBodyJson) {
         try {
-            StringEntity requestBody = new StringEntity(json.toString());
+            StringEntity requestBody = new StringEntity(requestBodyJson.toString());
             request.setEntity(requestBody);
         } catch (Exception e) {
             throw new RuntimeException(e);
