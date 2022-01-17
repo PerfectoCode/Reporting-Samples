@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -40,8 +41,11 @@ public class ReportiumExportUtils {
 
 
     private static final int TIMEOUT_MILLIS = 60000;
-    private static final int PDF_DOWNLOAD_ATTEMPTS = 12;
+    private static final int DOWNLOAD_ATTEMPTS = 12;
     private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
+    private static final String CSV_TASK_CREATION_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv";
+    private static final String PDF_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/";
+    private static final String CSV_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv/";
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static HttpClient httpClient = HttpClientBuilder.create()
@@ -104,7 +108,7 @@ public class ReportiumExportUtils {
         URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v1/test-executions/pdf");
         uriBuilder.addParameter("externalId[0]", driverExecutionId);
 
-        downloadPdfFileToFS(summaryPdfPath, uriBuilder.build());
+        downloadPdfOrCsvFileToFS(summaryPdfPath, uriBuilder.build());
     }
 
     /**
@@ -122,20 +126,20 @@ public class ReportiumExportUtils {
         HttpPost httpPost = new HttpPost(taskUriBuilder.build());
         addDefaultRequestHeaders(httpPost);
 
-        CreatePdfTask task = null;
-        for (int attempt = 1; attempt <= PDF_DOWNLOAD_ATTEMPTS; attempt++) {
+        CreateTask task = null;
+        for (int attempt = 1; attempt <= DOWNLOAD_ATTEMPTS; attempt++) {
 
             HttpResponse response = httpClient.execute(httpPost);
             try {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (HttpStatus.SC_OK == statusCode) {
-                    task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreatePdfTask.class);
+                    task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreateTask.class);
                     break;
                 } else if (HttpStatus.SC_NO_CONTENT == statusCode) {
 
                     // if the execution is being processed, the server will respond with empty response and status code 204
                     System.out.println("The server responded with 204 (no content). " +
-                            "The execution is still being processed. Attempting again in 5 sec (" + attempt + "/" + PDF_DOWNLOAD_ATTEMPTS + ")");
+                            "The execution is still being processed. Attempting again in 5 sec (" + attempt + "/" + DOWNLOAD_ATTEMPTS + ")");
                     Thread.sleep(5000);
                 } else {
                     String errorMsg = IOUtils.toString(response.getEntity().getContent(), Charset.defaultCharset());
@@ -148,10 +152,44 @@ public class ReportiumExportUtils {
             }
         }
         if (task == null) {
-            throw new RuntimeException("Unable to create a CreatePdfTask");
+            throw new RuntimeException("Unable to create a CreateTask");
         }
 
         downloadTestReport(testPdfPath, task, testId);
+    }
+
+    /**
+     * Downloads a CSV report
+     *
+     * @param testCsvPath local path that the downloaded report will be saved to
+     * @throws URISyntaxException
+     * @throws IOException
+     */
+    public static void downloadCsvTestReport(Path testCsvPath, JsonObject requestBody) throws URISyntaxException, IOException {
+        System.out.println("Starting CSV generation");
+        URIBuilder taskUriBuilder = new URIBuilder(CSV_TASK_CREATION_URL);
+        HttpPost httpPost = new HttpPost(taskUriBuilder.build());
+        addDefaultRequestHeaders(httpPost);
+        addRequestBody(httpPost, requestBody);
+
+        CreateTask task = null;
+        for (int attempt = 1; attempt <= DOWNLOAD_ATTEMPTS; attempt++) {
+
+            HttpResponse response = httpClient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (HttpStatus.SC_OK == statusCode) {
+                task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreateTask.class);
+                break;
+            } else {
+                String errorMsg = IOUtils.toString(response.getEntity().getContent(), Charset.defaultCharset());
+                System.err.println("Error downloading file. Status: " + response.getStatusLine() + ".\nInfo: " + errorMsg);
+            }
+            EntityUtils.consumeQuietly(response.getEntity());
+        }
+        if (task == null) {
+            throw new RuntimeException("Unable to create a CreateTask");
+        }
+        downloadCsvTestReport(testCsvPath, task);
     }
 
     public static void writeJsonToFile(Path path, JsonObject jsonObject) throws IOException {
@@ -176,16 +214,16 @@ public class ReportiumExportUtils {
         return result;
     }
 
-    private static void downloadTestReport(Path testPdfPath, CreatePdfTask task, String testId) throws URISyntaxException, IOException {
+    private static void downloadTestReport(Path testPdfPath, CreateTask task, String testId) throws URISyntaxException, IOException {
         System.out.println("Downloading PDF for test ID: " + testId);
         long startTime = System.currentTimeMillis();
         int maxWaitMin = 10;
         long maxGenerationTime = TimeUnit.MINUTES.toMillis(maxWaitMin);
         String taskId = task.getTaskId();
 
-        CreatePdfTask updatedTask;
+        CreateTask updatedTask;
         do {
-            updatedTask = getUpdatedTask(taskId);
+            updatedTask = getUpdatedTask(taskId, PDF_DOWNLOAD_URL);
             try {
                 if (updatedTask.getStatus() != TaskStatus.COMPLETE) {
                     Thread.sleep(3000);
@@ -197,21 +235,48 @@ public class ReportiumExportUtils {
         while (updatedTask.getStatus() != TaskStatus.COMPLETE && startTime + maxGenerationTime > System.currentTimeMillis());
 
         if (updatedTask.getStatus() == TaskStatus.COMPLETE) {
-            downloadPdfFileToFS(testPdfPath, new URI(updatedTask.getUrl()));
+            downloadPdfOrCsvFileToFS(testPdfPath, new URI(updatedTask.getUrl()));
         } else {
             throw new RuntimeException("The task is still in " + updatedTask.getStatus() + " status after waiting " + maxWaitMin + " min");
         }
     }
 
-    private static CreatePdfTask getUpdatedTask(String taskId) throws URISyntaxException, IOException {
-        CreatePdfTask task;
-        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/" + taskId);
+    private static void downloadCsvTestReport(Path testCsvPath, CreateTask task) throws URISyntaxException, IOException {
+        System.out.println("Downloading CSV");
+        long startTime = System.currentTimeMillis();
+        int maxWaitMin = 10;
+        long maxGenerationTime = TimeUnit.MINUTES.toMillis(maxWaitMin);
+        String taskId = task.getTaskId();
+
+        CreateTask updatedTask;
+        do {
+            updatedTask = getUpdatedTask(taskId, CSV_DOWNLOAD_URL);
+            try {
+                if (updatedTask.getStatus() != TaskStatus.COMPLETE) {
+                    Thread.sleep(3000);
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        while (updatedTask.getStatus() != TaskStatus.COMPLETE && startTime + maxGenerationTime > System.currentTimeMillis());
+
+        if (updatedTask.getStatus() == TaskStatus.COMPLETE) {
+            downloadPdfOrCsvFileToFS(testCsvPath, new URI(updatedTask.getUrl()));
+        } else {
+            throw new RuntimeException("The task is still in " + updatedTask.getStatus() + " status after waiting " + maxWaitMin + " min");
+        }
+    }
+
+    private static CreateTask getUpdatedTask(String taskId, String downloadUrl) throws URISyntaxException, IOException {
+        CreateTask task;
+        URIBuilder taskUriBuilder = new URIBuilder(downloadUrl + taskId);
         HttpGet httpGet = new HttpGet(taskUriBuilder.build());
         addDefaultRequestHeaders(httpGet);
         HttpResponse response = httpClient.execute(httpGet);
         int statusCode = response.getStatusLine().getStatusCode();
         if (HttpStatus.SC_OK == statusCode) {
-            task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreatePdfTask.class);
+            task = gson.fromJson(EntityUtils.toString(response.getEntity()), CreateTask.class);
         } else {
             throw new RuntimeException("Error while getting AsyncTask: " + response.getStatusLine().toString());
         }
@@ -233,11 +298,11 @@ public class ReportiumExportUtils {
         }
     }
 
-    private static void downloadPdfFileToFS(Path pdfPath, URI uri) throws IOException {
+    private static void downloadPdfOrCsvFileToFS(Path filePath, URI uri) throws IOException {
         boolean downloadComplete = false;
         HttpGet httpGet = new HttpGet(uri);
         ReportiumExportUtils.addDefaultRequestHeaders(httpGet);
-        for (int attempt = 1; attempt <= PDF_DOWNLOAD_ATTEMPTS && !downloadComplete; attempt++) {
+        for (int attempt = 1; attempt <= DOWNLOAD_ATTEMPTS && !downloadComplete; attempt++) {
 
             HttpResponse response = httpClient.execute(httpGet);
             FileOutputStream fileOutputStream = null;
@@ -245,15 +310,15 @@ public class ReportiumExportUtils {
             try {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (HttpStatus.SC_OK == statusCode) {
-                    fileOutputStream = new FileOutputStream(pdfPath.toFile());
+                    fileOutputStream = new FileOutputStream(filePath.toFile());
                     IOUtils.copy(response.getEntity().getContent(), fileOutputStream);
-                    System.out.println("Saved downloaded file to: " + pdfPath.toString());
+                    System.out.println("Saved downloaded file to: " + filePath.toString());
                     downloadComplete = true;
                 } else if (HttpStatus.SC_NO_CONTENT == statusCode) {
 
                     // if the execution is being processed, the server will respond with empty response and status code 204
                     System.out.println("The server responded with 204 (no content). " +
-                            "The execution is still being processed. Attempting again in 5 sec (" + attempt + "/" + PDF_DOWNLOAD_ATTEMPTS + ")");
+                            "The execution is still being processed. Attempting again in 5 sec (" + attempt + "/" + DOWNLOAD_ATTEMPTS + ")");
                     Thread.sleep(5000);
                 } else {
                     String errorMsg = IOUtils.toString(response.getEntity().getContent(), Charset.defaultCharset());
@@ -279,16 +344,26 @@ public class ReportiumExportUtils {
         request.addHeader("PERFECTO_AUTHORIZATION", SECURITY_TOKEN);
     }
 
+
+    private static void addRequestBody(HttpPost request, JsonObject requestBodyJson) {
+        try {
+            StringEntity requestBody = new StringEntity(requestBodyJson.toString());
+            request.setEntity(requestBody);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private enum TaskStatus {
         IN_PROGRESS, COMPLETE
     }
 
-    private static class CreatePdfTask {
+    private static class CreateTask {
         private String taskId;
         private TaskStatus status;
         private String url;
 
-        public CreatePdfTask() {
+        public CreateTask() {
         }
 
         public String getTaskId() {
