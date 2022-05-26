@@ -30,7 +30,7 @@ public class ApiExportPaginationCodeSample {
         boolean halt = false;
         int page = 1;
         while (!halt) {
-            URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v1/test-executions");
+            URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v3/test-executions");
             // In this example: retrieve test executions of the past 24 hours (result may contain tests of multiple driver executions)
             uriBuilder.addParameter("startExecutionTime[0]", Long.toString(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(24)));
             uriBuilder.addParameter("endExecutionTime[0]", Long.toString(System.currentTimeMillis()));
