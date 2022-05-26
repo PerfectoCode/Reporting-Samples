@@ -130,6 +130,7 @@ public class ApiExportCodeSample {
     }
 
     private static void downloadFileToFS(HttpGet httpGet, String fileName, String suffix, String description) throws IOException {
+        addDefaultRequestHeaders(httpGet);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = httpClient.execute(httpGet);
         FileOutputStream fileOutputStream = null;
