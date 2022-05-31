@@ -53,7 +53,7 @@ public class ApiExportCodeSample {
     }
 
     private static JsonObject retrieveTestExecutions() throws URISyntaxException, IOException {
-        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v1/test-executions");
+        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v3/test-executions");
 
         // Optional: Filter by range. In this example: retrieve test executions of the past month (result may contain tests of multiple driver executions)
         uriBuilder.addParameter("startExecutionTime[0]", Long.toString(System.currentTimeMillis() - TimeUnit.DAYS.toMillis(30)));
@@ -83,7 +83,7 @@ public class ApiExportCodeSample {
 
     private static void retrieveTestCommands(JsonObject testExecution) throws URISyntaxException, IOException {
         String testId = testExecution.get("id").getAsString();
-        HttpGet getCommands = new HttpGet(new URI(REPORTING_SERVER_URL + "/export/api/v1/test-executions/" + testId + "/commands"));
+        HttpGet getCommands = new HttpGet(new URI(REPORTING_SERVER_URL + "/export/api/v3/test-executions/" + testId + "/commands"));
         addDefaultRequestHeaders(getCommands);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse getCommandsResponse = httpClient.execute(getCommands);
@@ -130,6 +130,7 @@ public class ApiExportCodeSample {
     }
 
     private static void downloadFileToFS(HttpGet httpGet, String fileName, String suffix, String description) throws IOException {
+        addDefaultRequestHeaders(httpGet);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpResponse response = httpClient.execute(httpGet);
         FileOutputStream fileOutputStream = null;

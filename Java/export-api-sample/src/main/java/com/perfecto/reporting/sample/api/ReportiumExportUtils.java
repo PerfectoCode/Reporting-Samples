@@ -43,9 +43,9 @@ public class ReportiumExportUtils {
     private static final int TIMEOUT_MILLIS = 60000;
     private static final int DOWNLOAD_ATTEMPTS = 12;
     private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
-    private static final String CSV_TASK_CREATION_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv";
+    private static final String CSV_TASK_CREATION_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/csv";
     private static final String PDF_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/";
-    private static final String CSV_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/csv/";
+    private static final String CSV_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/csv/";
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static HttpClient httpClient = HttpClientBuilder.create()
@@ -66,7 +66,7 @@ public class ReportiumExportUtils {
      * @throws IOException
      */
     public static JsonObject retrieveTestCommands(String testId) throws URISyntaxException, IOException {
-        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v1/test-executions/" + testId + "/commands");
+        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v3/test-executions/" + testId + "/commands");
 
         HttpGet getCommands = new HttpGet(uriBuilder.build());
         JsonObject commandsJson = getJson(getCommands);
@@ -85,7 +85,7 @@ public class ReportiumExportUtils {
      * @throws IOException
      */
     public static JsonObject retrieveTestExecutions(String executionId) throws URISyntaxException, IOException {
-        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v1/test-executions");
+        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v3/test-executions");
         uriBuilder.addParameter("externalId[0]", executionId);
 
         HttpGet getTestExecutions = new HttpGet(uriBuilder.build());
@@ -285,6 +285,7 @@ public class ReportiumExportUtils {
 
     public static void downloadFileToFS(Path path, URI uri) throws IOException {
         HttpGet httpGet = new HttpGet(uri);
+        addDefaultRequestHeaders(httpGet);
         HttpResponse response = httpClient.execute(httpGet);
         try (FileOutputStream fileOutputStream = new FileOutputStream(path.toFile())) {
             if (HttpStatus.SC_OK == response.getStatusLine().getStatusCode()) {
