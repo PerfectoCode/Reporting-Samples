@@ -44,7 +44,7 @@ public class ReportiumExportUtils {
     private static final int DOWNLOAD_ATTEMPTS = 12;
     private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
     private static final String CSV_TASK_CREATION_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/csv";
-    private static final String PDF_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task/";
+    private static final String PDF_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/pdf/task/";
     private static final String CSV_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/csv/";
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -105,7 +105,7 @@ public class ReportiumExportUtils {
      */
     public static void downloadExecutionSummaryReport(Path summaryPdfPath, String driverExecutionId) throws URISyntaxException, IOException {
         System.out.println("Downloading PDF for driver execution ID: " + driverExecutionId);
-        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v1/test-executions/pdf");
+        URIBuilder uriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v3/test-executions/pdf");
         uriBuilder.addParameter("externalId[0]", driverExecutionId);
 
         downloadPdfOrCsvFileToFS(summaryPdfPath, uriBuilder.build());
@@ -121,7 +121,7 @@ public class ReportiumExportUtils {
      */
     public static void downloadTestReport(Path testPdfPath, String testId) throws URISyntaxException, IOException {
         System.out.println("Starting PDF generation for test ID: " + testId);
-        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v2/test-executions/pdf/task");
+        URIBuilder taskUriBuilder = new URIBuilder(REPORTING_SERVER_URL + "/export/api/v3/test-executions/pdf/task");
         taskUriBuilder.addParameter("testExecutionId", testId);
         HttpPost httpPost = new HttpPost(taskUriBuilder.build());
         addDefaultRequestHeaders(httpPost);
