@@ -1,9 +1,6 @@
 package com.perfecto.reporting.sample.api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -44,6 +41,7 @@ public class ReportiumExportUtils {
     private static final int DOWNLOAD_ATTEMPTS = 12;
     private static final String REPORTING_SERVER_URL = "https://" + CQL_NAME + ".app.perfectomobile.com";
     private static final String CSV_TASK_CREATION_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/csv";
+    private static final String METRICS_CSV_TASK_CREATION_URL = REPORTING_SERVER_URL + "/export/api/v3/metrics/csv";
     private static final String PDF_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/pdf/task/";
     private static final String CSV_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/csv/";
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
@@ -165,9 +163,24 @@ public class ReportiumExportUtils {
      * @throws URISyntaxException
      * @throws IOException
      */
-    public static void downloadCsvTestReport(Path testCsvPath, JsonObject requestBody) throws URISyntaxException, IOException {
-        System.out.println("Starting CSV generation");
-        URIBuilder taskUriBuilder = new URIBuilder(CSV_TASK_CREATION_URL);
+    public static void downloadCsvReport(Path testCsvPath, JsonObject requestBody) throws URISyntaxException, IOException {
+        downloadCsvReport(testCsvPath, requestBody, CSV_TASK_CREATION_URL);
+    }
+
+    /**
+     * Downloads metrics CSV report
+     *
+     * @param metricsCsvPath local path that the downloaded report will be saved to
+     * @throws URISyntaxException
+     * @throws IOException
+     */
+    public static void downloadMetricsCsvReport(Path metricsCsvPath, JsonObject requestBody) throws URISyntaxException, IOException {
+        downloadCsvReport(metricsCsvPath, requestBody, METRICS_CSV_TASK_CREATION_URL);
+    }
+
+    private static void downloadCsvReport(Path testCsvPath, JsonObject requestBody, String csvTaskCreationUrl) throws URISyntaxException, IOException {
+        System.out.println("Starting CSV generation from url: " + csvTaskCreationUrl);
+        URIBuilder taskUriBuilder = new URIBuilder(csvTaskCreationUrl);
         HttpPost httpPost = new HttpPost(taskUriBuilder.build());
         addDefaultRequestHeaders(httpPost);
         addRequestBody(httpPost, requestBody);
@@ -189,7 +202,7 @@ public class ReportiumExportUtils {
         if (task == null) {
             throw new RuntimeException("Unable to create a CreateTask");
         }
-        downloadCsvTestReport(testCsvPath, task);
+        downloadCsvReport(testCsvPath, task);
     }
 
     public static void writeJsonToFile(Path path, JsonObject jsonObject) throws IOException {
@@ -241,7 +254,7 @@ public class ReportiumExportUtils {
         }
     }
 
-    private static void downloadCsvTestReport(Path testCsvPath, CreateTask task) throws URISyntaxException, IOException {
+    private static void downloadCsvReport(Path testCsvPath, CreateTask task) throws URISyntaxException, IOException {
         System.out.println("Downloading CSV");
         long startTime = System.currentTimeMillis();
         int maxWaitMin = 10;
@@ -336,6 +349,18 @@ public class ReportiumExportUtils {
         if (!downloadComplete) {
             System.err.println("The execution is still being processed. No more download attempts");
         }
+    }
+
+    public static JsonObject createRequestBody() {
+        JsonObject jsonBody = new JsonObject();
+        JsonObject filerJson = new JsonObject();
+        JsonObject fieldsJson = new JsonObject();
+        JsonArray values = new JsonArray();
+        values.add(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
+        fieldsJson.add("startExecutionTime", values);
+        filerJson.add("fields", fieldsJson);
+        jsonBody.add("filter", filerJson);
+        return jsonBody;
     }
 
     private static void addDefaultRequestHeaders(HttpRequestBase request) {
