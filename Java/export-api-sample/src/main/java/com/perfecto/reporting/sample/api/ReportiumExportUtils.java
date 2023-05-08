@@ -363,6 +363,20 @@ public class ReportiumExportUtils {
         return jsonBody;
     }
 
+    public static JsonObject createRequestBody(String executionId) throws URISyntaxException, IOException {
+        JsonObject jsonBody = new JsonObject();
+        JsonObject filterJson = new JsonObject();
+        JsonObject fieldsJson = new JsonObject();
+        JsonArray testExecutions = retrieveTestExecutions(executionId).getAsJsonArray("resources");
+        JsonObject testExecution = gson.fromJson(testExecutions.get(0), JsonObject.class);
+        JsonArray values = new JsonArray();
+        values.add(testExecution.get("id"));
+        fieldsJson.add("testExecutionId", values);
+        filterJson.add("fields", fieldsJson);
+        jsonBody.add("filter", filterJson);
+        return jsonBody;
+    }
+
     private static void addDefaultRequestHeaders(HttpRequestBase request) {
         if (SECURITY_TOKEN == null || SECURITY_TOKEN.equals("MY_CONTINUOUS_QUALITY_LAB_SECURITY_TOKEN")) {
             throw new RuntimeException("Invalid security token '" + SECURITY_TOKEN + "'. Please set a security token");

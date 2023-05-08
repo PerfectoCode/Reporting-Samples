@@ -19,7 +19,11 @@ public class MetricsCsvDownloadCodeSample {
 
         // Download metrics CSV report - create a "task" for CSV generation and download the CSV on task completion
         Path testCsvPath = Paths.get(tempDir.toString(), csvFileName + ".csv");
-        ReportiumExportUtils.downloadMetricsCsvReport(testCsvPath, ReportiumExportUtils.createRequestBody());
+
+        // You can get executionId value from your driver like:
+        // String executionId = (String) driver.getCapabilities().getCapability("executionId");
+        String executionId = "executionId";
+        ReportiumExportUtils.downloadMetricsCsvReport(testCsvPath, ReportiumExportUtils.createRequestBody(executionId));
 
         try {
             Desktop.getDesktop().open(tempDir.toFile());
