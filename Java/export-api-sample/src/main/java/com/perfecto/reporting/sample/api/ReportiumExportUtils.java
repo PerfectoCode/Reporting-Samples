@@ -1,8 +1,3 @@
-diff --git a/Java/export-api-sample/src/main/java/com/perfecto/reporting/sample/api/ReportiumExportUtils.java b/Java/export-api-sample/src/main/java/com/perfecto/reporting/sample/api/ReportiumExportUtils.java
-index 3647fd0..a478b55 100644
---- a/Java/export-api-sample/src/main/java/com/perfecto/reporting/sample/api/ReportiumExportUtils.java
-+++ b/Java/export-api-sample/src/main/java/com/perfecto/reporting/sample/api/ReportiumExportUtils.java
-@@ -1,433 +1,450 @@
  package com.perfecto.reporting.sample.api;
  
  import com.google.gson.*;
