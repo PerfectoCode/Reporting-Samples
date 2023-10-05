@@ -51,7 +51,7 @@ public class ReportiumExportUtils {
     private static final String CSV_DOWNLOAD_URL = REPORTING_SERVER_URL + "/export/api/v3/test-executions/csv/";
     private static final String SECURITY_TOKEN = System.getProperty("security-token", PERFECTO_SECURITY_TOKEN);
     private static final String FILENAME_QUERY_PARAM = "fileName";
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     private static HttpClient httpClient = HttpClientBuilder.create()
             .setRetryHandler(new DefaultHttpRequestRetryHandler(3, true))
             .setDefaultRequestConfig(RequestConfig.custom()

@@ -47,7 +47,7 @@ public class ExportAllDataCodeSample {
                 String testId = testJson.get("id").getAsString();
                 String testName = testJson.get("name").getAsString();
 
-                String normalizedTestName = FilenameUtils.normalize(testName);
+                String normalizedTestName = FilenameUtils.normalize(testName).replace(":", "");
                 Path testFolder = Paths.get(exportRoot.toString(), "test-" + String.format("%03d", testCounter) + "-" + normalizedTestName);
                 Files.createDirectories(testFolder);
 
@@ -78,8 +78,8 @@ public class ExportAllDataCodeSample {
 
         try {
             Desktop.getDesktop().open(exportRoot.toFile());
-        } catch (Exception e) {
-            System.out.println("Data was saved in: " + exportRoot.toString());
+        } finally {
+            System.out.println("Data was saved in: " + exportRoot);
         }
     }
 
@@ -94,7 +94,7 @@ public class ExportAllDataCodeSample {
                 JsonObject artifactJson = attachmentElement.getAsJsonObject();
                 String type = artifactJson.get("type").getAsString();
                 String path = artifactJson.get("path").getAsString();
-                String fileName = artifactJson.get("fileName") != null ? artifactJson.get("fileName").getAsString() : FilenameUtils.getName(path);
+                String fileName = artifactJson.get("fileName") != null ? artifactJson.get("fileName").getAsString() : ReportiumExportUtils.getFileName(path);
                 fileName = type + "-" + normalizedTestName + "-" + fileName;
                 
                 Path attachmentDir = Paths.get(attachmentsDir.toString(), type.toLowerCase());
