@@ -117,7 +117,7 @@ public class ExportAllDataCodeSample {
             for (JsonElement videosElement : videosArray) {
                 JsonObject videoJson = videosElement.getAsJsonObject();
                 String downloadUrl = videoJson.get("downloadUrl").getAsString();
-                Path videoPath = Paths.get(videosDir.toString(), FilenameUtils.getName(downloadUrl));
+                Path videoPath = Paths.get(videosDir.toString(), ReportiumExportUtils.getFileName(downloadUrl));
                 ReportiumExportUtils.downloadFileToFS(videoPath, new URI(downloadUrl));
             }
         } else {
