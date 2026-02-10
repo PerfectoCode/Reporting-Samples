@@ -23,11 +23,8 @@ public class MultipleExecutionsTest {
     // TODO put your Continuous Quality Lab name here
     private static final String LAB_NAME = "my-lab.perfectomobile.com";
 
-    // TODO put your Continuous Quality username here
-    private static final String USERNAME = "my-lab-username";
-
-    // TODO put your Continuous Quality password here
-    private static final String PASSWORD = "my-lab-password";
+    // TODO put your Continuous Quality Lab security token here
+    private static final String SECURITY_TOKEN = "my-lab-security-token";
 
 
     private static final String SOURCE_FILE_ROOT_PATH = "Java/main-sample/src/main/java";
@@ -122,20 +119,14 @@ public class MultipleExecutionsTest {
             throw new RuntimeException("Please set the lab name");
         }
 
-        String userName = System.getProperty("selenium-grid-username", USERNAME);
-        if (Objects.equals("my-lab-username", userName)) {
-            throw new RuntimeException("Please set the username");
-        }
-
-        String password = System.getProperty("selenium-grid-password", PASSWORD);
-        if (Objects.equals("my-lab-password", password)) {
-            throw new RuntimeException("Please set the password");
+        String securityToken = System.getProperty("securityToken", SECURITY_TOKEN);
+        if (Objects.equals("my-lab-security-token", securityToken)) {
+            throw new RuntimeException("Please set the security token");
         }
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "iOS");
-        capabilities.setCapability("user", userName);
-        capabilities.setCapability("password", password);
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("securityToken", securityToken);
 
         // Create the driver
         RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL("https://" + host + "/nexperience/perfectomobile/wd/hub"), capabilities);
